@@ -1,7 +1,7 @@
-#ifndef KFZ_SCENEOBJECT_HPP
-#define KFZ_SCENEOBJECT_HPP
+#ifndef ENGINE_SCENEOBJECT_HPP
+#define ENGINE_SCENEOBJECT_HPP
 
-namespace kfz
+namespace engine
 {
 
 class CSceneObject
@@ -14,7 +14,7 @@ class CSceneObject
 
 }
 
-#endif /* KFZ_SCENEOBJECT_HPP */
+#endif /* ENGINE_SCENEOBJECT_HPP */
 
 /* EOF */
 

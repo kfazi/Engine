@@ -1,6 +1,6 @@
 #include "scene.hpp"
 
-namespace kfz
+namespace engine
 {
 
 CScene::CScene()
@@ -51,8 +51,6 @@ void CScene::SetDestroy(const bool bDestroy)
 }
 
 }
-
-#endif /* KFZ_SCENE_HPP */
 
 /* EOF */
 

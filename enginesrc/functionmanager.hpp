@@ -1,9 +1,9 @@
-#ifndef KFZ_FUCTIONMANAGER_HPP
-#define KFZ_FUCTIONMANAGER_HPP
+#ifndef ENGINE_FUCTIONMANAGER_HPP
+#define ENGINE_FUCTIONMANAGER_HPP
 
 #include <map>
 
-namespace kfz
+namespace engine
 {
 
 class CFunctionManager
@@ -60,7 +60,7 @@ class CFunctionManager
 
 }
 
-#endif /* KFZ_FUCTIONMANAGER_HPP */
+#endif /* ENGINE_FUCTIONMANAGER_HPP */
 
 /* EOF */
 

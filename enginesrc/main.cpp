@@ -7,10 +7,10 @@ int main()
 {
 	try
 	{
-		kfz::Debug("%s\n", kfz::CEngine::GetInstance()->ToString().c_str());
+		engine::Debug("%s\n", engine::CEngine::GetInstance()->ToString().c_str());
 		while (1)
 		{
-			kfz::CEngine::GetInstance()->ProcessFrame();
+			engine::CEngine::GetInstance()->ProcessFrame();
 		}
 	}
 	catch (std::exception &e)

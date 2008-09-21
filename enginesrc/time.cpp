@@ -3,7 +3,7 @@
 #include <limits>
 #include <boost/date_time/microsec_time_clock.hpp>
 
-namespace kfz
+namespace engine
 {
 
 boost::posix_time::ptime CTime::m_cLastTime(boost::date_time::microsec_clock<boost::posix_time::ptime>::local_time());
@@ -24,9 +24,9 @@ void CTime::Update()
 	m_cLastTime = cCurrentTime;
 	++m_iFrames;
 	m_fFPSTime += m_fFrameTime;
-	if (m_fFPSTime >= TO_REAL(KFZ_FPS_COUNTER_INTERVAL))
+	if (m_fFPSTime >= TO_REAL(ENGINE_FPS_COUNTER_INTERVAL))
 	{
-		m_fFPS = m_iFrames / (TO_REAL(KFZ_FPS_COUNTER_INTERVAL) * m_fFPSTime);
+		m_fFPS = m_iFrames / (TO_REAL(ENGINE_FPS_COUNTER_INTERVAL) * m_fFPSTime);
 		m_iFrames = 0;
 		m_fFPSTime = TO_REAL(0.0);
 	}

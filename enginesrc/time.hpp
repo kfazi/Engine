@@ -1,10 +1,10 @@
-#ifndef KFZ_TIME_HPP
-#define KFZ_TIME_HPP
+#ifndef ENGINE_TIME_HPP
+#define ENGINE_TIME_HPP
 
 #include "config.hpp"
 #include <boost/date_time/posix_time/posix_time.hpp>
 
-namespace kfz
+namespace engine
 {
 
 class CTime
@@ -45,5 +45,5 @@ class CTime
 
 }
 
-#endif /* KFZ_TIME_HPP */
+#endif /* ENGINE_TIME_HPP */
 

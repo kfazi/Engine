@@ -1,5 +1,5 @@
-#ifndef KFZ_SCENE_HPP
-#define KFZ_SCENE_HPP
+#ifndef ENGINE_SCENE_HPP
+#define ENGINE_SCENE_HPP
 
 #include "sceneobject.hpp"
 #include "scenemanager.hpp"
@@ -7,7 +7,7 @@
 #include "../engine.hpp"
 #include <list>
 
-namespace kfz
+namespace engine
 {
 
 class CScene
@@ -52,7 +52,7 @@ class CScene
 
 }
 
-#endif /* KFZ_SCENE_HPP */
+#endif /* ENGINE_SCENE_HPP */
 
 /* EOF */
 

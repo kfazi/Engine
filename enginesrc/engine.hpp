@@ -1,10 +1,10 @@
-#ifndef KFZ_ENGINE_HPP
-#define KFZ_ENGINE_HPP
+#ifndef ENGINE_ENGINE_HPP
+#define ENGINE_ENGINE_HPP
 
 #include "config.hpp"
 #include <string>
 
-namespace kfz
+namespace engine
 {
 
 class CSceneManager;
@@ -70,7 +70,7 @@ class CEngine
 
 }
 
-#endif /* KFZ_ENGINE_HPP */
+#endif /* ENGINE_ENGINE_HPP */
 
 /* EOF */
 

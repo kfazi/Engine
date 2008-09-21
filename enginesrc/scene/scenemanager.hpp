@@ -1,11 +1,11 @@
-#ifndef KFZ_SCENEMANAGER_HPP
-#define KFZ_SCENEMANAGER_HPP
+#ifndef ENGINE_SCENEMANAGER_HPP
+#define ENGINE_SCENEMANAGER_HPP
 
 #include "../functionmanager.hpp"
 #include <string>
 #include <set>
 
-namespace kfz
+namespace engine
 {
 
 class CScene;
@@ -27,7 +27,7 @@ class CSceneManager
 
 }
 
-#endif /* KFZ_SCENEMANAGER_HPP */
+#endif /* ENGINE_SCENEMANAGER_HPP */
 
 /* EOF */
 

@@ -5,7 +5,7 @@
 
 #include "../time.hpp"
 
-namespace kfz
+namespace engine
 {
 
 CSceneManager::CSceneManager()

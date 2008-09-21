@@ -1,7 +1,7 @@
 #include "debug.hpp"
 #include "functionmanager.hpp"
 
-namespace kfz
+namespace engine
 {
 
 CFunctionManager::CFunctionManager()

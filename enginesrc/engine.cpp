@@ -7,7 +7,7 @@
 #include "scene/scenemanager.hpp"
 #include <boost/thread.hpp>
 
-namespace kfz
+namespace engine
 {
 
 CEngine CEngine::cEngine;
@@ -27,7 +27,7 @@ CEngine::~CEngine()
 
 void CEngine::ProcessFrame()
 {
-	static real fFrameWait = TO_REAL(1.0) / TO_REAL(KFZ_FPS);
+	static real fFrameWait = TO_REAL(1.0) / TO_REAL(ENGINE_FPS);
 	CTime::Update();
 	m_fFrameTime += CTime::GetFrameTime();
 /*	if (m_fFrameTime < fFrameWait)

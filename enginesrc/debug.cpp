@@ -1,7 +1,7 @@
 #include "debug.hpp"
 #include <cstdarg>
 
-namespace kfz
+namespace engine
 {
 
 void Debug(const std::string &sFormat, ...)
