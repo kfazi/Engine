@@ -1,0 +1,58 @@
+#include "scene.hpp"
+
+namespace kfz
+{
+
+CScene::CScene()
+{
+	m_iUpdateID = CEngine::GetInstance()->GetFunctionManager()->Add(this, &CScene::Process, NULL);
+	m_iDestroyID = 0;
+}
+
+virtual CScene::~CScene()
+{
+	CEngine::GetInstance()->GetFunctionManager()->Remove(m_iUpdateID);
+	CEngine::GetInstance()->GetFunctionManager()->Remove(m_iDestroyID);
+}
+
+void CScene::Destroy(void *pArgument)
+{
+	CEngine::GetInstance()->GetSceneManager()->Remove(this);
+}
+
+void CScene::SetPause(const bool bPause)
+{
+	if (bPause != m_bPause)
+	{
+		m_bPause = bPause;
+		SetPauseInternal(bPause);
+		if (bPause)
+		{
+			CEngine::GetInstance()->GetFunctionManager()->Remove(m_iUpdateID);
+			m_iUpdateID = 0;
+		}
+		else
+			m_iUpdateID = CEngine::GetInstance()->GetFunctionManager()->Add(this, &CScene::Process, NULL);
+	}
+}
+
+void CScene::SetDestroy(const bool bDestroy)
+{
+	if (bDestroy != m_bDestroy)
+	{
+		m_bDestroy = bDestroy;
+		if (bDestroy)
+			m_iDestroyID = CEngine::GetInstance()->GetFunctionManager()->Add(this, &CScene::Destroy, NULL);
+		{
+			CEngine::GetInstance()->GetFunctionManager()->Remove(m_iDestroyID);
+			m_iDestroyID = 0;
+		}
+	}
+}
+
+}
+
+#endif /* KFZ_SCENE_HPP */
+
+/* EOF */
+
