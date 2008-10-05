@@ -9,6 +9,7 @@ namespace engine
 
 class CSceneManager;
 class CFunctionManager;
+class CLogger;
 
 /**
  * Main engine class.
@@ -20,6 +21,7 @@ class CEngine
 	private:
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
 		CFunctionManager *m_pFunctionManager; /**< Pointer to the function manager. */
+		CLogger *m_pLogger; /**< Pointer to the logger system. */
 		real m_fFrameTime; /**< How much time passed in last frame. */
 		static CEngine cEngine; /**< Makes sure CEngine is created before main(). */
 		/**
@@ -52,6 +54,13 @@ class CEngine
 		inline CFunctionManager *GetFunctionManager()
 		{
 			return m_pFunctionManager;
+		}
+		/**
+		 * @return Pointer to the logger system object.
+		 */
+		inline CLogger *GetLogger()
+		{
+			return m_pLogger;
 		}
 		/**
 		 * Convert CEngine to a string.

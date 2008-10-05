@@ -1,4 +1,4 @@
-#include "debug.hpp"
+#include "useful.hpp"
 #include "functionmanager.hpp"
 
 namespace engine
@@ -22,7 +22,7 @@ bool CFunctionManager::Remove(const unsigned int iId)
 	std::map<unsigned int, CFunctor *>::iterator cFoundFunction = m_cFunctionMap.find(iId);
 	if (cFoundFunction == m_cFunctionMap.end())
 	{
-		Debug("CFunctionManager::Remove - Function with ID %d not found\n", iId);
+		Log(Format("CFunctionManager::Remove - Function with ID %d not found\n") % iId, CLogger::DEBUG);
 		return false;
 	}
 	delete (*cFoundFunction).second;

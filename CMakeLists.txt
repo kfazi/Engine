@@ -2,7 +2,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 SET(SOURCES
 	enginesrc/main.cpp
-	enginesrc/debug.cpp
 	enginesrc/engine.cpp
 	enginesrc/time.cpp
 	enginesrc/functionmanager.cpp

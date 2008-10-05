@@ -1,6 +1,7 @@
 #ifndef ENGINE_FUCTIONMANAGER_HPP
 #define ENGINE_FUCTIONMANAGER_HPP
 
+#include "engine.hpp"
 #include <map>
 
 namespace engine
@@ -8,6 +9,7 @@ namespace engine
 
 class CFunctionManager
 {
+	friend class CEngine;
 	private:
 		class CFunctor
 		{
@@ -42,9 +44,9 @@ class CFunctionManager
 		unsigned int m_iNextId;
 		std::map<unsigned int, CFunctor *> m_cFunctionMap;
 		unsigned int GetNextId();
-	public:
 		CFunctionManager();
 		~CFunctionManager();
+	public:
 		template<class CClass> unsigned int Add(CClass *cClass, void (CClass::*pFunction)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay, const unsigned int iId)
 		{
 			m_cFunctionMap.insert(std::make_pair(iId, new CSpecificFunctor<CClass>(cClass, pFunction, pArgument, iFramesDelay)));

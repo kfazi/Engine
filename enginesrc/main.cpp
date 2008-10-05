@@ -1,5 +1,5 @@
 #include "engine.hpp"
-#include "debug.hpp"
+#include "useful.hpp"
 #include <cstdio>
 #include <exception>
 
@@ -7,7 +7,7 @@ int main()
 {
 	try
 	{
-		engine::Debug("%s\n", engine::CEngine::GetInstance()->ToString().c_str());
+		engine::Log(engine::Format("%s\n") % engine::CEngine::GetInstance()->ToString());
 		while (1)
 		{
 			engine::CEngine::GetInstance()->ProcessFrame();

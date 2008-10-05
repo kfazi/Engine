@@ -1,8 +1,8 @@
 #include "engine.hpp"
 #include "config.hpp"
 #include "time.hpp"
-#include "debug.hpp"
 #include "common.hpp"
+#include "logger.hpp"
 #include "functionmanager.hpp"
 #include "scene/scenemanager.hpp"
 #include <boost/thread.hpp>
@@ -14,6 +14,8 @@ CEngine CEngine::cEngine;
 
 CEngine::CEngine()
 {
+	/* Logger system is used by all other systems. */
+	m_pLogger = new CLogger();
 	/* Function manager must be created before other managers. */
 	m_pFunctionManager = new CFunctionManager();
 	m_pSceneManager = new CSceneManager();
@@ -23,6 +25,8 @@ CEngine::CEngine()
 CEngine::~CEngine()
 {
 	delete m_pSceneManager;
+	delete m_pFunctionManager;
+	delete m_pLogger;
 }
 
 void CEngine::ProcessFrame()
