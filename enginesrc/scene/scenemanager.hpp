@@ -12,11 +12,12 @@ class CScene;
 
 class CSceneManager
 {
+	friend class CEngine;
 	private:
 		std::set<CScene *> m_cScenesSet;
-	public:
 		CSceneManager();
 		~CSceneManager();
+	public:
 		void Add(CScene *pScene);
 		bool Remove(CScene *pScene);
 		std::string ToString() const
