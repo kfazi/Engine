@@ -6,34 +6,29 @@ namespace engine
 
 CFunctionManager::CFunctionManager()
 {
-	m_iNextId = 1;
+	m_iNextId = 0;
 }
 
 CFunctionManager::~CFunctionManager()
 {
-	for (std::map<unsigned int, CFunctor2Base<void, const unsigned int, void *> *>::iterator cFunctionIterator = m_cFunctionMap.begin(); cFunctionIterator != m_cFunctionMap.end(); ++cFunctionIterator)
-		delete (*cFunctionIterator).second;
 }
 
 bool CFunctionManager::Remove(const unsigned int iId)
 {
-	if (iId == 0)
-		return true;
-	std::map<unsigned int, CFunctor2Base<void, const unsigned int, void *> *>::iterator cFoundFunction = m_cFunctionMap.find(iId);
-	if (cFoundFunction == m_cFunctionMap.end())
+	std::map<unsigned int, CFunctorData>::iterator cFoundFunctor = m_cFunctorMap.find(iId);
+	if (cFoundFunctor == m_cFunctorMap.end())
 	{
-		Debug(Format("CFunctionManager::Remove - Function with ID %d not found\n") % iId);
+		Debug(Format("CFunctionManager::Remove - Functor with ID %d not found\n") % iId);
 		return false;
 	}
-	delete (*cFoundFunction).second;
-	m_cFunctionMap.erase(cFoundFunction);
+	m_cFunctorMap.erase(cFoundFunctor);
 	return true;
 }
 
 unsigned int CFunctionManager::GetNextId()
 {
 	unsigned int iNextId = m_iNextId;
-	while (m_cFunctionMap.find(iNextId) != m_cFunctionMap.end() || m_iNextId == 0) /* Make sure this ID isn't in use. */
+	while (m_cFunctorMap.find(iNextId) != m_cFunctorMap.end()) /* Make sure this ID isn't in use. */
 		++iNextId;
 	m_iNextId = iNextId + 1;
 	return iNextId;
@@ -41,21 +36,20 @@ unsigned int CFunctionManager::GetNextId()
 
 void CFunctionManager::Process()
 {
-	for (std::map<unsigned int, CFunctor2Base<void, const unsigned int, void *> *>::iterator cFunctionIterator = m_cFunctionMap.begin(); cFunctionIterator != m_cFunctionMap.end(); ++cFunctionIterator)
+	for (std::map<unsigned int, CFunctorData>::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
 	{
-		CFunctor2Base<void, const unsigned int, void *> *cFunctor = (*cFunctionIterator).second;
-		CFunctorData *pPrivateData = static_cast<CFunctorData *>(cFunctor->GetPrivateData());
-		unsigned int iId = (*cFunctionIterator).first;
-		if (!pPrivateData->m_iFramesDelay)
+		CFunctorData *pFunctorData = &((*cFunctorIterator).second);
+		unsigned int iId = (*cFunctorIterator).first;
+		if (!pFunctorData->m_iFramesDelay)
 		{
-			cFunctor->Call(iId, pPrivateData->m_pArgument); /* Execute function with it's ID and it's argument. */
-			if (iId == (*cFunctionIterator).first) /* Function continues executions (iterator's ID didn't change, so CFunctionManager::Remove wasn't called). */
-				pPrivateData->m_iFramesDelay = pPrivateData->m_iInitialFramesDelay; /* Reset delay. */
-			else /* Function removed itself. */
-				--cFunctionIterator; /* Prevent skipping elements. */
+			pFunctorData->m_pFunctor(iId, pFunctorData->m_pArgument); /* Execute function with it's ID and it's argument. */
+			if (iId == (*cFunctorIterator).first) /* Functor continues executions (iterator's ID didn't change, so CFunctionManager::Remove wasn't called). */
+				pFunctorData->m_iFramesDelay = pFunctorData->m_iInitialFramesDelay; /* Reset delay. */
+			else /* Functor removed itself. */
+				--cFunctorIterator; /* Prevent skipping elements. */
 		}
 		else
-			--pPrivateData->m_iFramesDelay; /* Decrease delay. */
+			--pFunctorData->m_iFramesDelay; /* Decrease delay. */
 	}
 }
 

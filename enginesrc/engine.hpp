@@ -4,10 +4,6 @@
 #include "config.hpp"
 #include <string>
 
-#include <iostream>
-
-#include "logger.hpp"
-
 namespace engine
 {
 
@@ -45,6 +41,7 @@ class CEngine
 		{
 			return &cEngine;
 		}
+
 		/**
 		 * @return Pointer to the scene manager object.
 		 */
@@ -52,6 +49,7 @@ class CEngine
 		{
 			return m_pSceneManager;
 		}
+
 		/**
 		 * @return Pointer to the function manager object.
 		 */
@@ -59,6 +57,7 @@ class CEngine
 		{
 			return m_pFunctionManager;
 		}
+
 		/**
 		 * @return Pointer to the logger system object.
 		 */
@@ -66,6 +65,7 @@ class CEngine
 		{
 			return m_pLogger;
 		}
+
 		/**
 		 * Convert CEngine to a string.
 		 * Creates string with all engine objects converted to a string.
@@ -75,16 +75,11 @@ class CEngine
 		{
 			return "CEngine[ ";// + m_pSceneManager->ToString() + " ]";
 		}
+
 		/**
 		 * Processes next frame.
 		 */
 		void ProcessFrame();
-
-/*********************** TEMPORARY TESTING HACKS ***********************/
-		void ShowLog(const std::string &cMessage, const CLogger::EMessageType eType)
-		{
-			std::cout << cMessage << std::endl;
-		}
 };
 
 }

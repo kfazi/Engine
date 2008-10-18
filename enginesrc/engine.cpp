@@ -6,6 +6,7 @@
 #include "functionmanager.hpp"
 #include "scene/scenemanager.hpp"
 #include <boost/thread.hpp>
+#include <boost/bind.hpp>
 
 namespace engine
 {
@@ -30,15 +31,8 @@ CEngine::~CEngine()
 	delete m_pLogger;
 }
 
-bool first = true;
-
 void CEngine::ProcessFrame()
 {
-	if (first)
-	{
-		m_pLogger->Register(this, &CEngine::ShowLog);
-		first = false;
-	}
 	static real fFrameWait = TO_REAL(1.0) / TO_REAL(ENGINE_FPS);
 	CTime::Update();
 	m_fFrameTime += CTime::GetFrameTime();

@@ -9,10 +9,9 @@ int main()
 {
 	try
 	{
-		Debug(engine::Format("%s\n") % engine::CEngine::GetInstance()->ToString());
 		while (1)
 		{
-			engine::CEngine::GetInstance()->ProcessFrame();
+			CEngine::GetInstance()->ProcessFrame();
 		}
 	}
 	catch (std::exception &e)
