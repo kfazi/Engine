@@ -9,14 +9,44 @@
 namespace engine
 {
 
-inline void Log(const std::string &cMessage, const CLogger::EMessageType eMessageType = CLogger::NOTIFY)
+inline void Debug(const std::string &cMessage)
 {
-	CEngine::GetInstance()->GetLogger()->Log(cMessage, eMessageType);
+	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::DEBUG);
 }
 
-inline void Log(const boost::format &cFormat, const CLogger::EMessageType eMessageType = CLogger::NOTIFY)
+inline void Debug(const boost::format &cFormat)
 {
-	Log(boost::str(cFormat), eMessageType);
+	Debug(boost::str(cFormat));
+}
+
+inline void Notify(const std::string &cMessage)
+{
+	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::NOTIFY);
+}
+
+inline void Notify(const boost::format &cFormat)
+{
+	Notify(boost::str(cFormat));
+}
+
+inline void Warning(const std::string &cMessage)
+{
+	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::WARNING);
+}
+
+inline void Warning(const boost::format &cFormat)
+{
+	Warning(boost::str(cFormat));
+}
+
+inline void Error(const std::string &cMessage)
+{
+	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::ERROR);
+}
+
+inline void Error(const boost::format &cFormat)
+{
+	Error(boost::str(cFormat));
 }
 
 inline boost::format Format(const std::string &cFormat)

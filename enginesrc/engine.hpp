@@ -4,6 +4,10 @@
 #include "config.hpp"
 #include <string>
 
+#include <iostream>
+
+#include "logger.hpp"
+
 namespace engine
 {
 
@@ -75,6 +79,12 @@ class CEngine
 		 * Processes next frame.
 		 */
 		void ProcessFrame();
+
+/*********************** TEMPORARY TESTING HACKS ***********************/
+		void ShowLog(const std::string &cMessage, const CLogger::EMessageType eType)
+		{
+			std::cout << cMessage << std::endl;
+		}
 };
 
 }

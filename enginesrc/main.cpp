@@ -3,11 +3,13 @@
 #include <cstdio>
 #include <exception>
 
+using namespace engine;
+
 int main()
 {
 	try
 	{
-		engine::Log(engine::Format("%s\n") % engine::CEngine::GetInstance()->ToString());
+		Debug(engine::Format("%s\n") % engine::CEngine::GetInstance()->ToString());
 		while (1)
 		{
 			engine::CEngine::GetInstance()->ProcessFrame();

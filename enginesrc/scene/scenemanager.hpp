@@ -12,6 +12,7 @@ class CScene;
 
 class CSceneManager
 {
+	/* Allow engine to create this class. */
 	friend class CEngine;
 	private:
 		std::set<CScene *> m_cScenesSet;

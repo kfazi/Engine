@@ -2,6 +2,7 @@
 #define ENGINE_FUCTIONMANAGER_HPP
 
 #include "engine.hpp"
+#include "functor.hpp"
 #include <map>
 
 namespace engine
@@ -9,50 +10,44 @@ namespace engine
 
 class CFunctionManager
 {
+	/** Allow CEngine to create this class. */
 	friend class CEngine;
 	private:
-		class CFunctor
+		class CFunctorData
 		{
 			public:
 				unsigned int m_iFramesDelay;
 				unsigned int m_iInitialFramesDelay;
 				void *m_pArgument;
-				virtual ~CFunctor()
-				{
-				}
-				virtual void Call(const unsigned int iId, void *pUserData) = 0;
 		};
-		template <class CClass> class CSpecificFunctor: public CFunctor
+		template <class CClass> class CSpecificFunctor: public CFunctor2<CClass, void, const unsigned int, void *>
 		{
-			private:
-				void (CClass::*m_pFunction)(const unsigned int, void *);
-				CClass *m_pClass;
 			public:
-				CSpecificFunctor(CClass *pClass, void (CClass::*pFunction)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay)
+				CSpecificFunctor(CClass *pClass, void (CClass::*pFunction)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay): CFunctor2<CClass, void, const unsigned int, void *>(pClass, pFunction)
 				{
-					m_pClass = pClass;
-					m_pFunction = pFunction;
-					m_pArgument = pArgument;
-					m_iFramesDelay = iFramesDelay;
-					m_iInitialFramesDelay = m_iFramesDelay;
+					CFunctorData *pPrivateData = new CFunctorData;
+					pPrivateData->m_pArgument = pArgument;
+					pPrivateData->m_iFramesDelay = iFramesDelay;
+					pPrivateData->m_iInitialFramesDelay = iFramesDelay;
+					this->m_pPrivateData = pPrivateData;
 				}
-				virtual void Call(const unsigned int iId, void *pUserData)
+				virtual ~CSpecificFunctor()
 				{
-					(*m_pClass.*m_pFunction)(iId, pUserData);
+					delete this->m_pPrivateData;
 				}
 		};
 		unsigned int m_iNextId;
-		std::map<unsigned int, CFunctor *> m_cFunctionMap;
+		std::map<unsigned int, CFunctor2Base<void, const unsigned int, void *> *> m_cFunctionMap;
 		unsigned int GetNextId();
 		CFunctionManager();
 		~CFunctionManager();
 	public:
-		template<class CClass> unsigned int Add(CClass *cClass, void (CClass::*pFunction)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay, const unsigned int iId)
+		template <class CClass> unsigned int Add(CClass *cClass, void (CClass::*pFunction)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay, const unsigned int iId)
 		{
 			m_cFunctionMap.insert(std::make_pair(iId, new CSpecificFunctor<CClass>(cClass, pFunction, pArgument, iFramesDelay)));
 			return iId;
 		}
-		template<class CClass> unsigned int Add(CClass *cClass, void (CClass::*pFunction)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay = 0)
+		template <class CClass> unsigned int Add(CClass *cClass, void (CClass::*pFunction)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay = 0)
 		{
 			return Add(cClass, pFunction, pArgument, iFramesDelay, GetNextId());
 		}

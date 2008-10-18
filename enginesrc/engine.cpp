@@ -26,20 +26,30 @@ CEngine::~CEngine()
 {
 	delete m_pSceneManager;
 	delete m_pFunctionManager;
+	/* Logger system must be deleted last. */
 	delete m_pLogger;
 }
 
+bool first = true;
+
 void CEngine::ProcessFrame()
 {
+	if (first)
+	{
+		m_pLogger->Register(this, &CEngine::ShowLog);
+		first = false;
+	}
 	static real fFrameWait = TO_REAL(1.0) / TO_REAL(ENGINE_FPS);
 	CTime::Update();
 	m_fFrameTime += CTime::GetFrameTime();
-/*	if (m_fFrameTime < fFrameWait)
+#if 0
+	if (m_fFrameTime < fFrameWait)
 	{
 		boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<int>((fFrameWait - m_fFrameTime) * static_cast<real>(1000.0))));
 		CTime::Update();
 		m_fFrameTime += CTime::GetFrameTime();
-	}*/
+	}
+#endif
 	while (m_fFrameTime >= fFrameWait)
 	{
 		m_pFunctionManager->Process();

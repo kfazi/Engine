@@ -29,7 +29,7 @@ bool CSceneManager::Remove(CScene *pScene)
 	std::set<CScene *>::iterator cFoundScene = m_cScenesSet.find(pScene);
 	if (cFoundScene == m_cScenesSet.end())
 	{
-		Log(Format("CSceneManager::Remove - Scene with address %p not found\n") % pScene, CLogger::DEBUG);
+		Debug(Format("CSceneManager::Remove - Scene with address %p not found\n") % pScene);
 		return false;
 	}
 	delete *cFoundScene;
