@@ -11,10 +11,10 @@ class CTime
 {
 	private:
 		static boost::posix_time::ptime m_cLastTime;
-		static real m_fFrameTime;
-		static real m_fTotalTime;
-		static real m_fFPSTime;
-		static real m_fFPS;
+		static double m_fFrameTime;
+		static double m_fTotalTime;
+		static double m_fFPSTime;
+		static double m_fFPS;
 		static int m_iFrames;
 		CTime()
 		{
@@ -24,7 +24,7 @@ class CTime
 		}
 
 	public:
-		inline static real GetFPS()
+		inline static double GetFPS()
 		{
 			return m_fFPS;
 		}
@@ -32,11 +32,11 @@ class CTime
 		{
 			return static_cast<unsigned int>(m_fFPS);
 		}
-		inline static real GetFrameTime()
+		inline static double GetFrameTime()
 		{
 			return m_fFrameTime;
 		}
-		inline static real GetTotalTime()
+		inline static double GetTotalTime()
 		{
 			return m_fTotalTime;
 		}

@@ -7,9 +7,6 @@
 /** The interval between FPS counter refreshes. */
 #define ENGINE_FPS_COUNTER_INTERVAL (0.2)
 
-/** The real number type. */
-typedef float real;
-
 #endif /* ENGINE_CONFIG_HPP */
 
 /* EOF */

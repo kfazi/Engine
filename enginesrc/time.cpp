@@ -7,28 +7,28 @@ namespace engine
 {
 
 boost::posix_time::ptime CTime::m_cLastTime(boost::date_time::microsec_clock<boost::posix_time::ptime>::local_time());
-real CTime::m_fFrameTime = TO_REAL(0.0);
-real CTime::m_fTotalTime = TO_REAL(0.0);
-real CTime::m_fFPSTime = TO_REAL(0.0);
-real CTime::m_fFPS = TO_REAL(0.0);
+double CTime::m_fFrameTime = 0.0;
+double CTime::m_fTotalTime = 0.0;
+double CTime::m_fFPSTime = 0.0;
+double CTime::m_fFPS = 0.0;
 int CTime::m_iFrames = 0;
 
 void CTime::Update()
 {
 	boost::posix_time::ptime cCurrentTime(boost::date_time::microsec_clock<boost::posix_time::ptime>::local_time());
 	boost::posix_time::time_duration cTimeDifference = cCurrentTime - m_cLastTime;
-	m_fFrameTime = cTimeDifference.total_milliseconds() / TO_REAL(1000.0);
-	if (m_fFrameTime < std::numeric_limits<real>::epsilon())
+	m_fFrameTime = cTimeDifference.total_milliseconds() / 1000.0;
+	if (m_fFrameTime < std::numeric_limits<double>::epsilon())
 		return; /* This computer is too fast, skip assigining cCurrentTime to m_cLastTime. */
 	m_fTotalTime += m_fFrameTime;
 	m_cLastTime = cCurrentTime;
 	++m_iFrames;
 	m_fFPSTime += m_fFrameTime;
-	if (m_fFPSTime >= TO_REAL(ENGINE_FPS_COUNTER_INTERVAL))
+	if (m_fFPSTime >= ENGINE_FPS_COUNTER_INTERVAL)
 	{
-		m_fFPS = m_iFrames / (TO_REAL(ENGINE_FPS_COUNTER_INTERVAL) * m_fFPSTime);
+		m_fFPS = m_iFrames / (ENGINE_FPS_COUNTER_INTERVAL * m_fFPSTime);
 		m_iFrames = 0;
-		m_fFPSTime = TO_REAL(0.0);
+		m_fFPSTime = 0.0;
 	}
 }
 

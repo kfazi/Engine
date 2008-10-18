@@ -33,13 +33,13 @@ CEngine::~CEngine()
 
 void CEngine::ProcessFrame()
 {
-	static real fFrameWait = TO_REAL(1.0) / TO_REAL(ENGINE_FPS);
+	static double fFrameWait = 1.0 / ENGINE_FPS;
 	CTime::Update();
 	m_fFrameTime += CTime::GetFrameTime();
 #if 0
 	if (m_fFrameTime < fFrameWait)
 	{
-		boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<int>((fFrameWait - m_fFrameTime) * static_cast<real>(1000.0))));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<int>((fFrameWait - m_fFrameTime) * static_cast<double>(1000.0))));
 		CTime::Update();
 		m_fFrameTime += CTime::GetFrameTime();
 	}

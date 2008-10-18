@@ -22,7 +22,7 @@ class CEngine
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
 		CFunctionManager *m_pFunctionManager; /**< Pointer to the function manager. */
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
-		real m_fFrameTime; /**< How much time passed in last frame. */
+		double m_fFrameTime; /**< How much time passed in last frame. */
 		static CEngine cEngine; /**< Makes sure CEngine is created before main(). */
 		/**
 		 * Private constructor.
