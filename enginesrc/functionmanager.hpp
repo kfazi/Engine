@@ -26,16 +26,16 @@ class CFunctionManager
 		{
 			public:
 				/** How many frames the functor still has to wait before it's executed. */
-				unsigned int m_iFramesDelay;
+				unsigned int iFramesDelay;
 
 				/** Initial number of frames, the functor has to wait before it's executed. */
-				unsigned int m_iInitialFramesDelay;
+				unsigned int iInitialFramesDelay;
 
 				/** User contribued data. */
-				void *m_pArgument;
+				void *pArgument;
 
 				/** The functor itself. */
-				boost::function<void (const unsigned int, void *)> m_pFunctor;
+				boost::function<void (const unsigned int, void *)> pFunctor;
 
 				/** Constructor.
 				 *
@@ -45,10 +45,10 @@ class CFunctionManager
 				 */
 				CFunctorData(boost::function<void (const unsigned int, void *)> pFunctor, void *pArgument, const unsigned int iFramesDelay)
 				{
-					m_iFramesDelay = iFramesDelay;
-					m_iInitialFramesDelay = iFramesDelay;
-					m_pArgument = pArgument;
-					m_pFunctor = pFunctor;
+					this->iFramesDelay = iFramesDelay;
+					this->iInitialFramesDelay = iFramesDelay;
+					this->pArgument = pArgument;
+					this->pFunctor = pFunctor;
 				}
 		};
 
@@ -79,6 +79,7 @@ class CFunctionManager
 	public:
 		/**
 		 * Adds new function with explicitly given ID for delayed execution.
+		 * Functors have to remove themselves, or they will be executed again after their delay is reached again.
 		 *
 		 * @param[in] cClass A pointer to the class instance, containing the function.
 		 * @param[in] pFunction A pointer to the function, returning void and taking const unsigned int, void * arguments.
@@ -95,6 +96,7 @@ class CFunctionManager
 
 		/**
 		 * Adds new function for delayed execution.
+		 * Functors have to remove themselves, or they will be executed again after their delay is reached again.
 		 *
 		 * @param[in] cClass A pointer to the class instance, containing the function.
 		 * @param[in] pFunction A pointer to the function, returning void and taking const unsigned int, void * arguments.

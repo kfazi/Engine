@@ -34,16 +34,17 @@ CEngine::~CEngine()
 void CEngine::ProcessFrame()
 {
 	static double fFrameWait = 1.0 / ENGINE_FPS;
-	CTime::Update();
-	m_fFrameTime += CTime::GetFrameTime();
-#if 0
+#ifdef CONSTRAIN_FPS
 	if (m_fFrameTime < fFrameWait)
 	{
 		boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<int>((fFrameWait - m_fFrameTime) * static_cast<double>(1000.0))));
 		CTime::Update();
 		m_fFrameTime += CTime::GetFrameTime();
 	}
-#endif
+#else /* CONSTRAIN_FPS */
+	CTime::Update();
+	m_fFrameTime += CTime::GetFrameTime();
+#endif /* CONSTRAIN_FPS */
 	while (m_fFrameTime >= fFrameWait)
 	{
 		m_pFunctionManager->Process();

@@ -40,16 +40,16 @@ void CFunctionManager::Process()
 	{
 		CFunctorData *pFunctorData = &((*cFunctorIterator).second);
 		unsigned int iId = (*cFunctorIterator).first;
-		if (!pFunctorData->m_iFramesDelay)
+		if (!pFunctorData->iFramesDelay)
 		{
-			pFunctorData->m_pFunctor(iId, pFunctorData->m_pArgument); /* Execute function with it's ID and it's argument. */
+			pFunctorData->pFunctor(iId, pFunctorData->pArgument); /* Execute function with it's ID and it's argument. */
 			if (iId == (*cFunctorIterator).first) /* Functor continues executions (iterator's ID didn't change, so CFunctionManager::Remove wasn't called). */
-				pFunctorData->m_iFramesDelay = pFunctorData->m_iInitialFramesDelay; /* Reset delay. */
+				pFunctorData->iFramesDelay = pFunctorData->iInitialFramesDelay; /* Reset delay. */
 			else /* Functor removed itself. */
 				--cFunctorIterator; /* Prevent skipping elements. */
 		}
 		else
-			--pFunctorData->m_iFramesDelay; /* Decrease delay. */
+			--pFunctorData->iFramesDelay; /* Decrease delay. */
 	}
 }
 
