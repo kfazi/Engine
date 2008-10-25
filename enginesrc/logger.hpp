@@ -2,6 +2,7 @@
 #define ENGINE_LOGGER_HPP
 
 #include "engine.hpp"
+#include "engineexception.hpp"
 #include <map>
 #include <string>
 #include <boost/format.hpp>
@@ -105,7 +106,7 @@ class CLogger
 			for (std::map<unsigned int, boost::function<void (const std::string &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
 				(*cFunctorIterator).second(cMessage, eMessageType);
 			if (eMessageType == ERROR)
-				CEngine::GetInstance()->Finish();
+				throw CEngineException(cMessage);
 		}
 };
 

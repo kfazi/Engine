@@ -13,29 +13,42 @@
 namespace engine
 {
 
-CEngine CEngine::cEngine;
+CEngine *CEngine::m_pEngine = NULL;
 
 CEngine::CEngine()
 {
-	/* Logger system is used by all other systems. */
-	m_pLogger = new CLogger();
-	/* Function manager must be created before other managers. */
-	m_pFunctionManager = new CFunctionManager();
-	m_pSceneManager = new CSceneManager();
-	m_pSystemWindow = new CUnixSystemWindow();
-	m_pSystemInfo = new CUnixSystemInfo();
-	m_fFrameTime = 0;
-	m_bFinished = false;
+	m_pLogger = NULL;
+	m_pFunctionManager = NULL;
+	m_pSceneManager = NULL;
+	m_pSystemWindow = NULL;
+	m_pSystemInfo = NULL;
 }
 
 CEngine::~CEngine()
 {
-	delete m_pSceneManager;
-	delete m_pFunctionManager;
-	delete m_pSystemWindow;
-	delete m_pSystemInfo;
-	/* Logger system must be deleted last. */
-	delete m_pLogger;
+	if (m_pEngine)
+	{
+		delete m_pSceneManager;
+		delete m_pFunctionManager;
+		delete m_pSystemWindow;
+		delete m_pSystemInfo;
+		/* Logger system must be deleted last. */
+		delete m_pLogger;
+	}
+}
+
+void CEngine::Create(CEngine *pEngine)
+{
+	/* Logger system is used by all other systems. */
+	pEngine->m_pLogger = new CLogger();
+	m_pEngine = pEngine;
+	/* Function manager must be created before other managers. */
+	pEngine->m_pFunctionManager = new CFunctionManager();
+	pEngine->m_pSceneManager = new CSceneManager();
+	pEngine->m_pSystemWindow = new CUnixSystemWindow();
+	pEngine->m_pSystemInfo = new CUnixSystemInfo();
+	pEngine->m_fFrameTime = 0;
+	pEngine->m_bFinished = false;
 }
 
 void CEngine::ProcessFrame()

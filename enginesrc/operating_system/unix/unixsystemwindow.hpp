@@ -40,11 +40,13 @@ class CUnixSystemWindow: public CSystemWindow
 
 		Window m_sWindow;
 
+		GLXContext m_sGLContext;
+
 		XVisualInfo *m_pVisualInfo;
 
 		Atom m_aProtocols[2];
 
-		CUnixSystemWindow();
+		CUnixSystemWindow(const std::string cDisplayName = "");
 
 		static Bool WaitForMapNotify(Display *pDisplay, XEvent *pEvent, char *pArgument);
 

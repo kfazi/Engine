@@ -2,7 +2,7 @@
 #include "useful.hpp"
 #include <iostream>
 #include <fstream>
-#include <exception>
+#include "engineexception.hpp"
 #include "operating_system/systemwindow.hpp"
 #include "operating_system/systeminfo.hpp"
 
@@ -23,7 +23,10 @@ class CSimpleLogger
 		}
 		void Log(const std::string &cMessage, const CLogger::EMessageType eType)
 		{
-			std::cout << cMessage << std::endl;
+			if (eType == CLogger::ERROR)
+				CEngine::GetInstance()->GetWindow()->MessageBox("Error", cMessage);
+			else
+				std::cout << cMessage << std::endl;
 			cFile << cMessage << std::endl;
 			cFile.flush();
 		}
@@ -31,9 +34,11 @@ class CSimpleLogger
 
 int main()
 {
-	CSimpleLogger cLogger;
+	CEngine cEngine;
 	try
 	{
+		CEngine::Create(&cEngine);
+		CSimpleLogger cLogger;
 		CEngine::GetInstance()->GetLogger()->Register(&cLogger, &CSimpleLogger::Log);
 		Notify(CEngine::GetInstance()->GetSystemInfo()->GetSystemName());
 		Notify(Format("Total memory: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetTotalMemory());

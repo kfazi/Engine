@@ -3,6 +3,7 @@
 #include "../../useful.hpp"
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 namespace engine
 {
@@ -12,16 +13,20 @@ Bool CUnixSystemWindow::WaitForMapNotify(Display *pDisplay, XEvent *pEvent, char
 	return (pEvent->type == MapNotify) && (pEvent->xmap.window == reinterpret_cast<Window>(pArgument));
 }
 
-CUnixSystemWindow::CUnixSystemWindow(): CSystemWindow()
+CUnixSystemWindow::CUnixSystemWindow(const std::string cDisplayName): CSystemWindow()
 {
-	m_pDisplay = XOpenDisplay(0);
+	if (cDisplayName == "")
+		m_pDisplay = XOpenDisplay(NULL);
+	else
+		m_pDisplay = XOpenDisplay(cDisplayName.c_str());
 	if (!m_pDisplay)
-		Error("Couldn't open display 0!");
+		Error(Format("Couldn't open display %1%!") % cDisplayName);
 	BuildAllResolutionsSet();
 	UpdateDesktopResolution();
 	m_iCurrentResolution = m_iDesktopResolution;
 	m_sWindow = static_cast<Window>(0);
 	m_pVisualInfo = NULL;
+	m_sGLContext = static_cast<GLXContext>(0);
 }
 
 CUnixSystemWindow::~CUnixSystemWindow()
@@ -36,7 +41,7 @@ void CUnixSystemWindow::SwapBuffers()
 {
 	if (!m_sWindow)
 		return;
-//	glXSwapBuffers(m_pDisplay, m_sWindow);
+	glXSwapBuffers(m_pDisplay, m_sWindow);
 }
 
 bool CUnixSystemWindow::SetScreenResolution(const unsigned int iResolutionNumber)
@@ -63,7 +68,7 @@ bool CUnixSystemWindow::SetScreenResolution(const unsigned int iResolutionNumber
 
 XVisualInfo *CUnixSystemWindow::ChooseBestVisual(const unsigned int iResolutionNumber)
 {
-	CResolution *cResolution = &m_cUnixResolutionsVector[iResolutionNumber].cResolution;
+	CResolution *pResolution = &m_cUnixResolutionsVector[iResolutionNumber].cResolution;
 	/* Get list of visuals for our screen and display. */
 	XVisualInfo *pVisualInfoList;
 	XVisualInfo sDummy;
@@ -78,7 +83,7 @@ XVisualInfo *CUnixSystemWindow::ChooseBestVisual(const unsigned int iResolutionN
 	int iRequestedRed;
 	int iRequestedGreen;
 	int iRequestedBlue;
-	switch (cResolution->iBpp)
+	switch (pResolution->iBpp)
 	{
 		case 15:
 			iRequestedRed = 5;
@@ -152,17 +157,24 @@ void CUnixSystemWindow::CreateWindow(const unsigned int iResolutionNumber, char 
 {
 	if (iResolutionNumber >= m_cUnixResolutionsVector.size())
 		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - resolution number out of bounds!") % iResolutionNumber);
-	CResolution *cResolution = &m_cUnixResolutionsVector[iResolutionNumber].cResolution;
-	Debug(Format("Creating window: %1%x%2%, %3%bpp @ %4%Hz, fullscreen: %5%") % cResolution->iWidth % cResolution->iHeight % static_cast<int>(cResolution->iBpp) % cResolution->iRefreshRate % ((bFullScreen) ? "true" : "false"));
+	CResolution *pResolution = &m_cUnixResolutionsVector[iResolutionNumber].cResolution;
+	Debug(Format("Creating window: %1%x%2%, %3%bpp @ %4%Hz, fullscreen: %5%") % pResolution->iWidth % pResolution->iHeight % static_cast<int>(pResolution->iBpp) % pResolution->iRefreshRate % ((bFullScreen) ? "true" : "false"));
+	/* Choose visual. */
 	m_pVisualInfo = ChooseBestVisual(iResolutionNumber);
 	if (!m_pVisualInfo)
 		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - Can't get visual info!") % iResolutionNumber);
+	/* Create OpenGL context */
+	m_sGLContext = glXCreateContext(m_pDisplay, m_pVisualInfo, NULL, GL_TRUE);
+	if (!m_sGLContext)
+		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - Can't create OpenGL visual context!") % iResolutionNumber);
+	/* Create color map. */
 	Colormap sColormap = XCreateColormap(m_pDisplay, RootWindow(m_pDisplay, m_pVisualInfo->screen), m_pVisualInfo->visual, AllocNone);
+	/* Set window attributes. */
 	XSetWindowAttributes m_sWindowAttributes;
 	m_sWindowAttributes.colormap = sColormap;
 	m_sWindowAttributes.border_pixel = 0;
 	m_sWindowAttributes.event_mask = StructureNotifyMask | ExposureMask | FocusChangeMask | VisibilityChangeMask;
-	m_sWindow = XCreateWindow(m_pDisplay, RootWindow(m_pDisplay, m_pVisualInfo->screen), 0, 0, cResolution->iWidth, cResolution->iHeight, 0, OPENGL_DEPTH, InputOutput, m_pVisualInfo->visual, CWBorderPixel | CWColormap | CWEventMask, &m_sWindowAttributes);
+	m_sWindow = XCreateWindow(m_pDisplay, RootWindow(m_pDisplay, m_pVisualInfo->screen), 0, 0, pResolution->iWidth, pResolution->iHeight, 0, OPENGL_DEPTH, InputOutput, m_pVisualInfo->visual, CWBorderPixel | CWColormap | CWEventMask, &m_sWindowAttributes);
 	if (!m_sWindow)
 		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - Can't create window!") % iResolutionNumber);
 	/* Set window min/max size. */
@@ -170,12 +182,12 @@ void CUnixSystemWindow::CreateWindow(const unsigned int iResolutionNumber, char 
 	if (!pSizeHints)
 		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - Can't create size hints!") % iResolutionNumber);
 	pSizeHints->flags = PSize | PMinSize | PMaxSize;
-	pSizeHints->min_width = cResolution->iWidth;
-	pSizeHints->base_width = cResolution->iWidth;
-	pSizeHints->max_width = cResolution->iWidth;
-	pSizeHints->min_height = cResolution->iHeight;
-	pSizeHints->base_height = cResolution->iHeight;
-	pSizeHints->max_height = cResolution->iHeight;
+	pSizeHints->min_width = pResolution->iWidth;
+	pSizeHints->base_width = pResolution->iWidth;
+	pSizeHints->max_width = pResolution->iWidth;
+	pSizeHints->min_height = pResolution->iHeight;
+	pSizeHints->base_height = pResolution->iHeight;
+	pSizeHints->max_height = pResolution->iHeight;
 	XSetWMNormalHints(m_pDisplay, m_sWindow, pSizeHints);
 	XFree(pSizeHints);
 	/* Set window caption. */
@@ -195,10 +207,21 @@ void CUnixSystemWindow::CreateWindow(const unsigned int iResolutionNumber, char 
 	XIfEvent(m_pDisplay, &sEvent, WaitForMapNotify, reinterpret_cast<char *>(m_sWindow));
 	/* Make sure that our window ends up on top of things. */
 	XRaiseWindow(m_pDisplay, m_sWindow);
+	XFlush(m_pDisplay);
+	/* Select current OpenGL context. */
+	glXMakeCurrent(m_pDisplay, m_sWindow, m_sGLContext);
 }
 
 void CUnixSystemWindow::DestroyWindow()
 {
+	if (m_sGLContext)
+	{
+		/* Unset OpenGL Context. */
+		glXMakeCurrent(m_pDisplay, None, NULL);
+		/* Delete the context. */
+		glXDestroyContext(m_pDisplay, m_sGLContext);
+		m_sGLContext = static_cast<GLXContext>(0);
+	}
 	if (m_sWindow)
 	{
 		/* Unmap the window. */
@@ -350,6 +373,7 @@ unsigned int CUnixSystemWindow::GetResolutionsCount() const
 void CUnixSystemWindow::MessageBox(const std::string &cCaption, const std::string &cMessage) const
 {
 	/* TODO: ADD MESSAGEBOX :P */
+	std::cout << cCaption << ": " << cMessage << std::endl;
 }
 
 }

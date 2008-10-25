@@ -4,6 +4,8 @@
 #include "config.hpp"
 #include <string>
 
+int main();
+
 namespace engine
 {
 
@@ -20,6 +22,8 @@ class CLogger;
  */
 class CEngine
 {
+	friend int ::main();
+
 	private:
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
 		CFunctionManager *m_pFunctionManager; /**< Pointer to the function manager. */
@@ -28,15 +32,19 @@ class CEngine
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
 		double m_fFrameTime; /**< How much time passed in last frame. */
 		bool m_bFinished;
-		static CEngine cEngine; /**< Makes sure CEngine is created before main(). */
+		static CEngine *m_pEngine; /**< Makes sure CEngine is created before main(). */
+
 		/**
 		 * Private constructor.
 		 */
 		CEngine();
+
 		/**
 		 * Private destructor.
 		 */
 		~CEngine();
+
+		static void Create(CEngine *pEngine);
 
 	public:
 		/**
@@ -44,7 +52,7 @@ class CEngine
 		 */
 		inline static CEngine *GetInstance()
 		{
-			return &cEngine;
+			return m_pEngine;
 		}
 
 		/**
