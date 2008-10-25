@@ -105,7 +105,7 @@ class CLogger
 			for (std::map<unsigned int, boost::function<void (const std::string &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
 				(*cFunctorIterator).second(cMessage, eMessageType);
 			if (eMessageType == ERROR)
-				exit(-1);
+				CEngine::GetInstance()->Finish();
 		}
 };
 

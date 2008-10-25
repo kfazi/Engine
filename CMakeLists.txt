@@ -6,6 +6,8 @@ SET(SOURCES
 	enginesrc/time.cpp
 	enginesrc/functionmanager.cpp
 	enginesrc/scene/scenemanager.cpp
+	enginesrc/operating_system/unix/unixsystemwindow.cpp
+	enginesrc/operating_system/unix/unixsysteminfo.cpp
 )
 #SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_scripts)
 #INCLUDE(MathModule)
@@ -16,7 +18,7 @@ FIND_PACKAGE(Boost 1.35.0 COMPONENTS thread signals date_time REQUIRED)
 ADD_DEFINITIONS(${DEFINITIONS})
 INCLUDE_DIRECTORIES(include ${wxWidgets_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
 ADD_EXECUTABLE(engine WIN32 ${SOURCES})
-TARGET_LINK_LIBRARIES(engine ${wxWidgets_LIBRARIES} ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES(engine ${wxWidgets_LIBRARIES} ${Boost_LIBRARIES} X11 GL)
 
 FIND_PACKAGE(Doxygen)
 IF(DOXYGEN_FOUND)

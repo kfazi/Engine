@@ -4,6 +4,8 @@
 #include "common.hpp"
 #include "logger.hpp"
 #include "functionmanager.hpp"
+#include "operating_system/unix/unixsystemwindow.hpp"
+#include "operating_system/unix/unixsysteminfo.hpp"
 #include "scene/scenemanager.hpp"
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
@@ -20,13 +22,18 @@ CEngine::CEngine()
 	/* Function manager must be created before other managers. */
 	m_pFunctionManager = new CFunctionManager();
 	m_pSceneManager = new CSceneManager();
+	m_pSystemWindow = new CUnixSystemWindow();
+	m_pSystemInfo = new CUnixSystemInfo();
 	m_fFrameTime = 0;
+	m_bFinished = false;
 }
 
 CEngine::~CEngine()
 {
 	delete m_pSceneManager;
 	delete m_pFunctionManager;
+	delete m_pSystemWindow;
+	delete m_pSystemInfo;
 	/* Logger system must be deleted last. */
 	delete m_pLogger;
 }
@@ -50,6 +57,8 @@ void CEngine::ProcessFrame()
 		m_pFunctionManager->Process();
 		m_fFrameTime -= fFrameWait;
 	}
+	m_pSystemWindow->ProcessEvents(); /* Once per frame is enough. */
+	m_pSystemWindow->SwapBuffers();
 }
 
 }
