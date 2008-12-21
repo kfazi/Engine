@@ -2,6 +2,7 @@
 #define ENGINE_SYSTEM_INFO_HPP
 
 #include <string>
+#include "../common.hpp"
 
 namespace engine
 {
@@ -20,9 +21,10 @@ class CSystemInfo
 		}
 
 	public:
-		virtual const std::string GetSystemName() = 0;
-		virtual long long GetTotalMemory() = 0;
-		virtual long long GetFreeMemory() = 0;
+		virtual const std::string &GetSystemName() const = 0;
+		virtual long long GetTotalMemory() const = 0;
+		virtual long long GetFreeMemory() const = 0;
+		virtual int GetNumberOfProcessors() const = 0;
 };
 
 }

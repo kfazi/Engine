@@ -1,10 +1,11 @@
 #ifndef ENGINE_FUCTIONMANAGER_HPP
 #define ENGINE_FUCTIONMANAGER_HPP
 
-#include "engine.hpp"
 #include <map>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include "common.hpp"
+#include "engine.hpp"
 
 namespace engine
 {

@@ -1,9 +1,12 @@
-#include "unixsystemwindow.hpp"
-#include "../../engine.hpp"
-#include "../../useful.hpp"
+#ifdef UNIX
+
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include "../../common.hpp"
+#include "unixsystemwindow.hpp"
+#include "../../engine.hpp"
+#include "../../useful.hpp"
 
 namespace engine
 {
@@ -27,6 +30,7 @@ CUnixSystemWindow::CUnixSystemWindow(const std::string cDisplayName): CSystemWin
 	m_sWindow = static_cast<Window>(0);
 	m_pVisualInfo = NULL;
 	m_sGLContext = static_cast<GLXContext>(0);
+	m_cDriverName = "Unknown";
 }
 
 CUnixSystemWindow::~CUnixSystemWindow()
@@ -83,7 +87,7 @@ XVisualInfo *CUnixSystemWindow::ChooseBestVisual(const unsigned int iResolutionN
 	int iRequestedRed;
 	int iRequestedGreen;
 	int iRequestedBlue;
-	switch (pResolution->iBpp)
+	switch (pResolution->GetBitsPerPixel())
 	{
 		case 15:
 			iRequestedRed = 5;
@@ -158,7 +162,7 @@ void CUnixSystemWindow::CreateWindow(const unsigned int iResolutionNumber, char 
 	if (iResolutionNumber >= m_cUnixResolutionsVector.size())
 		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - resolution number out of bounds!") % iResolutionNumber);
 	CResolution *pResolution = &m_cUnixResolutionsVector[iResolutionNumber].cResolution;
-	Debug(Format("Creating window: %1%x%2%, %3%bpp @ %4%Hz, fullscreen: %5%") % pResolution->iWidth % pResolution->iHeight % static_cast<int>(pResolution->iBpp) % pResolution->iRefreshRate % ((bFullScreen) ? "true" : "false"));
+	Debug(Format("Creating window: %1%x%2%, %3%bpp @ %4%Hz, fullscreen: %5%") % pResolution->GetWidth() % pResolution->GetHeight() % static_cast<int>(pResolution->GetBitsPerPixel()) % pResolution->GetRefreshRate() % ((bFullScreen) ? "true" : "false"));
 	/* Choose visual. */
 	m_pVisualInfo = ChooseBestVisual(iResolutionNumber);
 	if (!m_pVisualInfo)
@@ -174,7 +178,7 @@ void CUnixSystemWindow::CreateWindow(const unsigned int iResolutionNumber, char 
 	m_sWindowAttributes.colormap = sColormap;
 	m_sWindowAttributes.border_pixel = 0;
 	m_sWindowAttributes.event_mask = StructureNotifyMask | ExposureMask | FocusChangeMask | VisibilityChangeMask;
-	m_sWindow = XCreateWindow(m_pDisplay, RootWindow(m_pDisplay, m_pVisualInfo->screen), 0, 0, pResolution->iWidth, pResolution->iHeight, 0, OPENGL_DEPTH, InputOutput, m_pVisualInfo->visual, CWBorderPixel | CWColormap | CWEventMask, &m_sWindowAttributes);
+	m_sWindow = XCreateWindow(m_pDisplay, RootWindow(m_pDisplay, m_pVisualInfo->screen), 0, 0, pResolution->GetWidth(), pResolution->GetHeight(), 0, OPENGL_DEPTH, InputOutput, m_pVisualInfo->visual, CWBorderPixel | CWColormap | CWEventMask, &m_sWindowAttributes);
 	if (!m_sWindow)
 		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - Can't create window!") % iResolutionNumber);
 	/* Set window min/max size. */
@@ -182,12 +186,12 @@ void CUnixSystemWindow::CreateWindow(const unsigned int iResolutionNumber, char 
 	if (!pSizeHints)
 		Error(Format("CUnixSystemWindow::CreateWindow(%1%, ...) - Can't create size hints!") % iResolutionNumber);
 	pSizeHints->flags = PSize | PMinSize | PMaxSize;
-	pSizeHints->min_width = pResolution->iWidth;
-	pSizeHints->base_width = pResolution->iWidth;
-	pSizeHints->max_width = pResolution->iWidth;
-	pSizeHints->min_height = pResolution->iHeight;
-	pSizeHints->base_height = pResolution->iHeight;
-	pSizeHints->max_height = pResolution->iHeight;
+	pSizeHints->min_width = pResolution->GetWidth();
+	pSizeHints->base_width = pResolution->GetWidth();
+	pSizeHints->max_width = pResolution->GetWidth();
+	pSizeHints->min_height = pResolution->GetHeight();
+	pSizeHints->base_height = pResolution->GetHeight();
+	pSizeHints->max_height = pResolution->GetHeight();
 	XSetWMNormalHints(m_pDisplay, m_sWindow, pSizeHints);
 	XFree(pSizeHints);
 	/* Set window caption. */
@@ -210,6 +214,8 @@ void CUnixSystemWindow::CreateWindow(const unsigned int iResolutionNumber, char 
 	XFlush(m_pDisplay);
 	/* Select current OpenGL context. */
 	glXMakeCurrent(m_pDisplay, m_sWindow, m_sGLContext);
+	/* Get driver name. */
+	m_cDriverName = (Format("%1% %2% %3%") % glGetString(GL_VENDOR) % glGetString(GL_RENDERER) % glGetString(GL_VERSION)).str();
 }
 
 void CUnixSystemWindow::DestroyWindow()
@@ -370,6 +376,11 @@ unsigned int CUnixSystemWindow::GetResolutionsCount() const
 	return m_cUnixResolutionsVector.size();
 }
 
+const std::string &CUnixSystemWindow::GetDriverName() const
+{
+	return m_cDriverName;
+}
+
 void CUnixSystemWindow::MessageBox(const std::string &cCaption, const std::string &cMessage) const
 {
 	/* TODO: ADD MESSAGEBOX :P */
@@ -377,6 +388,8 @@ void CUnixSystemWindow::MessageBox(const std::string &cCaption, const std::strin
 }
 
 }
+
+#endif /* UNIX */
 
 /* EOF */
 

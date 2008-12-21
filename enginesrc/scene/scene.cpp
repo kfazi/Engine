@@ -9,13 +9,13 @@ CScene::CScene()
 	m_iDestroyID = 0;
 }
 
-virtual CScene::~CScene()
+CScene::~CScene()
 {
 	CEngine::GetInstance()->GetFunctionManager()->Remove(m_iUpdateID);
 	CEngine::GetInstance()->GetFunctionManager()->Remove(m_iDestroyID);
 }
 
-void CScene::Destroy(void *pArgument)
+void CScene::Destroy(const unsigned int iId, void *pArgument)
 {
 	CEngine::GetInstance()->GetSceneManager()->Remove(this);
 }

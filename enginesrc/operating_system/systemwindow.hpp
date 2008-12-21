@@ -3,6 +3,7 @@
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include "../common.hpp"
 
 namespace engine
 {
@@ -14,28 +15,45 @@ class CSystemWindow
 	public:
 		class CResolution
 		{
+			private:
+				unsigned int m_iWidth;
+				unsigned int m_iHeight;
+				unsigned short m_iRefreshRate;
+				unsigned char m_iBpp;
 			public:
-				unsigned int iWidth;
-				unsigned int iHeight;
-				unsigned short iRefreshRate;
-				unsigned char iBpp;
 				CResolution()
 				{
 				}
 				CResolution(const unsigned int iWidth, const unsigned int iHeight, const unsigned short iRefreshRate, const unsigned char iBpp)
 				{
-					this->iWidth = iWidth;
-					this->iHeight = iHeight;
-					this->iRefreshRate = iRefreshRate;
-					this->iBpp = iBpp;
+					m_iWidth = iWidth;
+					m_iHeight = iHeight;
+					m_iRefreshRate = iRefreshRate;
+					m_iBpp = iBpp;
+				}
+				inline unsigned int GetWidth() const
+				{
+					return m_iWidth;
+				}
+				inline unsigned int GetHeight() const
+				{
+					return m_iHeight;
+				}
+				inline unsigned short GetRefreshRate() const
+				{
+					return m_iRefreshRate;
+				}
+				inline unsigned char GetBitsPerPixel() const
+				{
+					return m_iBpp;
 				}
 				bool operator < (const CResolution &cResolution) const
 				{
-					return ((iWidth * iHeight) < (cResolution.iWidth * cResolution.iHeight)) || (iBpp < cResolution.iBpp) || (iRefreshRate < cResolution.iRefreshRate);
+					return ((m_iWidth * m_iHeight) < (cResolution.m_iWidth * cResolution.m_iHeight)) || (m_iBpp < cResolution.m_iBpp) || (m_iRefreshRate < cResolution.m_iRefreshRate);
 				}
 				bool operator == (const CResolution &cResolution) const
 				{
-					return (iWidth == cResolution.iWidth) && (iHeight == cResolution.iHeight) && (iBpp == cResolution.iBpp) && (iRefreshRate == cResolution.iRefreshRate);
+					return (m_iWidth == cResolution.m_iWidth) && (m_iHeight == cResolution.m_iHeight) && (m_iBpp == cResolution.m_iBpp) && (m_iRefreshRate == cResolution.m_iRefreshRate);
 				}
 				bool operator != (const CResolution &cResolution) const
 				{
@@ -76,6 +94,8 @@ class CSystemWindow
 		virtual const CResolution *GetResolution(const unsigned int iResolutionNumber) const = 0;
 
 		virtual unsigned int GetResolutionsCount() const = 0;
+
+		virtual const std::string &GetDriverName() const = 0;
 
 		virtual void MessageBox(const std::string &cCaption, const std::string &cMessage) const = 0;
 

@@ -1,11 +1,12 @@
 #ifndef ENGINE_SCENE_HPP
 #define ENGINE_SCENE_HPP
 
+#include <list>
+#include "../common.hpp"
 #include "sceneobject.hpp"
 #include "scenemanager.hpp"
 #include "../functionmanager.hpp"
 #include "../engine.hpp"
-#include <list>
 
 namespace engine
 {
@@ -24,8 +25,8 @@ class CScene
 	public:
 		CScene();
 		virtual ~CScene();
-		virtual void Process(void *pArgument) = 0;
-		void Destroy(void *pArgument);
+		virtual void Process(const unsigned int iId, void *pArgument) = 0;
+		void Destroy(const unsigned int iId, void *pArgument);
 		void SetPause(const bool bPause);
 		inline void Pause()
 		{

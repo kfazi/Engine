@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <string>
+#include "common.hpp"
 
 class CEngineException: public std::exception
 {

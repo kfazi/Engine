@@ -1,8 +1,10 @@
 #ifndef ENGINE_ENGINE_HPP
 #define ENGINE_ENGINE_HPP
 
-#include "config.hpp"
 #include <string>
+#include <string>
+#include <boost/format.hpp>
+#include "common.hpp"
 
 int main();
 
@@ -23,6 +25,8 @@ class CLogger;
 class CEngine
 {
 	friend int ::main();
+	friend void Debug(const std::string &cMessage);
+	friend void Debug(const boost::format &cFormat);
 
 	private:
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
@@ -32,6 +36,7 @@ class CEngine
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
 		double m_fFrameTime; /**< How much time passed in last frame. */
 		bool m_bFinished;
+		static bool m_bDebug;
 		static CEngine *m_pEngine; /**< Makes sure CEngine is created before main(). */
 
 		/**

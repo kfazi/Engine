@@ -1,19 +1,28 @@
-#include "engine.hpp"
-#include "config.hpp"
-#include "time.hpp"
-#include "common.hpp"
-#include "logger.hpp"
-#include "functionmanager.hpp"
-#include "operating_system/unix/unixsystemwindow.hpp"
-#include "operating_system/unix/unixsysteminfo.hpp"
-#include "scene/scenemanager.hpp"
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+#include "common.hpp"
+#include "engine.hpp"
+#include "time.hpp"
+#include "logger.hpp"
+#include "functionmanager.hpp"
+#include "scene/scenemanager.hpp"
+#include "operating_system/systeminput.hpp"
+
+#ifdef WIN32
+#include "operating_system/windows/windowssystemwindow.hpp"
+#include "operating_system/windows/windowssysteminfo.hpp"
+#endif /* WIN32 */
+
+#ifdef UNIX
+#include "operating_system/unix/unixsystemwindow.hpp"
+#include "operating_system/unix/unixsysteminfo.hpp"
+#endif /* UNIX */
 
 namespace engine
 {
 
 CEngine *CEngine::m_pEngine = NULL;
+bool CEngine::m_bDebug = true;
 
 CEngine::CEngine()
 {

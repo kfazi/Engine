@@ -1,0 +1,10 @@
+#ifdef WIN32
+
+#ifndef ENGINE_WINDOWS_SYSTEM_INFO_HPP
+#define ENGINE_WINDOWS_SYSTEM_INFO_HPP
+
+#endif /* ENGINE_WINDOWS_SYSTEM_INFO_HPP */
+
+#endif /* WIN32 */
+
+/* EOF */

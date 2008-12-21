@@ -1,13 +1,14 @@
 #ifndef ENGINE_LOGGER_HPP
 #define ENGINE_LOGGER_HPP
 
-#include "engine.hpp"
-#include "engineexception.hpp"
 #include <map>
 #include <string>
 #include <boost/format.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include "common.hpp"
+#include "engine.hpp"
+#include "engineexception.hpp"
 
 namespace engine
 {
@@ -29,7 +30,7 @@ class CLogger
 		{
 			DEBUG, /**< Debug type - lowest priority. */
 			NOTIFY, /**< Notify type - the most common one, it informs about object creation, scene change, etc. */
-			WARNING, /**< Warning type - high priority, used for example when occured some problems with sound. */
+			WARNING, /**< Warning type - high priority, used for example when some problems with sound occured. */
 			ERROR /**< Error type - highest priority, shutdowns engine. */
 		};
 

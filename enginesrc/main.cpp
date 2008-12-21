@@ -1,7 +1,7 @@
-#include "engine.hpp"
-#include "useful.hpp"
 #include <iostream>
 #include <fstream>
+#include "engine.hpp"
+#include "useful.hpp"
 #include "engineexception.hpp"
 #include "operating_system/systemwindow.hpp"
 #include "operating_system/systeminfo.hpp"
@@ -40,10 +40,12 @@ int main()
 		CEngine::Create(&cEngine);
 		CSimpleLogger cLogger;
 		CEngine::GetInstance()->GetLogger()->Register(&cLogger, &CSimpleLogger::Log);
-		Notify(CEngine::GetInstance()->GetSystemInfo()->GetSystemName());
-		Notify(Format("Total memory: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetTotalMemory());
-		Notify(Format("Free memory: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetFreeMemory());
+		Debug(CEngine::GetInstance()->GetSystemInfo()->GetSystemName());
+		Debug(Format("Number of processors: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetNumberOfProcessors());
+		Debug(Format("Total memory: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetTotalMemory());
+		Debug(Format("Free memory: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetFreeMemory());
 		CEngine::GetInstance()->GetWindow()->SetResolution(5, false);
+		Debug(Format("Driver name: %1%") % CEngine::GetInstance()->GetWindow()->GetDriverName());
 		while (!CEngine::GetInstance()->Finished())
 		{
 			CEngine::GetInstance()->ProcessFrame();

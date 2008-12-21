@@ -1,9 +1,10 @@
 #ifndef ENGINE_SCENEMANAGER_HPP
 #define ENGINE_SCENEMANAGER_HPP
 
-#include "../functionmanager.hpp"
 #include <string>
 #include <set>
+#include "../common.hpp"
+#include "../functionmanager.hpp"
 
 namespace engine
 {

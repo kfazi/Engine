@@ -1,22 +1,25 @@
 #ifndef ENGINE_USEFUL_HPP
 #define ENGINE_USEFUL_HPP
 
-#include "engine.hpp"
-#include "logger.hpp"
 #include <string>
 #include <boost/format.hpp>
+#include "common.hpp"
+#include "engine.hpp"
+#include "logger.hpp"
 
 namespace engine
 {
 
 inline void Debug(const std::string &cMessage)
 {
-	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::DEBUG);
+	if (CEngine::m_bDebug)
+		CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::DEBUG);
 }
 
 inline void Debug(const boost::format &cFormat)
 {
-	Debug(boost::str(cFormat));
+	if (CEngine::m_bDebug)
+		Debug(boost::str(cFormat));
 }
 
 inline void Notify(const std::string &cMessage)

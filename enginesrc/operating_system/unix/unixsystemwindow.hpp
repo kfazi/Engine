@@ -1,11 +1,14 @@
+#ifdef UNIX
+
 #ifndef ENGINE_UNIX_SYSTEM_WINDOW_HPP
 #define ENGINE_UNIX_SYSTEM_WINDOW_HPP
 
-#include "../systemwindow.hpp"
 #include <vector>
 #include <GL/glx.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
+#include "../../common.hpp"
+#include "../systemwindow.hpp"
 
 namespace engine
 {
@@ -35,6 +38,8 @@ class CUnixSystemWindow: public CSystemWindow
 		};
 
 		std::vector<CUnixResolution> m_cUnixResolutionsVector;
+
+		std::string m_cDriverName;
 
 		Display *m_pDisplay;
 
@@ -73,12 +78,16 @@ class CUnixSystemWindow: public CSystemWindow
 
 		virtual unsigned int GetResolutionsCount() const;
 
+		virtual const std::string &GetDriverName() const;
+
 		virtual void MessageBox(const std::string &cCaption, const std::string &cMessage) const;
 };
 
 }
 
 #endif /* ENGINE_UNIX_SYSTEM_WINDOW_HPP */
+
+#endif /* UNIX */
 
 /* EOF */
 
