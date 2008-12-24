@@ -1,7 +1,7 @@
+#include "common.hpp"
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
-#include "common.hpp"
-#include "engineinternal.hpp"
+#include "core.hpp"
 #include "time.hpp"
 #include "logger.hpp"
 #include "functionmanager.hpp"
@@ -21,10 +21,10 @@
 namespace engine
 {
 
-CEngine *CEngine::m_pEngine = NULL;
-bool CEngine::m_bDebug = true;
+CCore *CCore::m_pEngine = NULL;
+bool CCore::m_bDebug = true;
 
-CEngine::CEngine()
+CCore::CCore()
 {
 	m_pLogger = NULL;
 	m_pFunctionManager = NULL;
@@ -33,7 +33,7 @@ CEngine::CEngine()
 	m_pSystemInfo = NULL;
 }
 
-CEngine::~CEngine()
+CCore::~CCore()
 {
 	if (m_pEngine)
 	{
@@ -46,7 +46,7 @@ CEngine::~CEngine()
 	}
 }
 
-void CEngine::Create(CEngine *pEngine)
+void CCore::Create(CCore *pEngine)
 {
 	/* Logger system is used by all other systems. */
 	pEngine->m_pLogger = new CLogger();
@@ -66,7 +66,7 @@ void CEngine::Create(CEngine *pEngine)
 	pEngine->m_bFinished = false;
 }
 
-void CEngine::ProcessFrame()
+void CCore::ProcessFrame()
 {
 	static double fFrameWait = 1.0 / ENGINE_FPS;
 #ifdef CONSTRAIN_FPS

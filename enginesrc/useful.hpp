@@ -1,10 +1,10 @@
 #ifndef ENGINE_USEFUL_HPP
 #define ENGINE_USEFUL_HPP
 
+#include "common.hpp"
 #include <string>
 #include <boost/format.hpp>
-#include "common.hpp"
-#include "engineinternal.hpp"
+#include "core.hpp"
 #include "logger.hpp"
 
 namespace engine
@@ -12,19 +12,19 @@ namespace engine
 
 inline void Debug(const std::string &cMessage)
 {
-	if (CEngine::m_bDebug)
-		CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::DEBUG);
+	if (CCore::m_bDebug)
+		CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::DEBUG);
 }
 
 inline void Debug(const boost::format &cFormat)
 {
-	if (CEngine::m_bDebug)
+	if (CCore::m_bDebug)
 		Debug(boost::str(cFormat));
 }
 
 inline void Notify(const std::string &cMessage)
 {
-	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::NOTIFY);
+	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::NOTIFY);
 }
 
 inline void Notify(const boost::format &cFormat)
@@ -34,7 +34,7 @@ inline void Notify(const boost::format &cFormat)
 
 inline void Warning(const std::string &cMessage)
 {
-	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::WARNING);
+	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::WARNING);
 }
 
 inline void Warning(const boost::format &cFormat)
@@ -44,7 +44,7 @@ inline void Warning(const boost::format &cFormat)
 
 inline void Error(const std::string &cMessage)
 {
-	CEngine::GetInstance()->GetLogger()->Log(cMessage, CLogger::ERROR);
+	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::ERROR);
 }
 
 inline void Error(const boost::format &cFormat)

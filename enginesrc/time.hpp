@@ -1,8 +1,8 @@
 #ifndef ENGINE_TIME_HPP
 #define ENGINE_TIME_HPP
 
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include "common.hpp"
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace engine
 {
@@ -13,8 +13,8 @@ namespace engine
  */
 class CTime
 {
-	/** Allow CEngine to call Update(). */
-	friend class CEngine;
+	/** Allow CCore to call Update(). */
+	friend class CCore;
 
 	private:
 		/** Last frame time. */
@@ -48,7 +48,7 @@ class CTime
 		/**
 		 * @internal
 		 * Updates all time data.
-		 * Can be called only by CEngine.
+		 * Can be called only by CCore.
 		 */
 		static void Update();
 

@@ -1,6 +1,7 @@
+#include "common.hpp"
 #include <iostream>
 #include <fstream>
-#include "engineinternal.hpp"
+#include "core.hpp"
 #include "useful.hpp"
 #include "engineexception.hpp"
 #include "operating_system/systemwindow.hpp"
@@ -24,7 +25,7 @@ class CSimpleLogger
 		void Log(const std::string &cMessage, const CLogger::EMessageType eType)
 		{
 			if (eType == CLogger::ERROR)
-				CEngine::GetInstance()->GetWindow()->MessageBox("Error", cMessage);
+				CCore::GetInstance()->GetWindow()->MessageBox("Error", cMessage);
 			else
 				std::cout << cMessage << std::endl;
 			cFile << cMessage << std::endl;
@@ -34,21 +35,21 @@ class CSimpleLogger
 
 int main()
 {
-	CEngine cEngine;
+	CCore cEngine;
 	try
 	{
-		CEngine::Create(&cEngine);
+		CCore::Create(&cEngine);
 		CSimpleLogger cLogger;
-		CEngine::GetInstance()->GetLogger()->Register(&cLogger, &CSimpleLogger::Log);
-		Debug(CEngine::GetInstance()->GetSystemInfo()->GetSystemName());
-		Debug(Format("Number of processors: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetNumberOfProcessors());
-		Debug(Format("Total memory: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetTotalMemory());
-		Debug(Format("Free memory: %1%") % CEngine::GetInstance()->GetSystemInfo()->GetFreeMemory());
-		CEngine::GetInstance()->GetWindow()->SetResolution(5, false);
-		Debug(Format("Driver name: %1%") % CEngine::GetInstance()->GetWindow()->GetDriverName());
-		while (!CEngine::GetInstance()->Finished())
+		CCore::GetInstance()->GetLogger()->Register(&cLogger, &CSimpleLogger::Log);
+		Debug(CCore::GetInstance()->GetSystemInfo()->GetSystemName());
+		Debug(Format("Number of processors: %1%") % CCore::GetInstance()->GetSystemInfo()->GetNumberOfProcessors());
+		Debug(Format("Total memory: %1%") % CCore::GetInstance()->GetSystemInfo()->GetTotalMemory());
+		Debug(Format("Free memory: %1%") % CCore::GetInstance()->GetSystemInfo()->GetFreeMemory());
+		CCore::GetInstance()->GetWindow()->SetResolution(5, false);
+		Debug(Format("Driver name: %1%") % CCore::GetInstance()->GetWindow()->GetDriverName());
+		while (!CCore::GetInstance()->Finished())
 		{
-			CEngine::GetInstance()->ProcessFrame();
+			CCore::GetInstance()->ProcessFrame();
 		}
 	}
 	catch (std::exception &e)

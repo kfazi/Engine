@@ -1,16 +1,16 @@
 #ifndef ENGINE_SYSTEM_WINDOW_HPP
 #define ENGINE_SYSTEM_WINDOW_HPP
 
+#include "../common.hpp"
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#include "../common.hpp"
 
 namespace engine
 {
 
 class CSystemWindow
 {
-	friend class CEngine;
+	friend class CCore;
 
 	public:
 		class CResolution

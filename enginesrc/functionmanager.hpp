@@ -1,23 +1,23 @@
 #ifndef ENGINE_FUCTIONMANAGER_HPP
 #define ENGINE_FUCTIONMANAGER_HPP
 
+#include "common.hpp"
 #include <map>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#include "common.hpp"
-#include "engineinternal.hpp"
+#include "core.hpp"
 
 namespace engine
 {
 
 /**
  * Class for manipulating functions with delayed execution time.
- * Use it through CEngine singleton.
+ * Use it through CCore singleton.
  */
 class CFunctionManager
 {
-	/** Allow CEngine to create this class, and run Process() every frame. */
-	friend class CEngine;
+	/** Allow CCore to create this class, and run Process() every frame. */
+	friend class CCore;
 
 	private:
 		/**

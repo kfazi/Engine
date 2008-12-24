@@ -1,31 +1,26 @@
 #ifndef ENGINE_LOGGER_HPP
 #define ENGINE_LOGGER_HPP
 
+#include "common.hpp"
 #include <map>
 #include <string>
 #include <boost/format.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#include "common.hpp"
-#include "engineinternal.hpp"
+#include "core.hpp"
 #include "engineexception.hpp"
-
-#ifdef WINDOWS
-/* WINGDI.h defines ERROR in WINGDI.h */
-#undef ERROR
-#endif /* WINDOWS */
 
 namespace engine
 {
 
 /**
  * Class encapsulating all logging functions.
- * Use it through CEngine singleton.
+ * Use it through CCore singleton.
  */
 class CLogger
 {
-	/** Allow CEngine to create this class. */
-	friend class CEngine;
+	/** Allow CCore to create this class. */
+	friend class CCore;
 
 	public:
 		/**

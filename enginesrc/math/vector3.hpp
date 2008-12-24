@@ -8,8 +8,8 @@
 #ifndef ENGINE_VECTOR3_HPP
 #define ENGINE_VECTOR3_HPP
 
-#include <iostream>
 #include "../common.hpp"
+#include <iostream>
 
 namespace engine
 {

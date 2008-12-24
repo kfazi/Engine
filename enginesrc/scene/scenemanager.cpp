@@ -1,7 +1,8 @@
+#include "../common.hpp"
 #include "../useful.hpp"
 #include "scenemanager.hpp"
 #include "scene.hpp"
-#include "../engineinternal.hpp"
+#include "../core.hpp"
 
 #include "../time.hpp"
 

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "../../common.hpp"
 #include "unixsystemwindow.hpp"
-#include "../../engineinternal.hpp"
+#include "../../core.hpp"
 #include "../../useful.hpp"
 
 namespace engine
@@ -260,7 +260,7 @@ void CUnixSystemWindow::ProcessEvents()
 				if (static_cast<Atom>(sEvent.xclient.data.l[0]) == m_aProtocols[WM_DELETE_WINDOW])
 				{
 					if (!m_pOnCloseFunctor || !m_pOnCloseFunctor())
-						CEngine::GetInstance()->Finish();
+						CCore::GetInstance()->Finish();
 				}
 				else if (static_cast<Atom>(sEvent.xclient.data.l[0]) == m_aProtocols[WM_PING])
 				{

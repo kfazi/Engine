@@ -1,10 +1,10 @@
-#ifndef ENGINE_ENGINE_INTERNAL_HPP
-#define ENGINE_ENGINE_INTERNAL_HPP
+#ifndef ENGINE_CORE_HPP
+#define ENGINE_CORE_HPP
 
+#include "common.hpp"
 #include <string>
 #include <string>
 #include <boost/format.hpp>
-#include "common.hpp"
 
 int main();
 
@@ -22,7 +22,7 @@ class CLogger;
  * This is singleton.
  * Use it to communicate with the engine.
  */
-class CEngine
+class CCore
 {
 	friend int ::main();
 	friend void Debug(const std::string &cMessage);
@@ -37,25 +37,25 @@ class CEngine
 		double m_fFrameTime; /**< How much time passed in last frame. */
 		bool m_bFinished;
 		static bool m_bDebug;
-		static CEngine *m_pEngine; /**< Makes sure CEngine is created before main(). */
+		static CCore *m_pEngine; /**< Makes sure CCore is created before main(). */
 
 		/**
 		 * Private constructor.
 		 */
-		CEngine();
+		CCore();
 
 		/**
 		 * Private destructor.
 		 */
-		~CEngine();
+		~CCore();
 
-		static void Create(CEngine *pEngine);
+		static void Create(CCore *pEngine);
 
 	public:
 		/**
 		 * @return Instance of the engine.
 		 */
-		inline static CEngine *GetInstance()
+		inline static CCore *GetInstance()
 		{
 			return m_pEngine;
 		}
@@ -111,13 +111,13 @@ class CEngine
 		}
 
 		/**
-		 * Convert CEngine to a string.
+		 * Convert CCore to a string.
 		 * Creates string with all engine objects converted to a string.
 		 * @return A string.
 		 */
 		std::string ToString() const
 		{
-			return "CEngine[ ";// + m_pSceneManager->ToString() + " ]";
+			return "CCore[ ";// + m_pSceneManager->ToString() + " ]";
 		}
 
 		/**
@@ -128,6 +128,6 @@ class CEngine
 
 }
 
-#endif /* ENGINE_ENGINE_INTERNAL_HPP */
+#endif /* ENGINE_CORE_HPP */
 
 /* EOF */

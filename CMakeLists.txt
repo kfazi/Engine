@@ -3,7 +3,7 @@ SET(CMAKE_MODULE_PATH ${ENGINE_PATH}/cmake_scripts)
 
 FIND_PACKAGE(Doxygen)
 IF(DOXYGEN_FOUND)
-	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} ${ENGINE_PATH}/doxygen.conf WORKING_DIRECTORY ${ENGINE_PATH} COMMENT "Generating documentation")
+	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} ${ENGINE_PATH}/doxygen.conf WORKING_DIRECTORY ${ENGINE_PATH} COMMENT "Generating engine's documentation")
 ELSE(DOXYGEN_FOUND)
 	ADD_CUSTOM_TARGET(engine_docs COMMENT "Doxygen not found.")
 ENDIF(DOXYGEN_FOUND)
@@ -16,10 +16,10 @@ SET(ENGINE_LIBRARIES "")
 
 SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/common.hpp
-	${ENGINESRC_DIR}/engine.cpp
+	${ENGINESRC_DIR}/core.cpp
+	${ENGINESRC_DIR}/core.hpp
 	${ENGINESRC_DIR}/engine.hpp
 	${ENGINESRC_DIR}/engineexception.hpp
-	${ENGINESRC_DIR}/engineinternal.hpp
 	${ENGINESRC_DIR}/functionmanager.cpp
 	${ENGINESRC_DIR}/functionmanager.hpp
 	${ENGINESRC_DIR}/logger.hpp

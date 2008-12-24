@@ -10,7 +10,7 @@ namespace engine
 
 class CUnixSystemInfo: public CSystemInfo
 {
-	friend class CEngine;
+	friend class CCore;
 
 	private:
 		std::string m_cSystemName;

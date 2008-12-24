@@ -1,9 +1,9 @@
 #ifndef ENGINE_EXCEPTION_HPP
 #define ENGINE_EXCEPTION_HPP
 
+#include "common.hpp"
 #include <exception>
 #include <string>
-#include "common.hpp"
 
 class CEngineException: public std::exception
 {

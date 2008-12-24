@@ -1,9 +1,9 @@
 #ifndef ENGINE_SCENEMANAGER_HPP
 #define ENGINE_SCENEMANAGER_HPP
 
+#include "../common.hpp"
 #include <string>
 #include <set>
-#include "../common.hpp"
 #include "../functionmanager.hpp"
 
 namespace engine
@@ -14,7 +14,7 @@ class CScene;
 class CSceneManager
 {
 	/* Allow engine to create this class. */
-	friend class CEngine;
+	friend class CCore;
 	private:
 		std::set<CScene *> m_cScenesSet;
 		CSceneManager();

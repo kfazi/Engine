@@ -15,7 +15,7 @@ namespace engine
 
 class CUnixSystemWindow: public CSystemWindow
 {
-	friend class CEngine;
+	friend class CCore;
 	private:
 		class CUnixResolution
 		{

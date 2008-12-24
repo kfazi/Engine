@@ -2,13 +2,13 @@
 #define ENGINE_ENGINE_HPP
 
 /* Include everything for external use. */
-#include "useful.hpp"
 #include "common.hpp"
+#include "core.hpp"
 #include "engineexception.hpp"
-#include "engineinternal.hpp"
 #include "functionmanager.hpp"
 #include "logger.hpp"
 #include "time.hpp"
+#include "useful.hpp"
 #include "math/vector3.hpp"
 #include "operating_system/systemdisplaymanager.hpp"
 #include "operating_system/systeminfo.hpp"
@@ -21,4 +21,3 @@
 #endif /* ENGINE_ENGINE_HPP */
 
 /* EOF */
-

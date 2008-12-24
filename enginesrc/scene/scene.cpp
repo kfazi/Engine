@@ -1,3 +1,4 @@
+#include "../common.hpp"
 #include "scene.hpp"
 
 namespace engine
@@ -5,19 +6,19 @@ namespace engine
 
 CScene::CScene()
 {
-	m_iUpdateID = CEngine::GetInstance()->GetFunctionManager()->Add(this, &CScene::Process, NULL);
+	m_iUpdateID = CCore::GetInstance()->GetFunctionManager()->Add(this, &CScene::Process, NULL);
 	m_iDestroyID = 0;
 }
 
 CScene::~CScene()
 {
-	CEngine::GetInstance()->GetFunctionManager()->Remove(m_iUpdateID);
-	CEngine::GetInstance()->GetFunctionManager()->Remove(m_iDestroyID);
+	CCore::GetInstance()->GetFunctionManager()->Remove(m_iUpdateID);
+	CCore::GetInstance()->GetFunctionManager()->Remove(m_iDestroyID);
 }
 
 void CScene::Destroy(const unsigned int iId, void *pArgument)
 {
-	CEngine::GetInstance()->GetSceneManager()->Remove(this);
+	CCore::GetInstance()->GetSceneManager()->Remove(this);
 }
 
 void CScene::SetPause(const bool bPause)
@@ -28,11 +29,11 @@ void CScene::SetPause(const bool bPause)
 		SetPauseInternal(bPause);
 		if (bPause)
 		{
-			CEngine::GetInstance()->GetFunctionManager()->Remove(m_iUpdateID);
+			CCore::GetInstance()->GetFunctionManager()->Remove(m_iUpdateID);
 			m_iUpdateID = 0;
 		}
 		else
-			m_iUpdateID = CEngine::GetInstance()->GetFunctionManager()->Add(this, &CScene::Process, NULL);
+			m_iUpdateID = CCore::GetInstance()->GetFunctionManager()->Add(this, &CScene::Process, NULL);
 	}
 }
 
@@ -42,9 +43,9 @@ void CScene::SetDestroy(const bool bDestroy)
 	{
 		m_bDestroy = bDestroy;
 		if (bDestroy)
-			m_iDestroyID = CEngine::GetInstance()->GetFunctionManager()->Add(this, &CScene::Destroy, NULL);
+			m_iDestroyID = CCore::GetInstance()->GetFunctionManager()->Add(this, &CScene::Destroy, NULL);
 		{
-			CEngine::GetInstance()->GetFunctionManager()->Remove(m_iDestroyID);
+			CCore::GetInstance()->GetFunctionManager()->Remove(m_iDestroyID);
 			m_iDestroyID = 0;
 		}
 	}

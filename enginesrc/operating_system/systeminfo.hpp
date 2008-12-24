@@ -1,15 +1,15 @@
 #ifndef ENGINE_SYSTEM_INFO_HPP
 #define ENGINE_SYSTEM_INFO_HPP
 
-#include <string>
 #include "../common.hpp"
+#include <string>
 
 namespace engine
 {
 
 class CSystemInfo
 {
-	friend class CEngine;
+	friend class CCore;
 
 	protected:
 		CSystemInfo()

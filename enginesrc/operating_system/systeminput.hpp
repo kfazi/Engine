@@ -1,6 +1,7 @@
 #ifndef ENGINE_SYSTEM_INPUT_HPP
 #define ENGINE_SYSTEM_INPUT_HPP
 
+#include "../common.hpp"
 #include <list>
 #include <map>
 #include <vector>
@@ -10,7 +11,6 @@
 #include <OISMouse.h>
 #include <OISJoyStick.h>
 #include <OISEvents.h>
-#include "../common.hpp"
 #include "../math/vector3.hpp"
 #include "../useful.hpp"
 
@@ -19,7 +19,7 @@ namespace engine
 
 class CSystemInput: public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener
 {
-	friend class CEngine;
+	friend class CCore;
 
 #include "keyboardremap.hpp"
 

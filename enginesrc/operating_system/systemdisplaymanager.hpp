@@ -1,15 +1,15 @@
 #ifndef ENGINE_SYSTEM_DISPLAY_MANAGER_HPP
 #define ENGINE_SYSTEM_DISPLAY_MANAGER_HPP
 
-#include "../math/vector3.hpp"
 #include "../common.hpp"
+#include "../math/vector3.hpp"
 
 namespace engine
 {
 
 class CSystemDisplayManager
 {
-	friend class CEngine;
+	friend class CCore;
 
 	protected:
 		CSystemDisplayManager()

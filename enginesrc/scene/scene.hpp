@@ -1,12 +1,12 @@
 #ifndef ENGINE_SCENE_HPP
 #define ENGINE_SCENE_HPP
 
-#include <list>
 #include "../common.hpp"
+#include <list>
 #include "sceneobject.hpp"
 #include "scenemanager.hpp"
 #include "../functionmanager.hpp"
-#include "../engineinternal.hpp"
+#include "../core.hpp"
 
 namespace engine
 {
