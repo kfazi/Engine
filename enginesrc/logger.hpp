@@ -7,8 +7,13 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include "common.hpp"
-#include "engine.hpp"
+#include "engineinternal.hpp"
 #include "engineexception.hpp"
+
+#ifdef WINDOWS
+/* WINGDI.h defines ERROR in WINGDI.h */
+#undef ERROR
+#endif /* WINDOWS */
 
 namespace engine
 {
@@ -53,7 +58,7 @@ class CLogger
 		}
 
 		/**
-		 * Generates next ID for registrating logging function.
+		 * Generates next ID for registering logging function.
 		 *
 		 * @return Next ID.
 		 */
@@ -68,10 +73,10 @@ class CLogger
 
 	public:
 		/**
-		 * Registrates new logging function.
+		 * Registers new logging function.
 		 *
-		 * @param[in] cClass A pointer to the class instance, containing registrated function.
-		 * @param[in] pFunction A pointer to the registrated function, returning void and taking const std::string &, const CLogger::EMessageType arguments.
+		 * @param[in] cClass A pointer to the class instance, containing registered function.
+		 * @param[in] pFunction A pointer to the registered function, returning void and taking const std::string &, const CLogger::EMessageType arguments.
 		 * @return ID of registered function.
 		 */
 		template <class CClass> unsigned int Register(CClass *cClass, void (CClass::*pFunction)(const std::string &, const EMessageType))

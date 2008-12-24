@@ -1,5 +1,5 @@
-#ifdef WIN32
+#ifdef WINDOWS
 
-#endif /* WIN32 */
+#endif /* WINDOWS */
 
 /* EOF */

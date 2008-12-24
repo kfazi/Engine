@@ -1,14 +1,23 @@
 #ifndef ENGINE_COMMON_HPP
 #define ENGINE_COMMON_HPP
 
-#include "config.hpp"
+/* Check against stupidity. */
+#if (defined WINDOWS && defined UNIX) || (defined WINDOWS && defined OSX) || (defined UNIX && defined OSX)
+#error DEFINE ONLY ONE PLATFORM
+#endif /* (defined WINDOWS && defined UNIX) || (defined WINDOWS && defined OSX) || (defined UNIX && defined OSX) */
+#if !defined WINDOWS && !defined UNIX && !defined OSX
+#error NO PLATFORM DEFINED
+#endif /* !defined WINDOWS && !defined UNIX && !defined OSX */
+/* Stupidity prevented. */
 
-#ifdef WIN32
-#define WIN32_MEAN_AND_LEAN
-#include "windowscleanup.hpp"
-#endif /* WIN32 */
+/* engineconfig.hpp file must be located in game's directory. */
+#include <engineconfig.hpp>
 
 #endif /* ENGINE_COMMON_HPP */
+
+#ifdef WINDOWS
+#include "windowscleanup.hpp"
+#endif /* WINDOWS */
 
 /* EOF */
 

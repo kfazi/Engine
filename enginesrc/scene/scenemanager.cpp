@@ -1,7 +1,7 @@
 #include "../useful.hpp"
 #include "scenemanager.hpp"
 #include "scene.hpp"
-#include "../engine.hpp"
+#include "../engineinternal.hpp"
 
 #include "../time.hpp"
 

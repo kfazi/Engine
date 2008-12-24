@@ -5,7 +5,7 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include "common.hpp"
-#include "engine.hpp"
+#include "engineinternal.hpp"
 
 namespace engine
 {

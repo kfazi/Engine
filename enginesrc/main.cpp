@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "engine.hpp"
+#include "engineinternal.hpp"
 #include "useful.hpp"
 #include "engineexception.hpp"
 #include "operating_system/systemwindow.hpp"

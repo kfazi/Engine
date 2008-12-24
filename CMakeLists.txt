@@ -1,103 +1,114 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_scripts)
+SET(CMAKE_MODULE_PATH ${ENGINE_PATH}/cmake_scripts)
 
-SET(CORE_SOURCES
-	enginesrc/common.hpp
-	enginesrc/config.hpp
-	enginesrc/engine.cpp
-	enginesrc/engine.hpp
-	enginesrc/engineexception.hpp
-	enginesrc/functionmanager.cpp
-	enginesrc/functionmanager.hpp
-	enginesrc/logger.hpp
-	enginesrc/main.cpp
-	enginesrc/time.cpp
-	enginesrc/time.hpp
-	enginesrc/useful.hpp
-	enginesrc/windowscleanup.hpp
-)
-SOURCE_GROUP("enginesrc" FILES ${CORE_SOURCES})
-LIST(APPEND SOURCES ${CORE_SOURCES})
+FIND_PACKAGE(Doxygen)
+IF(DOXYGEN_FOUND)
+	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} ${ENGINE_PATH}/doxygen.conf WORKING_DIRECTORY ${ENGINE_PATH} COMMENT "Generating documentation")
+ELSE(DOXYGEN_FOUND)
+	ADD_CUSTOM_TARGET(engine_docs COMMENT "Doxygen not found.")
+ENDIF(DOXYGEN_FOUND)
 
-SET(MATH_SOURCES
-	enginesrc/math/vector3.cpp
-	enginesrc/math/vector3.hpp
-)
-SOURCE_GROUP("enginesrc\\math" FILES ${MATH_SOURCES})
-LIST(APPEND SOURCES ${MATH_SOURCES})
+SET(ENGINESRC_DIR ${ENGINE_PATH}/enginesrc)
+SET(ENGINE_SOURCES "")
+SET(ENGINE_DEFINITIONS "")
+SET(ENGINE_INCLUDE_DIR "")
+SET(ENGINE_LIBRARIES "")
 
-SET(OPERATING_SYSTEM_SOURCES
-	enginesrc/operating_system/keyboardremap.hpp
-	enginesrc/operating_system/systemdisplaymanager.hpp
-	enginesrc/operating_system/systeminfo.hpp
-	enginesrc/operating_system/systeminput.hpp
-	enginesrc/operating_system/systemwindow.hpp
+SET(ENGINE_CORE_SOURCES
+	${ENGINESRC_DIR}/common.hpp
+	${ENGINESRC_DIR}/engine.cpp
+	${ENGINESRC_DIR}/engine.hpp
+	${ENGINESRC_DIR}/engineexception.hpp
+	${ENGINESRC_DIR}/engineinternal.hpp
+	${ENGINESRC_DIR}/functionmanager.cpp
+	${ENGINESRC_DIR}/functionmanager.hpp
+	${ENGINESRC_DIR}/logger.hpp
+	${ENGINESRC_DIR}/main.cpp
+	${ENGINESRC_DIR}/time.cpp
+	${ENGINESRC_DIR}/time.hpp
+	${ENGINESRC_DIR}/useful.hpp
+	${ENGINESRC_DIR}/windowscleanup.hpp
 )
-SOURCE_GROUP("enginesrc\\operating_system" FILES ${OPERATING_SYSTEM_SOURCES})
-LIST(APPEND SOURCES ${OPERATING_SYSTEM_SOURCES})
+SOURCE_GROUP("engine\\enginesrc" FILES ${ENGINE_CORE_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_CORE_SOURCES})
 
-SET(SCENE_SOURCES
-	enginesrc/scene/scene.cpp
-	enginesrc/scene/scene.hpp
-	enginesrc/scene/scenemanager.cpp
-	enginesrc/scene/scenemanager.hpp
-	enginesrc/scene/sceneobject.hpp
+SET(ENGINE_MATH_SOURCES
+	${ENGINESRC_DIR}/math/vector3.cpp
+	${ENGINESRC_DIR}/math/vector3.hpp
 )
-SOURCE_GROUP("enginesrc\\scene" FILES ${SCENE_SOURCES})
-LIST(APPEND SOURCES ${SCENE_SOURCES})
+SOURCE_GROUP("engine\\enginesrc\\math" FILES ${ENGINE_MATH_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_MATH_SOURCES})
 
-SET(OPERATING_SYSTEM_WINDOWS_SOURCES
-	enginesrc/operating_system/windows/windowssystemdisplaymanager.cpp
-	enginesrc/operating_system/windows/windowssystemdisplaymanager.hpp
-	enginesrc/operating_system/windows/windowssystemwindow.cpp
-	enginesrc/operating_system/windows/windowssystemwindow.hpp
-	enginesrc/operating_system/windows/windowssysteminfo.cpp
-	enginesrc/operating_system/windows/windowssysteminfo.hpp
+SET(ENGINE_OPERATING_SYSTEM_SOURCES
+	${ENGINESRC_DIR}/operating_system/keyboardremap.hpp
+	${ENGINESRC_DIR}/operating_system/systemdisplaymanager.hpp
+	${ENGINESRC_DIR}/operating_system/systeminfo.hpp
+	${ENGINESRC_DIR}/operating_system/systeminput.hpp
+	${ENGINESRC_DIR}/operating_system/systemwindow.hpp
 )
-SOURCE_GROUP("enginesrc\\operating_system\\windows" FILES ${OPERATING_SYSTEM_WINDOWS_SOURCES})
-LIST(APPEND SOURCES ${OPERATING_SYSTEM_WINDOWS_SOURCES})
+SOURCE_GROUP("engine\\enginesrc\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_SOURCES})
 
-SET(OPERATING_SYSTEM_UNIX_SOURCES
-	enginesrc/operating_system/unix/unixsystemdisplaymanager.cpp
-	enginesrc/operating_system/unix/unixsystemdisplaymanager.hpp
-	enginesrc/operating_system/unix/unixsystemwindow.cpp
-	enginesrc/operating_system/unix/unixsystemwindow.hpp
-	enginesrc/operating_system/unix/unixsystemmessagebox.hpp
-	enginesrc/operating_system/unix/unixsysteminfo.cpp
-	enginesrc/operating_system/unix/unixsysteminfo.hpp
+SET(ENGINE_SCENE_SOURCES
+	${ENGINESRC_DIR}/scene/scene.cpp
+	${ENGINESRC_DIR}/scene/scene.hpp
+	${ENGINESRC_DIR}/scene/scenemanager.cpp
+	${ENGINESRC_DIR}/scene/scenemanager.hpp
+	${ENGINESRC_DIR}/scene/sceneobject.hpp
 )
-SOURCE_GROUP("enginesrc\\operating_system\\unix" FILES ${OPERATING_SYSTEM_UNIX_SOURCES})
-LIST(APPEND SOURCES ${OPERATING_SYSTEM_UNIX_SOURCES})
+SOURCE_GROUP("engine\\enginesrc\\scene" FILES ${ENGINE_SCENE_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_SCENE_SOURCES})
+
+SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.hpp
+)
+SOURCE_GROUP("engine\\enginesrc\\operating_system\\windows" FILES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
+
+SET(ENGINE_OPERATING_SYSTEM_UNIX_SOURCES
+	${ENGINESRC_DIR}/operating_system/unix/unixsystemdisplaymanager.cpp
+	${ENGINESRC_DIR}/operating_system/unix/unixsystemdisplaymanager.hpp
+	${ENGINESRC_DIR}/operating_system/unix/unixsystemwindow.cpp
+	${ENGINESRC_DIR}/operating_system/unix/unixsystemwindow.hpp
+	${ENGINESRC_DIR}/operating_system/unix/unixsystemmessagebox.hpp
+	${ENGINESRC_DIR}/operating_system/unix/unixsysteminfo.cpp
+	${ENGINESRC_DIR}/operating_system/unix/unixsysteminfo.hpp
+)
+SOURCE_GROUP("engine\\enginesrc\\operating_system\\unix" FILES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
 
 # System specific files
 IF(WIN32)
-	SET(SYSTEM_LIBRARIES
+	SET(ENGINE_SYSTEM_LIBRARIES
 	)
-	LIST(APPEND DEFINITIONS "-DWIN32 -DOPENGL -DDIRECTX")
+	LIST(APPEND ENGINE_DEFINITIONS "-DWINDOWS -DOPENGL -DDIRECTX")
 ENDIF(WIN32)
 
 IF(UNIX)
-	SET(SYSTEM_LIBRARIES
+	SET(ENGINE_SYSTEM_LIBRARIES
 		X11
 		GL
 	)
-	LIST(APPEND DEFINITIONS "-DUNIX -DOPENGL")
+	LIST(APPEND ENGINE_DEFINITIONS "-DUNIX -DOPENGL")
 ENDIF(UNIX)
-
-SOURCE_GROUP("" REGULAR_EXPRESSION ".*")
 
 FIND_PACKAGE(Boost 1.36.0 COMPONENTS thread signals date_time REQUIRED)
 FIND_PACKAGE(OIS)
 
-ADD_DEFINITIONS(${DEFINITIONS})
-INCLUDE_DIRECTORIES(${OIS_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
-ADD_EXECUTABLE(engine WIN32 ${SOURCES})
-TARGET_LINK_LIBRARIES(engine ${OIS_LIBRARIES} ${Boost_LIBRARIES} ${SYSTEM_LIBRARIES})
+LIST(APPEND ENGINE_INCLUDE_DIR ${ENGINESRC_DIR})
+LIST(APPEND ENGINE_INCLUDE_DIR ${OIS_INCLUDE_DIR})
+LIST(APPEND ENGINE_INCLUDE_DIR ${Boost_INCLUDE_DIR})
+LIST(APPEND ENGINE_LIBRARIES ${OIS_LIBRARIES})
+LIST(APPEND ENGINE_LIBRARIES ${Boost_LIBRARIES})
+LIST(APPEND ENGINE_LIBRARIES ${ENGINE_SYSTEM_LIBRARIES})
 
-FIND_PACKAGE(Doxygen)
-IF(DOXYGEN_FOUND)
-	ADD_CUSTOM_TARGET(docs ${DOXYGEN_EXECUTABLE} doxygen.conf WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} COMMENT "Generating documentation")
-ELSE(DOXYGEN_FOUND)
-	ADD_CUSTOM_TARGET(docs COMMENT "Doxygen not found.")
-ENDIF(DOXYGEN_FOUND)
+SET(ENGINE_DEFINITIONS ${ENGINE_DEFINITIONS} CACHE INTERNAL "")
+SET(ENGINE_INCLUDE_DIR ${ENGINE_INCLUDE_DIR} CACHE INTERNAL "")
+SET(ENGINE_SOURCES ${ENGINE_SOURCES} CACHE INTERNAL "")
+SET(ENGINE_LIBRARIES ${ENGINE_LIBRARIES} CACHE INTERNAL "")
 

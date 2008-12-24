@@ -6,7 +6,7 @@
 #include "sceneobject.hpp"
 #include "scenemanager.hpp"
 #include "../functionmanager.hpp"
-#include "../engine.hpp"
+#include "../engineinternal.hpp"
 
 namespace engine
 {

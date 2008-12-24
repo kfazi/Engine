@@ -5,7 +5,7 @@
 #include <iostream>
 #include "../../common.hpp"
 #include "unixsystemwindow.hpp"
-#include "../../engine.hpp"
+#include "../../engineinternal.hpp"
 #include "../../useful.hpp"
 
 namespace engine

@@ -1,4 +1,4 @@
-/* All values here are taken from <OIS/OISKeyboard.h>. */
+/* All values here are taken from <OISKeyboard.h>. */
 
 private:
 	inline int GetLastKey()

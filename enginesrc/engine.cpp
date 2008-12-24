@@ -1,17 +1,17 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include "common.hpp"
-#include "engine.hpp"
+#include "engineinternal.hpp"
 #include "time.hpp"
 #include "logger.hpp"
 #include "functionmanager.hpp"
 #include "scene/scenemanager.hpp"
 #include "operating_system/systeminput.hpp"
 
-#ifdef WIN32
+#ifdef WINDOWS
 #include "operating_system/windows/windowssystemwindow.hpp"
 #include "operating_system/windows/windowssysteminfo.hpp"
-#endif /* WIN32 */
+#endif /* WINDOWS */
 
 #ifdef UNIX
 #include "operating_system/unix/unixsystemwindow.hpp"
@@ -54,8 +54,14 @@ void CEngine::Create(CEngine *pEngine)
 	/* Function manager must be created before other managers. */
 	pEngine->m_pFunctionManager = new CFunctionManager();
 	pEngine->m_pSceneManager = new CSceneManager();
+#ifdef WINDOWS
+	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
+	pEngine->m_pSystemInfo = new CWindowsSystemInfo();
+#endif /* WINDOWS */
+#ifdef UNIX
 	pEngine->m_pSystemWindow = new CUnixSystemWindow();
 	pEngine->m_pSystemInfo = new CUnixSystemInfo();
+#endif /* UNIX */
 	pEngine->m_fFrameTime = 0;
 	pEngine->m_bFinished = false;
 }

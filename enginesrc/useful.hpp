@@ -4,7 +4,7 @@
 #include <string>
 #include <boost/format.hpp>
 #include "common.hpp"
-#include "engine.hpp"
+#include "engineinternal.hpp"
 #include "logger.hpp"
 
 namespace engine
