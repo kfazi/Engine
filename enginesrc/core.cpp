@@ -9,11 +9,13 @@
 #include "operating_system/systeminput.hpp"
 
 #ifdef WINDOWS
+#include "operating_system/windows/windowssystemdirectories.hpp"
 #include "operating_system/windows/windowssystemwindow.hpp"
 #include "operating_system/windows/windowssysteminfo.hpp"
 #endif /* WINDOWS */
 
 #ifdef UNIX
+#include "operating_system/unix/unixsystemdirectories.hpp"
 #include "operating_system/unix/unixsystemwindow.hpp"
 #include "operating_system/unix/unixsysteminfo.hpp"
 #endif /* UNIX */
@@ -29,6 +31,7 @@ CCore::CCore()
 	m_pLogger = NULL;
 	m_pFunctionManager = NULL;
 	m_pSceneManager = NULL;
+	m_pSystemDirectories = NULL;
 	m_pSystemWindow = NULL;
 	m_pSystemInfo = NULL;
 }
@@ -39,6 +42,7 @@ CCore::~CCore()
 	{
 		delete m_pSceneManager;
 		delete m_pFunctionManager;
+		delete m_pSystemDirectories;
 		delete m_pSystemWindow;
 		delete m_pSystemInfo;
 		/* Logger system must be deleted last. */
@@ -55,10 +59,12 @@ void CCore::Create(CCore *pEngine)
 	pEngine->m_pFunctionManager = new CFunctionManager();
 	pEngine->m_pSceneManager = new CSceneManager();
 #ifdef WINDOWS
+	pEngine->m_pSystemDirectories = new CWindowsSystemDirectories();
 	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
 	pEngine->m_pSystemInfo = new CWindowsSystemInfo();
 #endif /* WINDOWS */
 #ifdef UNIX
+	pEngine->m_pSystemDirectories = new CUnixSystemDirectories();
 	pEngine->m_pSystemWindow = new CUnixSystemWindow();
 	pEngine->m_pSystemInfo = new CUnixSystemInfo();
 #endif /* UNIX */
@@ -69,17 +75,17 @@ void CCore::Create(CCore *pEngine)
 void CCore::ProcessFrame()
 {
 	static double fFrameWait = 1.0 / ENGINE_FPS;
-#ifdef CONSTRAIN_FPS
+#ifdef ENGINE_CONSTRAIN_FPS
 	if (m_fFrameTime < fFrameWait)
 	{
 		boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<int>((fFrameWait - m_fFrameTime) * static_cast<double>(1000.0))));
 		CTime::Update();
 		m_fFrameTime += CTime::GetFrameTime();
 	}
-#else /* CONSTRAIN_FPS */
+#else /* ENGINE_CONSTRAIN_FPS */
 	CTime::Update();
 	m_fFrameTime += CTime::GetFrameTime();
-#endif /* CONSTRAIN_FPS */
+#endif /* ENGINE_CONSTRAIN_FPS */
 	while (m_fFrameTime >= fFrameWait)
 	{
 		m_pFunctionManager->Process();

@@ -41,6 +41,7 @@ LIST(APPEND ENGINE_SOURCES ${ENGINE_MATH_SOURCES})
 
 SET(ENGINE_OPERATING_SYSTEM_SOURCES
 	${ENGINESRC_DIR}/operating_system/keyboardremap.hpp
+	${ENGINESRC_DIR}/operating_system/systemdirectories.hpp
 	${ENGINESRC_DIR}/operating_system/systemdisplaymanager.hpp
 	${ENGINESRC_DIR}/operating_system/systeminfo.hpp
 	${ENGINESRC_DIR}/operating_system/systeminput.hpp
@@ -60,6 +61,8 @@ SOURCE_GROUP("engine\\enginesrc\\scene" FILES ${ENGINE_SCENE_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_SCENE_SOURCES})
 
 SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemdirectories.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemdirectories.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.cpp
@@ -100,6 +103,8 @@ ENDIF(UNIX)
 FIND_PACKAGE(Boost 1.36.0 COMPONENTS thread signals date_time REQUIRED)
 FIND_PACKAGE(OIS)
 
+LIST(APPEND ENGINE_DEFINITIONS "-DCOMPANY_NAME=\"${COMPANY_NAME}\"")
+LIST(APPEND ENGINE_DEFINITIONS "-DGAME_NAME=\"${BINARY_NAME}\"")
 LIST(APPEND ENGINE_INCLUDE_DIR ${ENGINESRC_DIR})
 LIST(APPEND ENGINE_INCLUDE_DIR ${OIS_INCLUDE_DIR})
 LIST(APPEND ENGINE_INCLUDE_DIR ${Boost_INCLUDE_DIR})
@@ -112,3 +117,4 @@ SET(ENGINE_INCLUDE_DIR ${ENGINE_INCLUDE_DIR} CACHE INTERNAL "")
 SET(ENGINE_SOURCES ${ENGINE_SOURCES} CACHE INTERNAL "")
 SET(ENGINE_LIBRARIES ${ENGINE_LIBRARIES} CACHE INTERNAL "")
 
+# EOF

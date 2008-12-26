@@ -11,9 +11,13 @@ class CSystemDisplayManager
 {
 	friend class CCore;
 
+	private:
+		void CreateWindows();
+
 	protected:
 		CSystemDisplayManager()
 		{
+			CreateWindows();
 		}
 
 		virtual ~CSystemDisplayManager()
@@ -21,6 +25,7 @@ class CSystemDisplayManager
 		}
 
 	public:
+		void SetFullScreen(const bool bFullScreen);
 		virtual unsigned int GetDisplaysCount() const = 0;
 		virtual unsigned int GetResolutionsCount(const unsigned int iDisplayNumber) const = 0;
 		virtual const CVector3 *GetDisplayPosition(const unsigned int iDisplayNumber) const = 0;

@@ -27,10 +27,10 @@ void CTime::Update()
 		m_iFrames = 0;
 		m_fFPSTime = 0.0;
 	}
-#ifdef CONSTRAIN_FPS
+#ifdef ENGINE_CONSTRAIN_FPS
 	if (m_fFrameTime < std::numeric_limits<double>::epsilon())
 		return; /* This computer is too fast, skip assigining cCurrentTime to m_cLastTime. */
-#endif /* CONSTRAIN_FPS */
+#endif /* ENGINE_CONSTRAIN_FPS */
 	m_cLastTime = cCurrentTime;
 }
 

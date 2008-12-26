@@ -13,6 +13,7 @@ namespace engine
 
 class CSceneManager;
 class CFunctionManager;
+class CSystemDirectories;
 class CSystemWindow;
 class CSystemInfo;
 class CLogger;
@@ -31,6 +32,7 @@ class CCore
 	private:
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
 		CFunctionManager *m_pFunctionManager; /**< Pointer to the function manager. */
+		CSystemDirectories *m_pSystemDirectories; /**< Pointer to the system directories object. */
 		CSystemWindow *m_pSystemWindow; /**< Pointer to the system window object. */
 		CSystemInfo *m_pSystemInfo; /**< Pointer to the system info object. */
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
@@ -74,6 +76,14 @@ class CCore
 		inline CFunctionManager *GetFunctionManager()
 		{
 			return m_pFunctionManager;
+		}
+
+		/**
+		 * @return Pointer to the system directories object.
+		 */
+		inline CSystemDirectories *GetSystemDirectories()
+		{
+			return m_pSystemDirectories;
 		}
 
 		/**

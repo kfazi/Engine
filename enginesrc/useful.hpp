@@ -44,7 +44,7 @@ inline void Warning(const boost::format &cFormat)
 
 inline void Error(const std::string &cMessage)
 {
-	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::ERROR);
+	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::FATALERROR);
 }
 
 inline void Error(const boost::format &cFormat)

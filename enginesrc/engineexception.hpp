@@ -5,6 +5,9 @@
 #include <exception>
 #include <string>
 
+namespace engine
+{
+
 class CEngineException: public std::exception
 {
 	private:
@@ -24,6 +27,8 @@ class CEngineException: public std::exception
 			return cMessage.c_str();
 		}
 };
+
+}
 
 #endif /* ENGINE_EXCEPTION_HPP */
 

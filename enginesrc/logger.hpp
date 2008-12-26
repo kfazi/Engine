@@ -28,10 +28,10 @@ class CLogger
 		 */
 		enum EMessageType
 		{
-			DEBUG, /**< Debug type - lowest priority. */
+			DEBUG, /**< Debug type. */
 			NOTIFY, /**< Notify type - the most common one, it informs about object creation, scene change, etc. */
-			WARNING, /**< Warning type - high priority, used for example when some problems with sound occured. */
-			ERROR /**< Error type - highest priority, shutdowns engine. */
+			WARNING, /**< Warning type - used for example when some problems with sound occured. */
+			FATALERROR /**< Error type - shutdowns engine. */
 		};
 
 	private:
@@ -106,7 +106,7 @@ class CLogger
 		{
 			for (std::map<unsigned int, boost::function<void (const std::string &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
 				(*cFunctorIterator).second(cMessage, eMessageType);
-			if (eMessageType == ERROR)
+			if (eMessageType == FATALERROR)
 				throw CEngineException(cMessage);
 		}
 };
