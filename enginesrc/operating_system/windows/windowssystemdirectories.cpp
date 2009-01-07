@@ -1,3 +1,5 @@
+#ifdef WINDOWS
+
 #include "windowssystemdirectories.hpp"
 #include "../../3rdparty/utf8.h"
 
@@ -37,5 +39,7 @@ CWindowsSystemDirectories::CWindowsSystemDirectories(): CSystemDirectories()
 }
 
 }
+
+#endif /* WINDOWS */
 
 /* EOF */

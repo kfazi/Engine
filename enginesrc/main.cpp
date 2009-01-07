@@ -24,7 +24,7 @@ class CSimpleLogger
 		}
 		void Log(const std::string &cMessage, const CLogger::EMessageType eType)
 		{
-			if (eType == CLogger::ERROR)
+			if (eType == CLogger::FATALERROR)
 				CCore::GetInstance()->GetWindow()->MessageBox("Error", cMessage);
 			else
 				std::cout << cMessage << std::endl;
@@ -38,7 +38,7 @@ int main()
 	CCore cEngine;
 	try
 	{
-		CCore::Create(&cEngine);
+		CCore::Create(&cEngine, ENGINE_DEFAULT_CONFIG_FILE);
 		CSimpleLogger cLogger;
 		CCore::GetInstance()->GetLogger()->Register(&cLogger, &CSimpleLogger::Log);
 		Debug(CCore::GetInstance()->GetSystemInfo()->GetSystemName());

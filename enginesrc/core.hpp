@@ -17,6 +17,7 @@ class CSystemDirectories;
 class CSystemWindow;
 class CSystemInfo;
 class CLogger;
+class CConfig;
 
 /**
  * Main engine class.
@@ -36,6 +37,7 @@ class CCore
 		CSystemWindow *m_pSystemWindow; /**< Pointer to the system window object. */
 		CSystemInfo *m_pSystemInfo; /**< Pointer to the system info object. */
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
+		CConfig *m_pConfig; /**< Pointer to the config system. */
 		double m_fFrameTime; /**< How much time passed in last frame. */
 		bool m_bFinished;
 		static bool m_bDebug;
@@ -51,7 +53,7 @@ class CCore
 		 */
 		~CCore();
 
-		static void Create(CCore *pEngine);
+		static void Create(CCore *pEngine, const std::string &cConfigFile);
 
 	public:
 		/**
@@ -108,6 +110,14 @@ class CCore
 		inline CLogger *GetLogger()
 		{
 			return m_pLogger;
+		}
+
+		/**
+		 * @return Pointer to the config system object.
+		 */
+		inline CConfig *GetConfig()
+		{
+			return m_pConfig;
 		}
 
 		inline bool Finished() const

@@ -16,6 +16,8 @@ SET(ENGINE_LIBRARIES "")
 
 SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/common.hpp
+	${ENGINESRC_DIR}/config.cpp
+	${ENGINESRC_DIR}/config.hpp
 	${ENGINESRC_DIR}/core.cpp
 	${ENGINESRC_DIR}/core.hpp
 	${ENGINESRC_DIR}/engine.hpp
@@ -33,8 +35,16 @@ SOURCE_GROUP("engine\\enginesrc" FILES ${ENGINE_CORE_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_CORE_SOURCES})
 
 SET(ENGINE_MATH_SOURCES
-	${ENGINESRC_DIR}/math/vector3.cpp
+	${ENGINESRC_DIR}/math/math.hpp
+	${ENGINESRC_DIR}/math/matrix4.cpp
+	${ENGINESRC_DIR}/math/matrix4.hpp
+	${ENGINESRC_DIR}/math/quaternion.hpp
+	${ENGINESRC_DIR}/math/rect.cpp
+	${ENGINESRC_DIR}/math/rect.hpp
+	${ENGINESRC_DIR}/math/vector2.hpp
 	${ENGINESRC_DIR}/math/vector3.hpp
+	${ENGINESRC_DIR}/math/vector4.hpp
+	${ENGINESRC_DIR}/math/worldmatrix.hpp
 )
 SOURCE_GROUP("engine\\enginesrc\\math" FILES ${ENGINE_MATH_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_MATH_SOURCES})
@@ -74,6 +84,8 @@ SOURCE_GROUP("engine\\enginesrc\\operating_system\\windows" FILES ${ENGINE_OPERA
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
 
 SET(ENGINE_OPERATING_SYSTEM_UNIX_SOURCES
+	${ENGINESRC_DIR}/operating_system/unix/unixsystemdirectories.cpp
+	${ENGINESRC_DIR}/operating_system/unix/unixsystemdirectories.hpp
 	${ENGINESRC_DIR}/operating_system/unix/unixsystemdisplaymanager.cpp
 	${ENGINESRC_DIR}/operating_system/unix/unixsystemdisplaymanager.hpp
 	${ENGINESRC_DIR}/operating_system/unix/unixsystemwindow.cpp
@@ -89,7 +101,9 @@ LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
 IF(WIN32)
 	SET(ENGINE_SYSTEM_LIBRARIES
 	)
-	LIST(APPEND ENGINE_DEFINITIONS "-DWINDOWS -DOPENGL -DDIRECTX")
+	LIST(APPEND ENGINE_DEFINITIONS "-DWINDOWS")
+	LIST(APPEND ENGINE_DEFINITIONS "-DOPENGL")
+	LIST(APPEND ENGINE_DEFINITIONS "-DDIRECTX")
 ENDIF(WIN32)
 
 IF(UNIX)
@@ -97,7 +111,8 @@ IF(UNIX)
 		X11
 		GL
 	)
-	LIST(APPEND ENGINE_DEFINITIONS "-DUNIX -DOPENGL")
+	LIST(APPEND ENGINE_DEFINITIONS "-DUNIX")
+	LIST(APPEND ENGINE_DEFINITIONS "-DOPENGL")
 ENDIF(UNIX)
 
 FIND_PACKAGE(Boost 1.36.0 COMPONENTS thread signals date_time REQUIRED)

@@ -3,6 +3,7 @@
 
 /* Include everything for external use. */
 #include "common.hpp"
+#include "config.hpp"
 #include "core.hpp"
 #include "engineexception.hpp"
 #include "functionmanager.hpp"

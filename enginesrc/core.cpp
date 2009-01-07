@@ -4,21 +4,16 @@
 #include "core.hpp"
 #include "time.hpp"
 #include "logger.hpp"
+#include "config.hpp"
 #include "functionmanager.hpp"
 #include "scene/scenemanager.hpp"
 #include "operating_system/systeminput.hpp"
-
-#ifdef WINDOWS
 #include "operating_system/windows/windowssystemdirectories.hpp"
 #include "operating_system/windows/windowssystemwindow.hpp"
 #include "operating_system/windows/windowssysteminfo.hpp"
-#endif /* WINDOWS */
-
-#ifdef UNIX
 #include "operating_system/unix/unixsystemdirectories.hpp"
 #include "operating_system/unix/unixsystemwindow.hpp"
 #include "operating_system/unix/unixsysteminfo.hpp"
-#endif /* UNIX */
 
 namespace engine
 {
@@ -29,6 +24,7 @@ bool CCore::m_bDebug = true;
 CCore::CCore()
 {
 	m_pLogger = NULL;
+	m_pConfig = NULL;
 	m_pFunctionManager = NULL;
 	m_pSceneManager = NULL;
 	m_pSystemDirectories = NULL;
@@ -45,15 +41,19 @@ CCore::~CCore()
 		delete m_pSystemDirectories;
 		delete m_pSystemWindow;
 		delete m_pSystemInfo;
+		/* Config system must be deleted just before logger system. */
+		delete m_pConfig;
 		/* Logger system must be deleted last. */
 		delete m_pLogger;
 	}
 }
 
-void CCore::Create(CCore *pEngine)
+void CCore::Create(CCore *pEngine, const std::string &cConfigFile)
 {
 	/* Logger system is used by all other systems. */
 	pEngine->m_pLogger = new CLogger();
+	/* Config system is used by all other systems. */
+	pEngine->m_pConfig = new CConfig(cConfigFile);
 	m_pEngine = pEngine;
 	/* Function manager must be created before other managers. */
 	pEngine->m_pFunctionManager = new CFunctionManager();

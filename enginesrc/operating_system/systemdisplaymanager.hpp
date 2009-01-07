@@ -3,6 +3,7 @@
 
 #include "../common.hpp"
 #include "../math/vector3.hpp"
+#include "../math/rect.hpp"
 
 namespace engine
 {
@@ -12,6 +13,13 @@ class CSystemDisplayManager
 	friend class CCore;
 
 	private:
+		class CMonitor
+		{
+			private:
+				CRect m_cDesktopRect;
+				CRect m_cViewportRect;
+				double m_fDPI;
+		};
 		void CreateWindows();
 
 	protected:
