@@ -12,17 +12,17 @@ class CMath
 	public:
 		inline static double DotProduct(const CVector3 &cVector1, const CVector3 &cVector2)
 		{
-			return cVector1.GetX() * cVector2.GetX() + cVector1.GetY() * cVector2.GetY() + cVector1.GetZ() * cVector2.GetZ();
+			return cVector1.X * cVector2.X + cVector1.Y * cVector2.Y + cVector1.Z * cVector2.Z;
 		}
 
 		inline static double DotProduct(const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2) 
 		{
-			return DotProduct(cQuaternion1.GetVector(), cQuaternion2.GetVector()) + cQuaternion1.GetW() * cQuaternion1.GetW();
+			return DotProduct(cQuaternion1.GetVector(), cQuaternion2.GetVector()) + cQuaternion1.W * cQuaternion1.W;
 		}
 
 		inline static CVector3 CrossProduct(const CVector3 &cVector1, const CVector3 &cVector2)
 		{
-			return CVector3(cVector1.GetY() * cVector2.GetZ() - cVector1.GetZ() * cVector2.GetY(), cVector1.GetZ() * cVector2.GetX() - cVector1.GetX() * cVector2.GetZ(), cVector1.GetX() * cVector2.GetY() - cVector1.GetY() * cVector2.GetX());
+			return CVector3(cVector1.Y * cVector2.Z - cVector1.Z * cVector2.Y, cVector1.Z * cVector2.X - cVector1.X * cVector2.Z, cVector1.X * cVector2.Y - cVector1.Y * cVector2.X);
 		}
 
 		inline static CVector3 Rotate(const CVector3 &cVector, const CQuaternion &cQuaternion)

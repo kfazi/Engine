@@ -15,7 +15,7 @@ namespace engine
 {
 
 /**
- * Class encapsulating a standard 3-element vector.
+ * Class encapsulating a rectangle.
  */
 class CRect
 {
@@ -26,12 +26,27 @@ class CRect
 		double height;
 
 		CRect();
-		~CRect();
-		double GetArea();
-		bool operator == (const CRect &cRect) const;
-		bool operator != (const CRect &cRect) const;
-		CRect &operator = (const CRect &cRect);
-		CRect &operator - ();
+		double GetArea() const;
+		inline bool operator == (const CRect &cRect) const
+		{
+			return (x == cRect.x && y == cRect.y && width == cRect.width && height == cRect.height);
+		}
+		inline bool operator != (const CRect &cRect) const
+		{
+			return !(*this == cRect);
+		}
+		inline CRect &operator = (const CRect &cRect)
+		{
+			x = cRect.x;
+			y = cRect.y;
+			width = cRect.width;
+			height = cRect.height;
+		}
+		inline CRect &operator - ()
+		{
+			x -= width;
+			y -= height;
+		}
 };
 
 }

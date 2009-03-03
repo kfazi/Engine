@@ -38,11 +38,15 @@ SET(ENGINE_MATH_SOURCES
 	${ENGINESRC_DIR}/math/math.hpp
 	${ENGINESRC_DIR}/math/matrix4.cpp
 	${ENGINESRC_DIR}/math/matrix4.hpp
+	${ENGINESRC_DIR}/math/quaternion.cpp
 	${ENGINESRC_DIR}/math/quaternion.hpp
 	${ENGINESRC_DIR}/math/rect.cpp
 	${ENGINESRC_DIR}/math/rect.hpp
+	${ENGINESRC_DIR}/math/vector2.cpp
 	${ENGINESRC_DIR}/math/vector2.hpp
+	${ENGINESRC_DIR}/math/vector3.cpp
 	${ENGINESRC_DIR}/math/vector3.hpp
+	${ENGINESRC_DIR}/math/vector4.cpp
 	${ENGINESRC_DIR}/math/vector4.hpp
 	${ENGINESRC_DIR}/math/worldmatrix.hpp
 )
@@ -50,22 +54,34 @@ SOURCE_GROUP("engine\\enginesrc\\math" FILES ${ENGINE_MATH_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_MATH_SOURCES})
 
 SET(ENGINE_OPERATING_SYSTEM_SOURCES
-	${ENGINESRC_DIR}/operating_system/keyboardremap.hpp
+	${ENGINESRC_DIR}/operating_system/keyboard.cpp
+	${ENGINESRC_DIR}/operating_system/keyboard.hpp
+	${ENGINESRC_DIR}/operating_system/mouse.hpp
+	${ENGINESRC_DIR}/operating_system/pad.hpp
 	${ENGINESRC_DIR}/operating_system/systemdirectories.hpp
 	${ENGINESRC_DIR}/operating_system/systemdisplaymanager.hpp
 	${ENGINESRC_DIR}/operating_system/systeminfo.hpp
+	${ENGINESRC_DIR}/operating_system/systeminput.cpp
 	${ENGINESRC_DIR}/operating_system/systeminput.hpp
+	${ENGINESRC_DIR}/operating_system/systeminputcontroller.hpp
+	${ENGINESRC_DIR}/operating_system/systeminputois.hpp
 	${ENGINESRC_DIR}/operating_system/systemwindow.hpp
 )
 SOURCE_GROUP("engine\\enginesrc\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_SOURCES})
 
 SET(ENGINE_SCENE_SOURCES
+	${ENGINESRC_DIR}/scene/camera.cpp
+	${ENGINESRC_DIR}/scene/camera.hpp
+	${ENGINESRC_DIR}/scene/freecamera.cpp
+	${ENGINESRC_DIR}/scene/freecamera.hpp
 	${ENGINESRC_DIR}/scene/scene.cpp
 	${ENGINESRC_DIR}/scene/scene.hpp
 	${ENGINESRC_DIR}/scene/scenemanager.cpp
 	${ENGINESRC_DIR}/scene/scenemanager.hpp
 	${ENGINESRC_DIR}/scene/sceneobject.hpp
+	${ENGINESRC_DIR}/scene/targetedcamera.cpp
+	${ENGINESRC_DIR}/scene/targetedcamera.hpp
 )
 SOURCE_GROUP("engine\\enginesrc\\scene" FILES ${ENGINE_SCENE_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_SCENE_SOURCES})

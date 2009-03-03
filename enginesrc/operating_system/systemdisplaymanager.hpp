@@ -4,6 +4,7 @@
 #include "../common.hpp"
 #include "../math/vector3.hpp"
 #include "../math/rect.hpp"
+#include "../scene/camera.hpp"
 
 namespace engine
 {
@@ -16,6 +17,7 @@ class CSystemDisplayManager
 		class CMonitor
 		{
 			private:
+				CCamera *m_pCamera;
 				CRect m_cDesktopRect;
 				CRect m_cViewportRect;
 				double m_fDPI;
@@ -37,9 +39,9 @@ class CSystemDisplayManager
 		virtual unsigned int GetDisplaysCount() const = 0;
 		virtual unsigned int GetResolutionsCount(const unsigned int iDisplayNumber) const = 0;
 		virtual const CVector3 *GetDisplayPosition(const unsigned int iDisplayNumber) const = 0;
-		virtual void SetDisplayPosition(const unsigned int iDisplayNumber, const CVector3 &cPosition) = 0; 
-		virtual void SetDisplayRotation(const unsigned int iDisplayNumber, const CVector3 &cRotation) = 0; 
-		virtual const CResolution *GetResolution(const unsigned int iDisplayNumber, const unsigned int iResolutionNumber) const = 0;
+		virtual void SetDisplayPosition(const unsigned int iDisplayNumber, const CVector3 &cPosition) = 0;
+		virtual void SetDisplayRotation(const unsigned int iDisplayNumber, const CVector3 &cRotation) = 0;
+//		virtual const CResolution *GetResolution(const unsigned int iDisplayNumber, const unsigned int iResolutionNumber) const = 0;
 		virtual bool SetResolution(const unsigned int iDisplayNumber, const unsigned int iResolutionNumber, const bool bFullScreen) = 0;
 		virtual unsigned int GetCurrentResolutionNumber(const unsigned int iDisplayNumber) const = 0;
 		virtual unsigned int GetDesktopResolutionNumber(const unsigned int iDisplayNumber) const = 0;

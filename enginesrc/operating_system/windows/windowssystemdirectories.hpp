@@ -4,8 +4,7 @@
 #define ENGINE_WINDOWS_SYSTEM_DIRECTORIES_HPP
 
 #include "../../common.hpp"
-#include <Windows.h>
-#include <KnownFolders.h>
+#include <windows.h>
 #include <shlobj.h>
 #include "../systemdirectories.hpp"
 

@@ -1,13 +1,21 @@
+#include "../common.hpp"
 #include "math.hpp"
-#include "worldmatrix.hpp"
+#include "rect.hpp"
 
 namespace engine
 {
 
-void bla()
+CRect::CRect()
 {
-	CVector3 ble1, ble2;
-	CMath::CrossProduct(ble1, ble2);
+	x = 0.0;
+	y = 0.0;
+	width = 0.0;
+	height = 0.0;
+}
+
+double CRect::GetArea() const
+{
+	return width * height;
 }
 
 }

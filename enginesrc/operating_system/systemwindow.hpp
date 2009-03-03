@@ -84,7 +84,7 @@ class CSystemWindow
 
 		virtual bool SetScreenResolution(const unsigned int iResolutionNumber) = 0;
 
-		virtual void CreateWindow(const unsigned int iResolutionNumber, char *pCaption, const bool bFullScreen) = 0;
+//		virtual void CreateWindow(const unsigned int iResolutionNumber, char *pCaption, const bool bFullScreen) = 0;
 
 		virtual void DestroyWindow() = 0;
 
@@ -111,7 +111,7 @@ class CSystemWindow
 			if (bMustRecreateWindow || !m_bWindowCreated)
 			{
 				DestroyWindow();
-				CreateWindow(iResolutionNumber, "Temporary Tweak!", bFullScreen);
+//				CreateWindow(iResolutionNumber, "Temporary Tweak!", bFullScreen);
 				m_bWindowCreated = true;
 			}
 			return true;

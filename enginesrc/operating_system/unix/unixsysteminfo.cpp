@@ -27,17 +27,17 @@ const std::string &CUnixSystemInfo::GetSystemName() const
 	return m_cSystemName;
 }
 
-long long CUnixSystemInfo::GetTotalMemory() const
+unsigned long long CUnixSystemInfo::GetTotalMemory() const
 {
-	long iPages = sysconf(_SC_PHYS_PAGES);
-	long iPageSize = sysconf(_SC_PAGESIZE);
+	unsigned long iPages = sysconf(_SC_PHYS_PAGES);
+	unsigned long iPageSize = sysconf(_SC_PAGESIZE);
 	return iPages * iPageSize;
 }
 
-long long CUnixSystemInfo::GetFreeMemory() const
+unsigned long long CUnixSystemInfo::GetFreeMemory() const
 {
-	long iFreePages = sysconf(_SC_AVPHYS_PAGES);
-	long iPageSize = sysconf(_SC_PAGESIZE);
+	unsigned long iFreePages = sysconf(_SC_AVPHYS_PAGES);
+	unsigned long iPageSize = sysconf(_SC_PAGESIZE);
 	return iFreePages * iPageSize;
 }
 

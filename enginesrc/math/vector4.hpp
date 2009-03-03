@@ -11,31 +11,32 @@
 #include "../common.hpp"
 #include <iostream>
 #include <limits>
+#include <cmath>
 
 namespace engine
 {
 
 /**
- * Class encapsulating a standard 3-element vector.
+ * Class encapsulating a standard 4-element vector.
  */
 class CVector4
 {
-	private:
-		double m_fX; /**< An X component of the vector. */
-		double m_fY; /**< A Y component of the vector. */
-		double m_fZ; /**< A Z component of the vector. */
-		double m_fW; /**< A W component of the vector. */
-
 	public:
+		double X; /**< An X component of the vector. */
+		double Y; /**< A Y component of the vector. */
+		double Z; /**< A Z component of the vector. */
+		double W; /**< A W component of the vector. */
+
+		static const CVector4 ZERO; /**< A zero 4 dimensional vector. */
+
+		static const CVector4 ONE; /**< An one 4 dimensional vector. */
+
 		/**
 		 * Default constructor.
 		 */
 		CVector4()
 		{
-			SetX(0.0);
-			SetY(0.0);
-			SetZ(0.0);
-			SetW(0.0);
+			*this = ZERO;
 		}
 
 		/**
@@ -43,10 +44,10 @@ class CVector4
 		 */
 		CVector4(const double fX, const double fY, const double fZ, const double fW)
 		{
-			SetX(fX);
-			SetY(fY);
-			SetZ(fZ);
-			SetW(fW);
+			X = fX;
+			Y = fY;
+			Z = fZ;
+			W = fW;
 		}
 
 		/**
@@ -54,50 +55,10 @@ class CVector4
 		 */
 		CVector4(const CVector4 &cVector)
 		{
-			SetX(cVector.GetX());
-			SetY(cVector.GetY());
-			SetZ(cVector.GetZ());
-			SetW(cVector.GetW());
-		}
-
-		inline double GetX() const
-		{
-			return m_fX;
-		}
-
-		inline void SetX(const double fX)
-		{
-			m_fX = fX;
-		}
-
-		inline double GetY() const
-		{
-			return m_fY;
-		}
-
-		inline void SetY(const double fY)
-		{
-			m_fY = fY;
-		}
-
-		inline double GetZ() const
-		{
-			return m_fZ;
-		}
-
-		inline void SetZ(const double fZ)
-		{
-			m_fZ = fZ;
-		}
-
-		inline double GetW() const
-		{
-			return m_fW;
-		}
-
-		inline void SetW(const double fW)
-		{
-			m_fW = fW;
+			X = cVector.X;
+			Y = cVector.Y;
+			Z = cVector.Z;
+			W = cVector.W;
 		}
 
 		/**
@@ -108,10 +69,10 @@ class CVector4
 			double fLength = GetLength();
 			if (fLength == 1.0 || fLength < std::numeric_limits<double>::epsilon())
 				return;
-			SetX(GetX() / fLength);
-			SetY(GetY() / fLength);
-			SetZ(GetZ() / fLength);
-			SetW(GetW() / fLength);
+			X = X / fLength;
+			Y = Y / fLength;
+			Z = Z / fLength;
+			W = W / fLength;
 		}
 
 		/**
@@ -119,7 +80,7 @@ class CVector4
 		 */
 		inline double GetLength() const
 		{
-			return std::sqrt(GetX() * GetX() + GetY() * GetY() + GetZ() * GetZ() + GetW() * GetW());
+			return std::sqrt(X * X + Y * Y + Z * Z + W * W);
 		}
 
 		/**
@@ -127,7 +88,7 @@ class CVector4
 		 */
 		inline bool operator == (const CVector4 &cVector) const
 		{
-			return (GetX() == cVector.GetX()) && (GetY() == cVector.GetY()) && (GetZ() == cVector.GetZ()) && (GetW() == cVector.GetW());
+			return (X == cVector.X) && (Y == cVector.Y) && (Z == cVector.Z) && (W == cVector.W);
 		}
 
 		/**
@@ -143,10 +104,10 @@ class CVector4
 		 */
 		inline CVector4 &operator = (const CVector4 &cVector)
 		{
-			SetX(cVector.GetX());
-			SetY(cVector.GetY());
-			SetZ(cVector.GetZ());
-			SetW(cVector.GetW());
+			X = cVector.X;
+			Y = cVector.Y;
+			Z = cVector.Z;
+			W = cVector.W;
 			return *this;
 		}
 
@@ -155,7 +116,7 @@ class CVector4
 		 */
 		inline CVector4 operator - ()
 		{
-			return CVector4(-GetX(), -GetY(), -GetZ(), -GetW());
+			return CVector4(-X, -Y, -Z, -W);
 		}
 
 		/**
@@ -163,10 +124,10 @@ class CVector4
 		 */
 		inline CVector4 &operator += (const CVector4 &cVector)
 		{
-			SetX(GetX() + cVector.GetX());
-			SetY(GetY() + cVector.GetY());
-			SetZ(GetZ() + cVector.GetZ());
-			SetW(GetW() + cVector.GetW());
+			X += cVector.X;
+			Y += cVector.Y;
+			Z += cVector.Z;
+			W += cVector.W;
 			return *this;
 		}
 
@@ -175,10 +136,10 @@ class CVector4
 		 */
 		inline CVector4 &operator -= (const CVector4 &cVector)
 		{
-			SetX(GetX() - cVector.GetX());
-			SetY(GetY() - cVector.GetY());
-			SetZ(GetZ() - cVector.GetZ());
-			SetW(GetW() - cVector.GetW());
+			X -= cVector.X;
+			Y -= cVector.Y;
+			Z -= cVector.Z;
+			W -= cVector.W;
 			return *this;
 		}
 
@@ -187,10 +148,10 @@ class CVector4
 		 */
 		inline CVector4 &operator *= (const CVector4 &cVector)
 		{
-			SetX(GetX() * cVector.GetX());
-			SetY(GetY() * cVector.GetY());
-			SetZ(GetZ() * cVector.GetZ());
-			SetW(GetW() * cVector.GetW());
+			X *= cVector.X;
+			Y *= cVector.Y;
+			Z *= cVector.Z;
+			W *= cVector.W;
 			return *this;
 		}
 
@@ -199,7 +160,7 @@ class CVector4
 		 */
 		inline operator bool ()
 		{
-			return GetX() != 0.0 || GetY() != 0.0 || GetZ() != 0.0 || GetW() != 0.0;
+			return X != 0.0 || Y != 0.0 || Z != 0.0 || W != 0.0;
 		}
 
 		/**
@@ -207,10 +168,10 @@ class CVector4
 		 */
 		template<typename TType> CVector4 &operator *= (TType tScalar)
 		{
-			SetX(GetX() * tScalar);
-			SetY(GetY() * tScalar);
-			SetZ(GetZ() * tScalar);
-			SetW(GetW() * tScalar);
+			X *= tScalar;
+			Y *= tScalar;
+			Z *= tScalar;
+			W *= tScalar;
 			return *this;
 		}
 
@@ -219,10 +180,10 @@ class CVector4
 		 */
 		template<typename TType> CVector4 &operator /= (TType tScalar)
 		{
-			SetX(GetX() / tScalar);
-			SetY(GetY() / tScalar);
-			SetZ(GetZ() / tScalar);
-			SetW(GetW() / tScalar);
+			X /= tScalar;
+			Y /= tScalar;
+			Z /= tScalar;
+			W /= tScalar;
 			return *this;
 		}
 
@@ -287,7 +248,7 @@ class CVector4
 		 */
 		inline friend std::ostream &operator << (std::ostream &cOutputStream, const CVector4 &cVector)
 		{
-			cOutputStream << "CVector4(" << cVector.GetX() << ", " << cVector.GetY() << ", " << cVector.GetZ() << ", " << cVector.GetW() << ")";
+			cOutputStream << "CVector4(" << cVector.X << ", " << cVector.Y << ", " << cVector.Z << ", " << cVector.W << ")";
 			return cOutputStream;
 		}
 };

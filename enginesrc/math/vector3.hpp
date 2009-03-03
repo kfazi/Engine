@@ -11,6 +11,7 @@
 #include "../common.hpp"
 #include <iostream>
 #include <limits>
+#include <cmath>
 
 namespace engine
 {
@@ -20,20 +21,21 @@ namespace engine
  */
 class CVector3
 {
-	private:
-		double m_fX; /**< An X component of the vector. */
-		double m_fY; /**< A Y component of the vector. */
-		double m_fZ; /**< A Z component of the vector. */
-
 	public:
+		double X; /**< An X component of the vector. */
+		double Y; /**< A Y component of the vector. */
+		double Z; /**< A Z component of the vector. */
+
+		static const CVector3 ZERO; /**< A zero 3 dimensional vector. */
+
+		static const CVector3 ONE; /**< An one 3 dimensional vector. */
+
 		/**
 		 * Default constructor.
 		 */
 		CVector3()
 		{
-			SetX(0.0);
-			SetY(0.0);
-			SetZ(0.0);
+			*this = ZERO;
 		}
 
 		/**
@@ -41,9 +43,9 @@ class CVector3
 		 */
 		CVector3(const double fX, const double fY, const double fZ)
 		{
-			SetX(fX);
-			SetY(fY);
-			SetZ(fZ);
+			X = fX;
+			Y = fY;
+			Z = fZ;
 		}
 
 		/**
@@ -51,39 +53,9 @@ class CVector3
 		 */
 		CVector3(const CVector3 &cVector)
 		{
-			SetX(cVector.GetX());
-			SetY(cVector.GetY());
-			SetZ(cVector.GetZ());
-		}
-
-		inline double GetX() const
-		{
-			return m_fX;
-		}
-
-		inline void SetX(const double fX)
-		{
-			m_fX = fX;
-		}
-
-		inline double GetY() const
-		{
-			return m_fY;
-		}
-
-		inline void SetY(const double fY)
-		{
-			m_fY = fY;
-		}
-
-		inline double GetZ() const
-		{
-			return m_fZ;
-		}
-
-		inline void SetZ(const double fZ)
-		{
-			m_fZ = fZ;
+			X = cVector.X;
+			Y = cVector.Y;
+			Z = cVector.Z;
 		}
 
 		/**
@@ -94,9 +66,9 @@ class CVector3
 			double fLength = GetLength();
 			if (fLength == 1.0 || fLength < std::numeric_limits<double>::epsilon())
 				return;
-			SetX(GetX() / fLength);
-			SetY(GetY() / fLength);
-			SetZ(GetZ() / fLength);
+			X /= fLength;
+			Y /= fLength;
+			Z /= fLength;
 		}
 
 		/**
@@ -104,7 +76,7 @@ class CVector3
 		 */
 		inline double GetLength() const
 		{
-			return std::sqrt(GetX() * GetX() + GetY() * GetY() + GetZ() * GetZ());
+			return std::sqrt(X * X + Y * Y + Z * Z);
 		}
 
 		/**
@@ -112,7 +84,7 @@ class CVector3
 		 */
 		inline bool operator == (const CVector3 &cVector) const
 		{
-			return (GetX() == cVector.GetX()) && (GetY() == cVector.GetY()) && (GetZ() == cVector.GetZ());
+			return (X == cVector.X) && (Y == cVector.Y) && (Z == cVector.Z);
 		}
 
 		/**
@@ -128,9 +100,9 @@ class CVector3
 		 */
 		inline CVector3 &operator = (const CVector3 &cVector)
 		{
-			SetX(cVector.GetX());
-			SetY(cVector.GetY());
-			SetZ(cVector.GetZ());
+			X = cVector.X;
+			Y = cVector.Y;
+			Z = cVector.Z;
 			return *this;
 		}
 
@@ -139,9 +111,9 @@ class CVector3
 		 */
 		inline CVector3 &operator - ()
 		{
-			SetX(-GetX());
-			SetY(-GetY());
-			SetZ(-GetZ());
+			X = -X;
+			Y = -Y;
+			Z = -Z;
 			return *this;
 		}
 
@@ -150,9 +122,9 @@ class CVector3
 		 */
 		inline CVector3 &operator += (const CVector3 &cVector)
 		{
-			SetX(GetX() + cVector.GetX());
-			SetY(GetY() + cVector.GetY());
-			SetZ(GetZ() + cVector.GetZ());
+			X += cVector.X;
+			Y += cVector.Y;
+			Z += cVector.Z;
 			return *this;
 		}
 
@@ -161,9 +133,9 @@ class CVector3
 		 */
 		inline CVector3 &operator -= (const CVector3 &cVector)
 		{
-			SetX(GetX() - cVector.GetX());
-			SetY(GetY() - cVector.GetY());
-			SetZ(GetZ() - cVector.GetZ());
+			X -= cVector.X;
+			Y -= cVector.Y;
+			Z -= cVector.Z;
 			return *this;
 		}
 
@@ -172,9 +144,9 @@ class CVector3
 		 */
 		inline CVector3 &operator *= (const CVector3 &cVector)
 		{
-			SetX(GetX() * cVector.GetX());
-			SetY(GetY() * cVector.GetY());
-			SetZ(GetZ() * cVector.GetZ());
+			X *= cVector.X;
+			Y *= cVector.Y;
+			Z *= cVector.Z;
 			return *this;
 		}
 
@@ -183,7 +155,7 @@ class CVector3
 		 */
 		inline operator bool ()
 		{
-			return GetX() != 0.0 || GetY() != 0.0 || GetZ() != 0.0;
+			return X != 0.0 || Y != 0.0 || Z != 0.0;
 		}
 
 		/**
@@ -191,9 +163,9 @@ class CVector3
 		 */
 		template<typename TType> CVector3 &operator *= (TType tValue)
 		{
-			SetX(GetX() * tValue);
-			SetY(GetY() * tValue);
-			SetZ(GetZ() * tValue);
+			X *= tValue;
+			Y *= tValue;
+			Z *= tValue;
 			return *this;
 		}
 
@@ -202,9 +174,9 @@ class CVector3
 		 */
 		template<typename TType> CVector3 &operator /= (TType tValue)
 		{
-			SetX(GetX() / tValue);
-			SetY(GetY() / tValue);
-			SetZ(GetZ() / tValue);
+			X /= tValue;
+			Y /= tValue;
+			Z /= tValue;
 			return *this;
 		}
 
@@ -269,7 +241,7 @@ class CVector3
 		 */
 		inline friend std::ostream &operator << (std::ostream &cOutputStream, const CVector3 &cVector)
 		{
-			cOutputStream << "CVector3(" << cVector.GetX() << ", " << cVector.GetY() << ", " << cVector.GetZ() << ")";
+			cOutputStream << "CVector3(" << cVector.X << ", " << cVector.Y << ", " << cVector.Z << ")";
 			return cOutputStream;
 		}
 };

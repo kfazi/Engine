@@ -8,132 +8,72 @@ namespace engine
 
 class CQuaternion
 {
-	private:
-		double m_fW;
-		double m_fX;
-		double m_fY;
-		double m_fZ;
-
 	public:
-		inline double GetW() const
-		{
-			return m_fW;
-		}
+		double W;
+		double X;
+		double Y;
+		double Z;
 
-		inline void SetW(const double fW)
-		{
-			m_fW = fW;
-		}
+		static const CQuaternion ZERO; /**< A zero quaternion. */
 
-		inline double GetX() const
-		{
-			return m_fX;
-		}
-
-		inline void SetX(const double fX)
-		{
-			m_fX = fX;
-		}
-
-		inline double GetY() const
-		{
-			return m_fY;
-		}
-
-		inline void SetY(const double fY)
-		{
-			m_fY = fY;
-		}
-
-		inline double GetZ() const
-		{
-			return m_fZ;
-		}
-
-		inline void SetZ(const double fZ)
-		{
-			m_fZ = fZ;
-		}
+		static const CQuaternion IDENTITY; /**< An identity quaternion. */
 
 		inline CVector3 GetVector() const
 		{
-			return CVector3(GetX(), GetY(), GetZ());
+			return CVector3(X, Y, Z);
 		}
 
 	//! constructors
 		CQuaternion()
 		{
+			*this = IDENTITY;
 		}
 	
 		CQuaternion(const double fW, const double fX, const double fY, const double fZ)
 		{
-			SetW(fW);
-			SetX(fX);
-			SetY(fY);
-			SetZ(fZ);
+			W = fW;
+			X = fX;
+			Y = fY;
+			Z = fZ;
 		}
 
 		CQuaternion(const double fReal, const CVector3 &cVector)
 		{
-			SetW(fReal);
-			SetX(cVector.GetX());
-			SetY(cVector.GetY());
-			SetZ(cVector.GetZ());
+			W = fReal;
+			X = cVector.X;
+			Y = cVector.Y;
+			Z = cVector.Z;
 		}
 
-	//! from 3 euler angles
+		//! from 3 euler angles
 		CQuaternion(const double fThetaZ, const double fThetaY, const double fThetaX)
 		{
-			double fCosZ2 = cos(0.5 * fThetaZ);
-			double fCosY2 = cos(0.5 * fThetaY);
-			double fCosX2 = cos(0.5 * fThetaX);
-
-			double fSinZ2 = sin(0.5 * fThetaZ);
-			double fSinY2 = sin(0.5 * fThetaY);
-			double fSinX2 = sin(0.5 * fThetaX);
-
-			// and now compute quaternion
-			SetW(fCosZ2 * fCosY2 * fCosX2 + fSinZ2 * fSinY2 * fSinX2);
-			SetX(fCosZ2 * fCosY2 * fSinX2 - fSinZ2 * fSinY2 * fCosX2);
-			SetY(fCosZ2 * fSinY2 * fCosX2 + fSinZ2 * fCosY2 * fSinX2);
-			SetZ(fSinZ2 * fCosY2 * fCosX2 - fCosZ2 * fSinY2 * fSinX2);
+			FromEulerAngles(fThetaZ, fThetaY, fThetaX);
 		}
 		
 		//! from 3 euler angles 
 		CQuaternion(const CVector3 &cAngles)
-		{	
-			double fCosZ2 = cos(0.5 * cAngles.GetZ());
-			double fCosY2 = cos(0.5 * cAngles.GetY());
-			double fCosX2 = cos(0.5 * cAngles.GetX());
-
-			double fSinZ2 = sin(0.5 * cAngles.GetZ());
-			double fSinY2 = sin(0.5 * cAngles.GetY());
-			double fSinX2 = sin(0.5 * cAngles.GetX());
-
-			// and now compute quaternion
-			SetW(fCosZ2 * fCosY2 * fCosX2 + fSinZ2 * fSinY2 * fSinX2);
-			SetX(fCosZ2 * fCosY2 * fSinX2 - fSinZ2 * fSinY2 * fCosX2);
-			SetY(fCosZ2 * fSinY2 * fCosX2 + fSinZ2 * fCosY2 * fSinX2);
-			SetZ(fSinZ2 * fCosY2 * fCosX2 - fCosZ2 * fSinY2 * fSinX2);
+		{
+			FromEulerAngles(cAngles);
 		} 
 
 		//! from a normalized axis - angle pair rotation
 		CQuaternion(const CVector3 &cAxis, double fAngle)
 		{
 			double fSinAngle = sin(fAngle / 2.0);
-			SetW(cos(fAngle / 2.0));
-			SetX(cAxis.GetX() * fSinAngle);
-			SetY(cAxis.GetY() * fSinAngle);
-			SetZ(cAxis.GetZ() * fSinAngle);
+			W = cos(fAngle / 2.0);
+			X = cAxis.X * fSinAngle;
+			Y = cAxis.Y * fSinAngle;
+			Z = cAxis.Z * fSinAngle;
 		}
 
 		//! basic operations
 		CQuaternion &operator = (const CQuaternion &cQuaternion)		
 		{
-			SetW(cQuaternion.GetW());
-			SetX(cQuaternion.GetX());
-			SetY(cQuaternion.GetY());
-			SetZ(cQuaternion.GetZ());
+			W = cQuaternion.W;
+			X = cQuaternion.X;
+			Y = cQuaternion.Y;
+			Z = cQuaternion.Z;
 			return *this;
 		}
 
@@ -142,61 +82,61 @@ class CQuaternion
 		 */
 		inline CQuaternion operator - () const
 		{
-			return CQuaternion(-GetW(), -GetX(), -GetY(), -GetZ());
+			return CQuaternion(-W, -X, -Y, -Z);
 		}
 
 		const CQuaternion &operator += (const CQuaternion &cQuaternion)		
 		{
-			SetW(GetW() + cQuaternion.GetW());
-			SetX(GetX() + cQuaternion.GetX());
-			SetY(GetY() + cQuaternion.GetY());
-			SetZ(GetZ() + cQuaternion.GetZ());
+			W += cQuaternion.W;
+			X += cQuaternion.X;
+			Y += cQuaternion.Y;
+			Z += cQuaternion.Z;
 			return *this;
 		}
 
 		const CQuaternion &operator -= (const CQuaternion &cQuaternion)		
 		{
-			SetW(GetW() - cQuaternion.GetW());
-			SetX(GetX() - cQuaternion.GetX());
-			SetY(GetY() - cQuaternion.GetY());
-			SetZ(GetZ() - cQuaternion.GetZ());
+			W -= cQuaternion.W;
+			X -= cQuaternion.X;
+			Y -= cQuaternion.Y;
+			Z -= cQuaternion.Z;
 			return *this;
 		}
 
 		const CQuaternion &operator *= (const CQuaternion &cQuaternion)		
 		{
-			SetW(GetW() * cQuaternion.GetW() - GetX() * cQuaternion.GetX() - GetY() * cQuaternion.GetY() - GetZ() * cQuaternion.GetZ());
-			SetX(GetW() * cQuaternion.GetX() + GetX() * cQuaternion.GetW() + GetY() * cQuaternion.GetZ() - GetZ() * cQuaternion.GetY());
-			SetY(GetW() * cQuaternion.GetY() + GetY() * cQuaternion.GetW() + GetZ() * cQuaternion.GetX() - GetX() * cQuaternion.GetZ());
-			SetZ(GetW() * cQuaternion.GetZ() + GetZ() * cQuaternion.GetW() + GetX() * cQuaternion.GetY() - GetY() * cQuaternion.GetX());
+			W = W * cQuaternion.W - X * cQuaternion.X - Y * cQuaternion.Y - Z * cQuaternion.Z;
+			X = W * cQuaternion.X + X * cQuaternion.W + Y * cQuaternion.Z - Z * cQuaternion.Y;
+			Y = W * cQuaternion.Y + Y * cQuaternion.W + Z * cQuaternion.X - X * cQuaternion.Z;
+			Z = W * cQuaternion.Z + Z * cQuaternion.W + X * cQuaternion.Y - Y * cQuaternion.X;
 			return *this;
 		}
 		
 		/* TODO: Correct equations */
 		const CQuaternion &operator /= (const CQuaternion &cQuaternion)		
 		{
-			SetW(GetW() * cQuaternion.GetW() - GetX() * cQuaternion.GetX() - GetY() * cQuaternion.GetY() - GetZ() * cQuaternion.GetZ());
-			SetX(GetW() * cQuaternion.GetX() + GetX() * cQuaternion.GetW() + GetY() * cQuaternion.GetZ() - GetZ() * cQuaternion.GetY());
-			SetY(GetW() * cQuaternion.GetY() + GetY() * cQuaternion.GetW() + GetZ() * cQuaternion.GetX() - GetX() * cQuaternion.GetZ());
-			SetZ(GetW() * cQuaternion.GetZ() + GetZ() * cQuaternion.GetW() + GetX() * cQuaternion.GetY() - GetY() * cQuaternion.GetX());
+			W = W * cQuaternion.W - X * cQuaternion.X - Y * cQuaternion.Y - Z * cQuaternion.Z;
+			X = W * cQuaternion.X + X * cQuaternion.W + Y * cQuaternion.Z - Z * cQuaternion.Y;
+			Y = W * cQuaternion.Y + Y * cQuaternion.W + Z * cQuaternion.X - X * cQuaternion.Z;
+			Z = W * cQuaternion.Z + Z * cQuaternion.W + X * cQuaternion.Y - Y * cQuaternion.X;
 			return *this;
 		}
 
 		template<typename TType> CQuaternion &operator *= (TType tScalar)
 		{
-			SetW(GetW() * tScalar);
-			SetX(GetX() * tScalar);
-			SetY(GetY() * tScalar);
-			SetZ(GetZ() * tScalar);
+			W *= tScalar;
+			X *= tScalar;
+			Y *= tScalar;
+			Z *= tScalar;
 			return *this;
 		}
 
 		template<typename TType> CQuaternion &operator /= (TType tScalar)
 		{
-			SetW(GetW() / tScalar);
-			SetX(GetX() / tScalar);
-			SetY(GetY() / tScalar);
-			SetZ(GetZ() / tScalar);
+			W /= tScalar;
+			X /= tScalar;
+			Y /= tScalar;
+			Z /= tScalar;
 			return *this;
 		}
 
@@ -257,7 +197,7 @@ class CQuaternion
 		 */
 		inline double GetLength() const
 		{
-			return std::sqrt(GetW() * GetW() + GetX() * GetX() + GetY() * GetY() + GetZ() * GetZ());
+			return std::sqrt(W * W + X * X + Y * Y + Z * Z);
 		}
 
 		/**
@@ -265,7 +205,7 @@ class CQuaternion
 		 */
 		inline double GetLengthSquared() const
 		{
-			return GetW() * GetW() + GetX() * GetX() + GetY() * GetY() + GetZ() * GetZ();
+			return W * W + X * X + Y * Y + Z * Z;
 		}
 
 		/**
@@ -276,10 +216,10 @@ class CQuaternion
 			double fLength = GetLength();
 			if (fLength == 1.0 || fLength < std::numeric_limits<double>::epsilon())
 				return;
-			SetW(GetW() / fLength);
-			SetX(GetX() / fLength);
-			SetY(GetY() / fLength);
-			SetZ(GetZ() / fLength);
+			W /= fLength;
+			X /= fLength;
+			Y /= fLength;
+			Z /= fLength;
 		}
 
 		inline CQuaternion GetNormalized() const
@@ -289,12 +229,34 @@ class CQuaternion
 			return cQuaternion;
 		}
 
+		void FromEulerAngles(const double fThetaZ, const double fThetaY, const double fThetaX)
+		{
+			double fCosZ2 = cos(0.5 * fThetaZ);
+			double fCosY2 = cos(0.5 * fThetaY);
+			double fCosX2 = cos(0.5 * fThetaX);
+
+			double fSinZ2 = sin(0.5 * fThetaZ);
+			double fSinY2 = sin(0.5 * fThetaY);
+			double fSinX2 = sin(0.5 * fThetaX);
+
+			// and now compute quaternion
+			W = fCosZ2 * fCosY2 * fCosX2 + fSinZ2 * fSinY2 * fSinX2;
+			X = fCosZ2 * fCosY2 * fSinX2 - fSinZ2 * fSinY2 * fCosX2;
+			Y = fCosZ2 * fSinY2 * fCosX2 + fSinZ2 * fCosY2 * fSinX2;
+			Z = fSinZ2 * fCosY2 * fCosX2 - fCosZ2 * fSinY2 * fSinX2;
+		}
+
+		void FromEulerAngles(const CVector3 &cAngles)
+		{
+			FromEulerAngles(cAngles.Z, cAngles.Y, cAngles.X);
+		}
+
 		//! computes the conjugate of this quaternion
 		void Conjugate()
 		{
-			SetX(-GetX());
-			SetY(-GetY());
-			SetZ(-GetZ());
+			X = -X;
+			Y = -Y;
+			Z = -Z;
 		}
 
 		//! inverts this quaternion
@@ -352,25 +314,25 @@ class CQuaternion
 		//! casting to a 4x4 isomorphic matrix for right multiplication with vector
 		CMatrix4 ToMatrix4() const
 		{			
-			return CMatrix4(GetW(), -GetX(), -GetY(), -GetZ(),
-					GetX(), GetW(), -GetZ(), GetY(),
-					GetY(), GetZ(), GetW(), -GetX(),
-					GetZ(), -GetY(), GetX(), GetW());
+			return CMatrix4(W, -X, -Y, -Z,
+											X, W, -Z, Y,
+											Y, Z, W, -X,
+											Z, -Y, X, W);
 		}
 		
 
 		//! returns the axis and angle of this unit quaternion
 		void ToAxisAngle(CVector3 &cAxis, double &fAngle) const
 		{
-			fAngle = acos(GetW());
+			fAngle = acos(W);
 
 			// pre-compute to save time
-			double SinThetaInv = 1.0 / sin(fAngle);
+			double fSinThetaInv = 1.0 / sin(fAngle);
 
 			// now the vector
-			cAxis.SetX(GetX() * SinThetaInv);
-			cAxis.SetY(GetY() * SinThetaInv);
-			cAxis.SetZ(GetZ() * SinThetaInv);
+			cAxis.X *= fSinThetaInv;
+			cAxis.Y *= fSinThetaInv;
+			cAxis.Z *= fSinThetaInv;
 
 			// multiply by 2
 			fAngle *= 2.0;
@@ -380,15 +342,15 @@ class CQuaternion
 		//! returns the euler angles from a rotation quaternion
 		CVector3 GetEulerAngles() const
 		{
-			double fSquaredW = GetW() * GetW();    
-			double fSquaredX = GetX() * GetX();    
-			double fSquaredY = GetY() * GetY();    
-			double fSquaredZ = GetZ() * GetZ();    
+			double fSquaredW = W * W;    
+			double fSquaredX = X * X;    
+			double fSquaredY = Y * Y;    
+			double fSquaredZ = Z * Z;    
 
 			CVector3 cEuler;
-			cEuler.SetX(atan2(2.0 * (GetX() * GetY() + GetZ() * GetW()), fSquaredX - fSquaredY - fSquaredZ + fSquaredW));
-			cEuler.SetY(asin(-2.0 * (GetX() * GetZ() - GetY() * GetW())));
-			cEuler.SetZ(atan2(2.0 * (GetY() * GetZ() + GetX() * GetW()), -fSquaredX - fSquaredY + fSquaredZ + fSquaredW));
+			cEuler.X = atan2(2.0 * (X * Y + Z * W), fSquaredX - fSquaredY - fSquaredZ + fSquaredW);
+			cEuler.Y = asin(-2.0 * (X * Z - Y * W));
+			cEuler.Z = atan2(2.0 * (Y * Z + X * W), -fSquaredX - fSquaredY + fSquaredZ + fSquaredW);
 			return cEuler;
 		}
 };

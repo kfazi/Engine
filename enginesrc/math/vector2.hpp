@@ -11,27 +11,30 @@
 #include "../common.hpp"
 #include <iostream>
 #include <limits>
+#include <cmath>
 
 namespace engine
 {
 
 /**
- * Class encapsulating a standard 3-element vector.
+ * Class encapsulating a standard 2-element vector.
  */
 class CVector2
 {
-	private:
-		double m_fX; /**< An X component of the vector. */
-		double m_fY; /**< A Y component of the vector. */
-
 	public:
+		double X; /**< An X component of the vector. */
+		double Y; /**< A Y component of the vector. */
+
+		static const CVector2 ZERO; /**< A zero 2 dimensional vector. */
+
+		static const CVector2 ONE; /**< An one 2 dimensional vector. */
+
 		/**
 		 * Default constructor.
 		 */
 		CVector2()
 		{
-			SetX(0.0);
-			SetY(0.0);
+			*this = ZERO;
 		}
 
 		/**
@@ -39,8 +42,8 @@ class CVector2
 		 */
 		CVector2(const double fX, const double fY)
 		{
-			SetX(fX);
-			SetY(fY);
+			X = fX;
+			Y = fY;
 		}
 
 		/**
@@ -48,28 +51,8 @@ class CVector2
 		 */
 		CVector2(const CVector2 &cVector)
 		{
-			SetX(cVector.GetX());
-			SetY(cVector.GetY());
-		}
-
-		inline double GetX() const
-		{
-			return m_fX;
-		}
-
-		inline void SetX(const double fX)
-		{
-			m_fX = fX;
-		}
-
-		inline double GetY() const
-		{
-			return m_fY;
-		}
-
-		inline void SetY(const double fY)
-		{
-			m_fY = fY;
+			X = cVector.X;
+			Y = cVector.Y;
 		}
 
 		/**
@@ -80,8 +63,8 @@ class CVector2
 			double fLength = GetLength();
 			if (fLength == 1.0 || fLength < std::numeric_limits<double>::epsilon())
 				return;
-			SetX(GetX() / fLength);
-			SetY(GetY() / fLength);
+			X /= fLength;
+			Y /= fLength;
 		}
 
 		/**
@@ -89,7 +72,7 @@ class CVector2
 		 */
 		inline double GetLength() const
 		{
-			return std::sqrt(GetX() * GetX() + GetY() * GetY());
+			return std::sqrt(X * X + Y * Y);
 		}
 
 		/**
@@ -97,7 +80,7 @@ class CVector2
 		 */
 		inline bool operator == (const CVector2 &cVector) const
 		{
-			return (GetX() == cVector.GetX()) && (GetY() == cVector.GetY());
+			return (X == cVector.X) && (Y == cVector.Y);
 		}
 
 		/**
@@ -113,8 +96,8 @@ class CVector2
 		 */
 		inline CVector2 &operator = (const CVector2 &cVector)
 		{
-			SetX(cVector.GetX());
-			SetY(cVector.GetY());
+			X = cVector.X;
+			Y = cVector.Y;
 			return *this;
 		}
 
@@ -123,8 +106,8 @@ class CVector2
 		 */
 		inline CVector2 &operator - ()
 		{
-			SetX(-GetX());
-			SetY(-GetY());
+			X = -X;
+			Y = -Y;
 			return *this;
 		}
 
@@ -133,8 +116,8 @@ class CVector2
 		 */
 		inline CVector2 &operator += (const CVector2 &cVector)
 		{
-			SetX(GetX() + cVector.GetX());
-			SetY(GetY() + cVector.GetY());
+			X += cVector.X;
+			Y += cVector.Y;
 			return *this;
 		}
 
@@ -143,8 +126,8 @@ class CVector2
 		 */
 		inline CVector2 &operator -= (const CVector2 &cVector)
 		{
-			SetX(GetX() - cVector.GetX());
-			SetY(GetY() - cVector.GetY());
+			X -= cVector.X;
+			Y -= cVector.Y;
 			return *this;
 		}
 
@@ -153,8 +136,8 @@ class CVector2
 		 */
 		inline CVector2 &operator *= (const CVector2 &cVector)
 		{
-			SetX(GetX() * cVector.GetX());
-			SetY(GetY() * cVector.GetY());
+			X *= cVector.X;
+			Y *= cVector.Y;
 			return *this;
 		}
 
@@ -163,7 +146,7 @@ class CVector2
 		 */
 		inline operator bool ()
 		{
-			return GetX() != 0.0 || GetY() != 0.0;
+			return X != 0.0 || Y != 0.0;
 		}
 
 		/**
@@ -171,8 +154,8 @@ class CVector2
 		 */
 		template<typename TType> CVector2 &operator *= (TType tValue)
 		{
-			SetX(GetX() * tValue);
-			SetY(GetY() * tValue);
+			X *= tValue;
+			Y *= tValue;
 			return *this;
 		}
 
@@ -181,8 +164,8 @@ class CVector2
 		 */
 		template<typename TType> CVector2 &operator /= (TType tValue)
 		{
-			SetX(GetX() / tValue);
-			SetY(GetY() / tValue);
+			X /= tValue;
+			Y /= tValue;
 			return *this;
 		}
 
@@ -247,7 +230,7 @@ class CVector2
 		 */
 		inline friend std::ostream &operator << (std::ostream &cOutputStream, const CVector2 &cVector)
 		{
-			cOutputStream << "CVector2(" << cVector.GetX() << ", " << cVector.GetY() <<  ")";
+			cOutputStream << "CVector2(" << cVector.X << ", " << cVector.Y <<  ")";
 			return cOutputStream;
 		}
 };

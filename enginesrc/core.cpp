@@ -39,7 +39,7 @@ CCore::~CCore()
 		delete m_pSceneManager;
 		delete m_pFunctionManager;
 		delete m_pSystemDirectories;
-		delete m_pSystemWindow;
+//		delete m_pSystemWindow;
 		delete m_pSystemInfo;
 		/* Config system must be deleted just before logger system. */
 		delete m_pConfig;
@@ -60,7 +60,7 @@ void CCore::Create(CCore *pEngine, const std::string &cConfigFile)
 	pEngine->m_pSceneManager = new CSceneManager();
 #ifdef WINDOWS
 	pEngine->m_pSystemDirectories = new CWindowsSystemDirectories();
-	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
+//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
 	pEngine->m_pSystemInfo = new CWindowsSystemInfo();
 #endif /* WINDOWS */
 #ifdef UNIX
@@ -91,8 +91,8 @@ void CCore::ProcessFrame()
 		m_pFunctionManager->Process();
 		m_fFrameTime -= fFrameWait;
 	}
-	m_pSystemWindow->ProcessEvents(); /* Once per frame is enough. */
-	m_pSystemWindow->SwapBuffers();
+//	m_pSystemWindow->ProcessEvents(); /* Once per frame is enough. */
+//	m_pSystemWindow->SwapBuffers();
 }
 
 }

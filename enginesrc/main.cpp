@@ -45,12 +45,12 @@ int main()
 		Debug(Format("Number of processors: %1%") % CCore::GetInstance()->GetSystemInfo()->GetNumberOfProcessors());
 		Debug(Format("Total memory: %1%") % CCore::GetInstance()->GetSystemInfo()->GetTotalMemory());
 		Debug(Format("Free memory: %1%") % CCore::GetInstance()->GetSystemInfo()->GetFreeMemory());
-		CCore::GetInstance()->GetWindow()->SetResolution(5, false);
-		Debug(Format("Driver name: %1%") % CCore::GetInstance()->GetWindow()->GetDriverName());
-		while (!CCore::GetInstance()->Finished())
-		{
-			CCore::GetInstance()->ProcessFrame();
-		}
+		//CCore::GetInstance()->GetWindow()->SetResolution(5, false);
+		//Debug(Format("Driver name: %1%") % CCore::GetInstance()->GetWindow()->GetDriverName());
+		//while (!CCore::GetInstance()->Finished())
+		//{
+		//	CCore::GetInstance()->ProcessFrame();
+		//}
 	}
 	catch (std::exception &e)
 	{

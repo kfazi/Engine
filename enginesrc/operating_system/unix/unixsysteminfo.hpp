@@ -22,8 +22,8 @@ class CUnixSystemInfo: public CSystemInfo
 
 	public:
 		virtual const std::string &GetSystemName() const;
-		virtual long long GetTotalMemory() const;
-		virtual long long GetFreeMemory() const;
+		virtual unsigned long long GetTotalMemory() const;
+		virtual unsigned long long GetFreeMemory() const;
 		virtual int GetNumberOfProcessors() const;
 };
 
