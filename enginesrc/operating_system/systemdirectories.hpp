@@ -2,7 +2,7 @@
 #define ENGINE_SYSTEM_DIRECTORIES_HPP
 
 #include "../common.hpp"
-#include <string>
+#include "../string.hpp"
 
 namespace engine
 {
@@ -10,30 +10,30 @@ namespace engine
 class CSystemDirectories
 {
 	private:
-		std::string m_cConfigPath;
-		std::string m_cExecutablePath;
-		std::string m_cModsPath;
-		std::string m_cResourcesPath;
-		std::string m_cSavesPath;
+		CString m_cConfigPath;
+		CString m_cExecutablePath;
+		CString m_cModsPath;
+		CString m_cResourcesPath;
+		CString m_cSavesPath;
 
 	protected:
-		inline void SetConfigPath(const std::string &cConfigPath)
+		inline void SetConfigPath(const CString &cConfigPath)
 		{
 			m_cConfigPath = cConfigPath;
 		}
-		inline void SetExecutablePath(const std::string &cExecutablePath)
+		inline void SetExecutablePath(const CString &cExecutablePath)
 		{
 			m_cExecutablePath = cExecutablePath;
 		}
-		inline void SetModsPath(const std::string &cModsPath)
+		inline void SetModsPath(const CString &cModsPath)
 		{
 			m_cModsPath = cModsPath;
 		}
-		inline void SetResourcesPath(const std::string &cResourcesPath)
+		inline void SetResourcesPath(const CString &cResourcesPath)
 		{
 			m_cResourcesPath = cResourcesPath;
 		}
-		inline void SetSavesPath(const std::string &cSavesPath)
+		inline void SetSavesPath(const CString &cSavesPath)
 		{
 			m_cSavesPath = cSavesPath;
 		}
@@ -47,23 +47,23 @@ class CSystemDirectories
 		{
 		}
 
-		inline const std::string &GetConfigPath()
+		inline const CString &GetConfigPath()
 		{
 			return m_cConfigPath;
 		}
-		inline const std::string &GetExecutablePath()
+		inline const CString &GetExecutablePath()
 		{
 			return m_cExecutablePath;
 		}
-		inline const std::string &GetModsPath()
+		inline const CString &GetModsPath()
 		{
 			return m_cModsPath;
 		}
-		inline const std::string &GetResourcesPath()
+		inline const CString &GetResourcesPath()
 		{
 			return m_cResourcesPath;
 		}
-		inline const std::string &GetSavesPath()
+		inline const CString &GetSavesPath()
 		{
 			return m_cSavesPath;
 		}

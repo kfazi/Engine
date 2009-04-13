@@ -1,17 +1,17 @@
 #ifdef WINDOWS
 
 #include "windowssystemdirectories.hpp"
-#include "../../3rdparty/utf8.h"
+#include "../../string.hpp"
 
 namespace engine
 {
 
 CWindowsSystemDirectories::CWindowsSystemDirectories(): CSystemDirectories()
 {
-	std::string cTempPath;
+	CString cTempPath;
 
 	/* Get executable path, so it can be used when SHGetKnownFolderPath or SHGetFolderPath fails */
-	char aExecutablePath[MAX_PATH + 1];
+	WCHAR aExecutablePath[MAX_PATH + 1];
 	::GetModuleFileName(NULL, aExecutablePath, MAX_PATH);
 	aExecutablePath[MAX_PATH] = 0;
 
@@ -19,12 +19,11 @@ CWindowsSystemDirectories::CWindowsSystemDirectories(): CSystemDirectories()
 	PWSTR pLocalAppDataPath;
 	if (::SHGetKnownFolderPath(::FOLDERID_LocalAppData, KF_FLAG_CREATE | KF_FLAG_DEFAULT_PATH | KF_FLAG_NOT_PARENT_RELATIVE, NULL, &pLocalAppDataPath) == S_OK)
 	{
-		std::wstring cLocalAppDataPath = pLocalAppDataPath;
-		utf8::utf16to8(cLocalAppDataPath.begin(), cLocalAppDataPath.end(), std::back_inserter(cTempPath));
+		cTempPath = reinterpret_cast<unsigned short *>(pLocalAppDataPath);
 		::CoTaskMemFree(pLocalAppDataPath);
 	}
 	else
-		cTempPath = aExecutablePath;
+		cTempPath = reinterpret_cast<unsigned short *>(aExecutablePath);
 #else
 	char aPath[MAX_PATH + 1];
 	if (SUCCEEDED(::SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, aPath)))
@@ -48,7 +47,7 @@ CWindowsSystemDirectories::CWindowsSystemDirectories(): CSystemDirectories()
 	SetSavesPath(cTempPath + "\\Saves");
 
 	/* Executable path */
-	cTempPath = aExecutablePath;
+	cTempPath = reinterpret_cast<unsigned short *>(aExecutablePath);
 	SetExecutablePath(cTempPath);
 
 	/* Resources path */

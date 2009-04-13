@@ -6,7 +6,7 @@
 #include <string>
 #include <boost/format.hpp>
 
-int main();
+extern int main(int argc, char **argv);
 
 namespace engine
 {
@@ -26,7 +26,7 @@ class CConfig;
  */
 class CCore
 {
-	friend int ::main();
+	friend int ::main(int argc, char **argv);
 	friend void Debug(const std::string &cMessage);
 	friend void Debug(const boost::format &cFormat);
 

@@ -105,23 +105,17 @@ class CQuaternion
 
 		const CQuaternion &operator *= (const CQuaternion &cQuaternion)		
 		{
-			W = W * cQuaternion.W - X * cQuaternion.X - Y * cQuaternion.Y - Z * cQuaternion.Z;
-			X = W * cQuaternion.X + X * cQuaternion.W + Y * cQuaternion.Z - Z * cQuaternion.Y;
-			Y = W * cQuaternion.Y + Y * cQuaternion.W + Z * cQuaternion.X - X * cQuaternion.Z;
-			Z = W * cQuaternion.Z + Z * cQuaternion.W + X * cQuaternion.Y - Y * cQuaternion.X;
+			double newW = W * cQuaternion.W - X * cQuaternion.X - Y * cQuaternion.Y - Z * cQuaternion.Z;
+			double newX = W * cQuaternion.X + X * cQuaternion.W + Y * cQuaternion.Z - Z * cQuaternion.Y;
+			double newY = W * cQuaternion.Y + Y * cQuaternion.W + Z * cQuaternion.X - X * cQuaternion.Z;
+			double newZ = W * cQuaternion.Z + Z * cQuaternion.W + X * cQuaternion.Y - Y * cQuaternion.X;
+			W = newW;
+			X = newX;
+			Y = newY;
+			Z = newZ;
 			return *this;
 		}
 		
-		/* TODO: Correct equations */
-		const CQuaternion &operator /= (const CQuaternion &cQuaternion)		
-		{
-			W = W * cQuaternion.W - X * cQuaternion.X - Y * cQuaternion.Y - Z * cQuaternion.Z;
-			X = W * cQuaternion.X + X * cQuaternion.W + Y * cQuaternion.Z - Z * cQuaternion.Y;
-			Y = W * cQuaternion.Y + Y * cQuaternion.W + Z * cQuaternion.X - X * cQuaternion.Z;
-			Z = W * cQuaternion.Z + Z * cQuaternion.W + X * cQuaternion.Y - Y * cQuaternion.X;
-			return *this;
-		}
-
 		template<typename TType> CQuaternion &operator *= (TType tScalar)
 		{
 			W *= tScalar;
@@ -153,11 +147,6 @@ class CQuaternion
 		inline friend const CQuaternion operator * (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2)
 		{
 			return CQuaternion(cQuaternion1) *= cQuaternion2;
-		}
-
-		inline friend const CQuaternion operator / (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2)
-		{
-			return CQuaternion(cQuaternion1) /= cQuaternion2;
 		}
 
 		/**

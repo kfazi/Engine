@@ -22,10 +22,13 @@ SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/core.hpp
 	${ENGINESRC_DIR}/engine.hpp
 	${ENGINESRC_DIR}/engineexception.hpp
+	${ENGINESRC_DIR}/enginemain.hpp
 	${ENGINESRC_DIR}/functionmanager.cpp
 	${ENGINESRC_DIR}/functionmanager.hpp
 	${ENGINESRC_DIR}/logger.hpp
 	${ENGINESRC_DIR}/main.cpp
+	${ENGINESRC_DIR}/string.cpp
+	${ENGINESRC_DIR}/string.hpp
 	${ENGINESRC_DIR}/time.cpp
 	${ENGINESRC_DIR}/time.hpp
 	${ENGINESRC_DIR}/useful.hpp
@@ -40,7 +43,6 @@ SET(ENGINE_MATH_SOURCES
 	${ENGINESRC_DIR}/math/matrix4.hpp
 	${ENGINESRC_DIR}/math/quaternion.cpp
 	${ENGINESRC_DIR}/math/quaternion.hpp
-	${ENGINESRC_DIR}/math/rect.cpp
 	${ENGINESRC_DIR}/math/rect.hpp
 	${ENGINESRC_DIR}/math/vector2.cpp
 	${ENGINESRC_DIR}/math/vector2.hpp
@@ -70,6 +72,12 @@ SET(ENGINE_OPERATING_SYSTEM_SOURCES
 SOURCE_GROUP("engine\\enginesrc\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_SOURCES})
 
+SET(ENGINE_RENDERER_SOURCES
+	${ENGINESRC_DIR}/renderer/rendertarget.hpp
+)
+SOURCE_GROUP("engine\\enginesrc\\renderer" FILES ${ENGINE_RENDERER_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_RENDERER_SOURCES})
+
 SET(ENGINE_SCENE_SOURCES
 	${ENGINESRC_DIR}/scene/camera.cpp
 	${ENGINESRC_DIR}/scene/camera.hpp
@@ -91,10 +99,11 @@ SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdirectories.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.hpp
-	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.cpp
-	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemwinmain.cpp
 )
 SOURCE_GROUP("engine\\enginesrc\\operating_system\\windows" FILES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
@@ -134,6 +143,8 @@ ENDIF(UNIX)
 FIND_PACKAGE(Boost 1.36.0 COMPONENTS thread signals date_time REQUIRED)
 FIND_PACKAGE(OIS)
 
+LIST(APPEND ENGINE_DEFINITIONS "-D_UNICODE")
+LIST(APPEND ENGINE_DEFINITIONS "-DUNICODE")
 LIST(APPEND ENGINE_DEFINITIONS "-DCOMPANY_NAME=\"${COMPANY_NAME}\"")
 LIST(APPEND ENGINE_DEFINITIONS "-DGAME_NAME=\"${BINARY_NAME}\"")
 LIST(APPEND ENGINE_INCLUDE_DIR ${ENGINESRC_DIR})
@@ -142,6 +153,7 @@ LIST(APPEND ENGINE_INCLUDE_DIR ${Boost_INCLUDE_DIR})
 LIST(APPEND ENGINE_LIBRARIES ${OIS_LIBRARIES})
 LIST(APPEND ENGINE_LIBRARIES ${Boost_LIBRARIES})
 LIST(APPEND ENGINE_LIBRARIES ${ENGINE_SYSTEM_LIBRARIES})
+LIST(APPEND ENGINE_LIBRARY_DIR ${Boost_LIBRARY_DIRS})
 
 SET(ENGINE_DEFINITIONS ${ENGINE_DEFINITIONS} CACHE INTERNAL "")
 SET(ENGINE_INCLUDE_DIR ${ENGINE_INCLUDE_DIR} CACHE INTERNAL "")

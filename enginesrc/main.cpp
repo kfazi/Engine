@@ -6,8 +6,10 @@
 #include "engineexception.hpp"
 #include "operating_system/systemwindow.hpp"
 #include "operating_system/systeminfo.hpp"
+#include "string.hpp"
 
-using namespace engine;
+namespace engine
+{
 
 class CSimpleLogger
 {
@@ -33,7 +35,7 @@ class CSimpleLogger
 		}
 };
 
-int main()
+int DefineEngineMainClass(CEngineMain *pMainClass, int argc, char **argv)
 {
 	CCore cEngine;
 	try
@@ -52,10 +54,13 @@ int main()
 		//	CCore::GetInstance()->ProcessFrame();
 		//}
 	}
-	catch (std::exception &e)
+	catch (std::exception &cException)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << cException.what() << std::endl;
 	}
 	return 0;
 }
 
+}
+
+/* EOF */

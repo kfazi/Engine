@@ -18,27 +18,30 @@ CWindowsSystemInfo::CWindowsSystemInfo()
 	if (GetVersionEx(reinterpret_cast<OSVERSIONINFO *>(&sOSVersionInfo)))
 	{
 		std::string cOSName = "";
+		std::string cOSServicePack = "";
 		if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 0)
-			cOSName = "(Windows 2000) ";
+			cOSName = " (Windows 2000)";
 		else if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 1)
-			cOSName = "(Windows XP) ";
+			cOSName = " (Windows XP)";
 		else if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 2 && sOSVersionInfo.wProductType == VER_NT_WORKSTATION && sSystemInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
-			cOSName = "(Windows XP Professional x64 Edition) ";
+			cOSName = " (Windows XP Professional x64 Edition)";
 		else if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 2 && GetSystemMetrics(SM_SERVERR2) == 0)
-			cOSName = "(Windows Server 2003) ";
+			cOSName = " (Windows Server 2003)";
 		else if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 2 && sOSVersionInfo.wSuiteMask == 0x00008000/*VER_SUITE_WH_SERVER*/)
-			cOSName = "(Windows Home Server) ";
+			cOSName = " (Windows Home Server)";
 		else if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 2 && GetSystemMetrics(SM_SERVERR2) != 0)
-			cOSName = "(Windows Server 2003 R2) ";
+			cOSName = " (Windows Server 2003 R2)";
 		else if (sOSVersionInfo.dwMajorVersion == 6 && sOSVersionInfo.dwMinorVersion == 0 && sOSVersionInfo.wProductType == VER_NT_WORKSTATION)
-			cOSName = "(Windows Vista) ";
+			cOSName = " (Windows Vista)";
 		else if (sOSVersionInfo.dwMajorVersion == 6 && sOSVersionInfo.dwMinorVersion == 0 && sOSVersionInfo.wProductType != VER_NT_WORKSTATION)
-			cOSName = "(Windows Server 2008) ";
+			cOSName = " (Windows Server 2008)";
 		else if (sOSVersionInfo.dwMajorVersion == 6 && sOSVersionInfo.dwMinorVersion == 1 && sOSVersionInfo.wProductType != VER_NT_WORKSTATION)
-			cOSName = "(Windows Server 2008 R2) ";
+			cOSName = " (Windows Server 2008 R2)";
 		else if (sOSVersionInfo.dwMajorVersion == 6 && sOSVersionInfo.dwMinorVersion == 1 && sOSVersionInfo.wProductType == VER_NT_WORKSTATION)
-			cOSName = "(Windows 7) ";
-		m_cSystemName = (Format("Windows operating system %1%.%2% %3%SP %4%.%5%") % sOSVersionInfo.dwMajorVersion % sOSVersionInfo.dwMinorVersion % cOSName % sOSVersionInfo.wServicePackMajor % sOSVersionInfo.wServicePackMinor).str();
+			cOSName = " (Windows 7)";
+		if (sOSVersionInfo.wServicePackMajor != 0 || sOSVersionInfo.wServicePackMinor != 0)
+			cOSServicePack = (Format(" SP %1%.%2%") % sOSVersionInfo.wServicePackMajor % sOSVersionInfo.wServicePackMinor).str();
+		m_cSystemName = (Format("Windows operating system %1%.%2%%3%%4%") % sOSVersionInfo.dwMajorVersion % sOSVersionInfo.dwMinorVersion % cOSName % cOSServicePack).str();
 	}
 	else
 		m_cSystemName = "Unknown Windows operating system";
