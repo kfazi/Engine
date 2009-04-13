@@ -24,13 +24,13 @@ class CSimpleLogger
 		{
 			cFile.close();
 		}
-		void Log(const std::string &cMessage, const CLogger::EMessageType eType)
+		void Log(const CString &cMessage, const CLogger::EMessageType eType)
 		{
 			if (eType == CLogger::FATALERROR)
 				CCore::GetInstance()->GetWindow()->MessageBox("Error", cMessage);
 			else
-				std::cout << cMessage << std::endl;
-			cFile << cMessage << std::endl;
+				std::cout << cMessage.ToUTF8() << std::endl;
+			cFile << cMessage.ToUTF8() << std::endl;
 			cFile.flush();
 		}
 };

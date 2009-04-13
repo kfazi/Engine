@@ -39,7 +39,7 @@ class CUnixSystemWindow: public CSystemWindow
 
 		std::vector<CUnixResolution> m_cUnixResolutionsVector;
 
-		std::string m_cDriverName;
+		CString m_cDriverName;
 
 		Display *m_pDisplay;
 
@@ -51,7 +51,7 @@ class CUnixSystemWindow: public CSystemWindow
 
 		Atom m_aProtocols[2];
 
-		CUnixSystemWindow(const std::string cDisplayName = "");
+		CUnixSystemWindow(const CString cDisplayName = "");
 
 		static Bool WaitForMapNotify(Display *pDisplay, XEvent *pEvent, char *pArgument);
 
@@ -78,9 +78,9 @@ class CUnixSystemWindow: public CSystemWindow
 
 		virtual unsigned int GetResolutionsCount() const;
 
-		virtual const std::string &GetDriverName() const;
+		virtual const CString &GetDriverName() const;
 
-		virtual void MessageBox(const std::string &cCaption, const std::string &cMessage) const;
+		virtual void MessageBox(const CString &cCaption, const CString &cMessage) const;
 };
 
 }

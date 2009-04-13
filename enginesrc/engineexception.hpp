@@ -3,7 +3,7 @@
 
 #include "common.hpp"
 #include <exception>
-#include <string>
+#include "string.hpp"
 
 namespace engine
 {
@@ -11,9 +11,9 @@ namespace engine
 class CEngineException: public std::exception
 {
 	private:
-		std::string cMessage;
+		CString cMessage;
 	public:
-		CEngineException(const std::string &cMessage)
+		CEngineException(const CString &cMessage)
 		{
 			this->cMessage = cMessage;
 		}
@@ -24,7 +24,7 @@ class CEngineException: public std::exception
 
 		virtual const char *what() const throw()
 		{
-			return cMessage.c_str();
+			return cMessage.ToUTF8().c_str();
 		}
 };
 

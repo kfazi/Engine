@@ -16,7 +16,7 @@ Bool CUnixSystemWindow::WaitForMapNotify(Display *pDisplay, XEvent *pEvent, char
 	return (pEvent->type == MapNotify) && (pEvent->xmap.window == reinterpret_cast<Window>(pArgument));
 }
 
-CUnixSystemWindow::CUnixSystemWindow(const std::string cDisplayName): CSystemWindow()
+CUnixSystemWindow::CUnixSystemWindow(const CString cDisplayName): CSystemWindow()
 {
 	if (cDisplayName == "")
 		m_pDisplay = XOpenDisplay(NULL);
@@ -376,12 +376,12 @@ unsigned int CUnixSystemWindow::GetResolutionsCount() const
 	return m_cUnixResolutionsVector.size();
 }
 
-const std::string &CUnixSystemWindow::GetDriverName() const
+const CString &CUnixSystemWindow::GetDriverName() const
 {
 	return m_cDriverName;
 }
 
-void CUnixSystemWindow::MessageBox(const std::string &cCaption, const std::string &cMessage) const
+void CUnixSystemWindow::MessageBox(const CString &cCaption, const CString &cMessage) const
 {
 	/* TODO: ADD MESSAGEBOX :P */
 	std::cout << cCaption << ": " << cMessage << std::endl;

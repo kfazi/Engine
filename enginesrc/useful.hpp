@@ -2,59 +2,59 @@
 #define ENGINE_USEFUL_HPP
 
 #include "common.hpp"
-#include <string>
 #include <boost/format.hpp>
 #include "core.hpp"
 #include "logger.hpp"
+#include "string.hpp"
 
 namespace engine
 {
 
-inline void Debug(const std::string &cMessage)
+inline void Debug(const CString &cMessage)
 {
 	if (CCore::m_bDebug)
 		CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::DEBUG);
 }
 
-inline void Debug(const boost::format &cFormat)
+inline void Debug(const boost::basic_format<TChar> &cFormat)
 {
 	if (CCore::m_bDebug)
-		Debug(boost::str(cFormat));
+		Debug(cFormat.str());
 }
 
-inline void Notify(const std::string &cMessage)
+inline void Notify(const CString &cMessage)
 {
 	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::NOTIFY);
 }
 
-inline void Notify(const boost::format &cFormat)
+inline void Notify(const boost::basic_format<TChar> &cFormat)
 {
-	Notify(boost::str(cFormat));
+	Notify(cFormat.str());
 }
 
-inline void Warning(const std::string &cMessage)
+inline void Warning(const CString &cMessage)
 {
 	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::WARNING);
 }
 
-inline void Warning(const boost::format &cFormat)
+inline void Warning(const boost::basic_format<TChar> &cFormat)
 {
-	Warning(boost::str(cFormat));
+	Warning(cFormat.str());
 }
 
-inline void Error(const std::string &cMessage)
+inline void Error(const CString &cMessage)
 {
 	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::FATALERROR);
 }
 
-inline void Error(const boost::format &cFormat)
+inline void Error(const boost::basic_format<TChar> &cFormat)
 {
-	Error(boost::str(cFormat));
+	Error(cFormat.str());
 }
 
-inline boost::format Format(const std::string &cFormat)
+inline boost::basic_format<TChar> Format(const CString &cFormat)
 {
-	return boost::format(cFormat);
+	return boost::basic_format<TChar>(cFormat);
 }
 
 }

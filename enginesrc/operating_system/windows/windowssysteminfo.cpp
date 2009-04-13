@@ -1,8 +1,8 @@
 #ifdef WINDOWS
 
 #include "../../common.hpp"
-#include "windowssysteminfo.hpp"
 #include "../../useful.hpp"
+#include "windowssysteminfo.hpp"
 #include <windows.h>
 
 namespace engine
@@ -17,8 +17,8 @@ CWindowsSystemInfo::CWindowsSystemInfo()
 	sOSVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	if (GetVersionEx(reinterpret_cast<OSVERSIONINFO *>(&sOSVersionInfo)))
 	{
-		std::string cOSName = "";
-		std::string cOSServicePack = "";
+		CString cOSName = "";
+		CString cOSServicePack = "";
 		if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 0)
 			cOSName = " (Windows 2000)";
 		else if (sOSVersionInfo.dwMajorVersion == 5 && sOSVersionInfo.dwMinorVersion == 1)
@@ -57,7 +57,7 @@ CWindowsSystemInfo::~CWindowsSystemInfo()
 {
 }
 
-const std::string &CWindowsSystemInfo::GetSystemName() const
+const CString &CWindowsSystemInfo::GetSystemName() const
 {
 	return m_cSystemName;
 }

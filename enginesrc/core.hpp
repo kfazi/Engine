@@ -2,8 +2,7 @@
 #define ENGINE_CORE_HPP
 
 #include "common.hpp"
-#include <string>
-#include <string>
+#include "string.hpp"
 #include <boost/format.hpp>
 
 extern int main(int argc, char **argv);
@@ -27,8 +26,8 @@ class CConfig;
 class CCore
 {
 	friend int ::main(int argc, char **argv);
-	friend void Debug(const std::string &cMessage);
-	friend void Debug(const boost::format &cFormat);
+	friend void Debug(const CString &cMessage);
+	friend void Debug(const boost::basic_format<TChar> &cFormat);
 
 	private:
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
@@ -53,7 +52,7 @@ class CCore
 		 */
 		~CCore();
 
-		static void Create(CCore *pEngine, const std::string &cConfigFile);
+		static void Create(CCore *pEngine, const CString &cConfigFile);
 
 	public:
 		/**
@@ -135,7 +134,7 @@ class CCore
 		 * Creates string with all engine objects converted to a string.
 		 * @return A string.
 		 */
-		std::string ToString() const
+		CString ToString() const
 		{
 			return "CCore[ ";// + m_pSceneManager->ToString() + " ]";
 		}

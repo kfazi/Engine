@@ -1,7 +1,7 @@
 #ifndef ENGINE_CONFIG_HPP
 #define ENGINE_CONFIG_HPP
 
-#include <string>
+#include "string.hpp"
 
 namespace engine
 {
@@ -11,16 +11,16 @@ class CConfig
 	friend class CCore;
 
 	private:
-		CConfig(const std::string &cFileName);
+		CConfig(const CString &cFileName);
 		~CConfig();
-		void Load(const std::string &cFileName);
+		void Load(const CString &cFileName);
 	public:
 		void Save();
-		const std::string &GetValue(const std::string &cName, const std::string &cDefaultValue = "");
-		void SetValue(const std::string &cName, const std::string &cValue);
-		void SetValue(const std::string &cName, const int iValue);
-		void SetValue(const std::string &cName, const unsigned int iValue);
-		void SetValue(const std::string &cName, const double fValue);
+		const CString &GetValue(const CString &cName, const CString &cDefaultValue = "");
+		void SetValue(const CString &cName, const CString &cValue);
+		void SetValue(const CString &cName, const int iValue);
+		void SetValue(const CString &cName, const unsigned int iValue);
+		void SetValue(const CString &cName, const double fValue);
 };
 
 }

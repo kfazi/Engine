@@ -3,11 +3,11 @@
 
 #include "common.hpp"
 #include <map>
-#include <string>
 #include <boost/format.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include "core.hpp"
+#include "string.hpp"
 #include "engineexception.hpp"
 
 namespace engine
@@ -36,7 +36,7 @@ class CLogger
 
 	private:
 		/** Map of functors called when new message arrives. */
-		std::map<unsigned int, boost::function<void (const std::string &, const EMessageType)> > m_cFunctorMap;
+		std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> > m_cFunctorMap;
 
 		/** Next ID to assign when new logging function is registered. */
 		unsigned int m_iNextId;
@@ -71,10 +71,10 @@ class CLogger
 		 * Registers new logging function.
 		 *
 		 * @param[in] cClass A pointer to the class instance, containing registered function.
-		 * @param[in] pFunction A pointer to the registered function, returning void and taking const std::string &, const CLogger::EMessageType arguments.
+		 * @param[in] pFunction A pointer to the registered function, returning void and taking const CString &, const CLogger::EMessageType arguments.
 		 * @return ID of registered function.
 		 */
-		template <class CClass> unsigned int Register(CClass *cClass, void (CClass::*pFunction)(const std::string &, const EMessageType))
+		template <class CClass> unsigned int Register(CClass *cClass, void (CClass::*pFunction)(const CString &, const EMessageType))
 		{
 			unsigned int iId = GetNextId();
 			m_cFunctorMap.insert(std::make_pair(iId, boost::bind(pFunction, cClass, _1, _2)));
@@ -89,7 +89,7 @@ class CLogger
 		 */
 		bool Unregister(const unsigned int iId)
 		{
-			std::map<unsigned int, boost::function<void (const std::string &, const EMessageType)> >::iterator cFoundFunctor = m_cFunctorMap.find(iId);
+			std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> >::iterator cFoundFunctor = m_cFunctorMap.find(iId);
 			if (cFoundFunctor == m_cFunctorMap.end())
 				return false;
 			m_cFunctorMap.erase(cFoundFunctor);
@@ -102,9 +102,9 @@ class CLogger
 		 * @param[in] cMessage A message to log.
 		 * @param[in] eMessageType Type of a message.
 		 */
-		void Log(const std::string &cMessage, const EMessageType eMessageType = NOTIFY)
+		void Log(const CString &cMessage, const EMessageType eMessageType = NOTIFY)
 		{
-			for (std::map<unsigned int, boost::function<void (const std::string &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
+			for (std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
 				(*cFunctorIterator).second(cMessage, eMessageType);
 			if (eMessageType == FATALERROR)
 				throw CEngineException(cMessage);

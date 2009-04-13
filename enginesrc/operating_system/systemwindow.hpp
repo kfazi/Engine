@@ -95,9 +95,9 @@ class CSystemWindow
 
 		virtual unsigned int GetResolutionsCount() const = 0;
 
-		virtual const std::string &GetDriverName() const = 0;
+		virtual const CString &GetDriverName() const = 0;
 
-		virtual void MessageBox(const std::string &cCaption, const std::string &cMessage) const = 0;
+		virtual void MessageBox(const CString &cCaption, const CString &cMessage) const = 0;
 
 		bool SetResolution(const unsigned int iResolutionNumber, const bool bFullScreen = true)
 		{

@@ -3,7 +3,7 @@
 namespace engine
 {
 
-CConfig::CConfig(const std::string &cFileName)
+CConfig::CConfig(const CString &cFileName)
 {
 	Load(cFileName);
 }
@@ -12,7 +12,7 @@ CConfig::~CConfig()
 {
 }
 
-void CConfig::Load(const std::string &cFileName)
+void CConfig::Load(const CString &cFileName)
 {
 }
 
@@ -20,24 +20,24 @@ void CConfig::Save()
 {
 }
 
-const std::string &CConfig::GetValue(const std::string &cName, const std::string &cDefaultValue)
+const CString &CConfig::GetValue(const CString &cName, const CString &cDefaultValue)
 {
 	return cDefaultValue;
 }
 
-void CConfig::SetValue(const std::string &cName, const std::string &cValue)
+void CConfig::SetValue(const CString &cName, const CString &cValue)
 {
 }
 
-void CConfig::SetValue(const std::string &cName, const int iValue)
+void CConfig::SetValue(const CString &cName, const int iValue)
 {
 }
 
-void CConfig::SetValue(const std::string &cName, const unsigned int iValue)
+void CConfig::SetValue(const CString &cName, const unsigned int iValue)
 {
 }
 
-void CConfig::SetValue(const std::string &cName, const double fValue)
+void CConfig::SetValue(const CString &cName, const double fValue)
 {
 }
 

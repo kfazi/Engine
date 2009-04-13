@@ -48,7 +48,7 @@ CCore::~CCore()
 	}
 }
 
-void CCore::Create(CCore *pEngine, const std::string &cConfigFile)
+void CCore::Create(CCore *pEngine, const CString &cConfigFile)
 {
 	/* Logger system is used by all other systems. */
 	pEngine->m_pLogger = new CLogger();

@@ -2,8 +2,8 @@
 #define ENGINE_SCENEMANAGER_HPP
 
 #include "../common.hpp"
-#include <string>
 #include <set>
+#include "../string.hpp"
 #include "../functionmanager.hpp"
 
 namespace engine
@@ -22,9 +22,9 @@ class CSceneManager
 	public:
 		void Add(CScene *pScene);
 		bool Remove(CScene *pScene);
-		std::string ToString() const
+		CString ToString() const
 		{
-			return std::string("CSceneManager[ ") + std::string(" ]");
+			return CString("CSceneManager[ ") + CString(" ]");
 		}
 };
 

@@ -13,7 +13,7 @@ class CUnixSystemInfo: public CSystemInfo
 	friend class CCore;
 
 	private:
-		std::string m_cSystemName;
+		CString m_cSystemName;
 
 	protected:
 		CUnixSystemInfo();
@@ -21,7 +21,7 @@ class CUnixSystemInfo: public CSystemInfo
 		virtual ~CUnixSystemInfo();
 
 	public:
-		virtual const std::string &GetSystemName() const;
+		virtual const CString &GetSystemName() const;
 		virtual unsigned long long GetTotalMemory() const;
 		virtual unsigned long long GetFreeMemory() const;
 		virtual int GetNumberOfProcessors() const;

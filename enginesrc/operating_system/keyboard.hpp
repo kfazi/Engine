@@ -181,9 +181,9 @@ class CKeyboard: public CSystemInputController<CKeyboard, int>
 			return m_cKeysState[iKeyNumber];
 		}
 
-		std::string KeyToString(const EKey eKey) const;
+		CString KeyToString(const EKey eKey) const;
 
-		std::string KeyNameToString(const EKey eKey) const;
+		CString KeyNameToString(const EKey eKey) const;
 };
 
 }

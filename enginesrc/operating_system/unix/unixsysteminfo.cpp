@@ -22,7 +22,7 @@ CUnixSystemInfo::~CUnixSystemInfo()
 {
 }
 
-const std::string &CUnixSystemInfo::GetSystemName() const
+const CString &CUnixSystemInfo::GetSystemName() const
 {
 	return m_cSystemName;
 }

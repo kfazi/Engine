@@ -1,5 +1,6 @@
 #include "common.hpp"
 #include "string.hpp"
+#include <algorithm>
 #include <cstring>
 
 /* http://www.unicode.org/Public/PROGRAMS/CVTUTF/ConvertUTF.c */
@@ -8,14 +9,14 @@ namespace engine
 {
 
 const char s_aTrailingBytesForUTF8[256] = {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-	2, 2, 2, 2, 2, 2, 2, 2, 2, 2,2,2,2,2,2,2, 3,3,3,3,3,3,3,3,4,4,4,4,5,5,5,5
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5
 };
 
 const unsigned int s_aOffsetsFromUTF8[6] = { 0x00000000UL, 0x00003080UL, 0x000E2080UL, 0x03C82080UL, 0xFA082080UL, 0x82082080UL };
@@ -97,13 +98,13 @@ void CString::AppendFromUTF8ToUTF16(const char *pUTF8String, unsigned int iLengt
 	while (pSource < pSourceEnd)
 	{
 		iChar = 0;
-		unsigned short extraBytesToRead = s_aTrailingBytesForUTF8[*pSource];
-		if (pSource + extraBytesToRead >= pSourceEnd)
+		unsigned short iExtraBytesToRead = s_aTrailingBytesForUTF8[*pSource];
+		if (pSource + iExtraBytesToRead >= pSourceEnd)
 		{
 			//result = sourceExhausted; break;
 		}
 		/* Do this check whether lenient or strict */
-		if (!IsLegalUTF8(pSource, extraBytesToRead + 1))
+		if (!IsLegalUTF8(pSource, iExtraBytesToRead + 1))
 		{
 			//result = sourceIllegal;
 			break;
@@ -111,7 +112,7 @@ void CString::AppendFromUTF8ToUTF16(const char *pUTF8String, unsigned int iLengt
 		/*
 		* The cases all fall through. See "Note A" below.
 		*/
-		switch (extraBytesToRead)
+		switch (iExtraBytesToRead)
 		{
 			default:
 			case 5:
@@ -130,7 +131,7 @@ void CString::AppendFromUTF8ToUTF16(const char *pUTF8String, unsigned int iLengt
 			case 0:
 				iChar += *pSource++;
 		}
-		iChar -= s_aOffsetsFromUTF8[extraBytesToRead];
+		iChar -= s_aOffsetsFromUTF8[iExtraBytesToRead];
 
 		if (iChar <= 0x0000FFFFUL)
 		{ /* Target is a character <= 0xFFFF */
@@ -201,13 +202,13 @@ void CString::AppendFromUTF8ToUTF32(const char *pUTF8String, unsigned int iLengt
 	while (pSource < pSourceEnd)
 	{
 		iChar = 0;
-		unsigned short extraBytesToRead = s_aTrailingBytesForUTF8[*pSource];
-		if (pSource + extraBytesToRead >= pSourceEnd)
+		unsigned short iExtraBytesToRead = s_aTrailingBytesForUTF8[*pSource];
+		if (pSource + iExtraBytesToRead >= pSourceEnd)
 		{
 			//result = sourceExhausted; break;
 		}
 		/* Do this check whether lenient or strict */
-		if (!IsLegalUTF8(pSource, extraBytesToRead+1))
+		if (!IsLegalUTF8(pSource, iExtraBytesToRead+1))
 		{
 			//result = sourceIllegal;
 			break;
@@ -215,7 +216,7 @@ void CString::AppendFromUTF8ToUTF32(const char *pUTF8String, unsigned int iLengt
 		/*
 		* The cases all fall through. See "Note A" below.
 		*/
-		switch (extraBytesToRead)
+		switch (iExtraBytesToRead)
 		{
 			default:
 			case 5:
@@ -234,7 +235,7 @@ void CString::AppendFromUTF8ToUTF32(const char *pUTF8String, unsigned int iLengt
 			case 0:
 				iChar += *pSource++;
 		}
-		iChar -= s_aOffsetsFromUTF8[extraBytesToRead];
+		iChar -= s_aOffsetsFromUTF8[iExtraBytesToRead];
 
 		if (iChar <= 0x0010FFFFUL)
 		{
@@ -336,6 +337,11 @@ void CString::AppendFromUTF32(const unsigned int *pUTF32String, unsigned int iLe
 
 CString::CString()
 {
+}
+
+CString::CString(const std::basic_string<TChar> &cString)
+{
+	std::copy(cString.begin(), cString.end(), begin());
 }
 
 CString::CString(const std::string &cUTF8String)
@@ -498,6 +504,13 @@ CString &CString::operator += (const std::string &cUTF8String)
 	return *this;
 }
 
+CString &CString::operator += (const CString &cString)
+{
+	for (CString::const_iterator cStringIterator = cString.begin(); cStringIterator != cString.end(); ++cStringIterator)
+		push_back(*cStringIterator);
+	return *this;
+}
+
 CString &CString::operator += (const char *pUTF8String)
 {
 	AppendFromUTF8(pUTF8String, strlen(pUTF8String));
@@ -520,6 +533,13 @@ CString CString::operator + (const std::string &cUTF8String)
 {
 	CString cResult(*this);
 	cResult += cUTF8String;
+	return cResult;
+}
+
+CString CString::operator + (const CString &cString)
+{
+	CString cResult(*this);
+	cResult += cString;
 	return cResult;
 }
 

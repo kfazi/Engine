@@ -45,7 +45,7 @@ class CSystemDisplayManager
 		virtual bool SetResolution(const unsigned int iDisplayNumber, const unsigned int iResolutionNumber, const bool bFullScreen) = 0;
 		virtual unsigned int GetCurrentResolutionNumber(const unsigned int iDisplayNumber) const = 0;
 		virtual unsigned int GetDesktopResolutionNumber(const unsigned int iDisplayNumber) const = 0;
-		virtual const std::string &GetDriverName() const = 0;
+		virtual const CString &GetDriverName() const = 0;
 };
 
 }

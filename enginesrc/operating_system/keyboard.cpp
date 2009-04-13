@@ -7,7 +7,7 @@ namespace engine
 
 const int CKeyboard::s_iKeysQuantity = CKeyboard::MediaSelect + 1;
 
-std::string CKeyboard::KeyToString(const EKey eKey) const
+CString CKeyboard::KeyToString(const EKey eKey) const
 {
 	switch (eKey)
 	{
@@ -165,7 +165,7 @@ std::string CKeyboard::KeyToString(const EKey eKey) const
 	}
 }
 
-std::string CKeyboard::KeyNameToString(const EKey eKey) const
+CString CKeyboard::KeyNameToString(const EKey eKey) const
 {
 	switch (eKey)
 	{

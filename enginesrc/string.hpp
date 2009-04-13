@@ -37,6 +37,7 @@ class CString: public std::basic_string<TChar>
 
 	public:
 		CString();
+		CString(const std::basic_string<TChar> &cString);
 		CString(const std::string &cUTF8String);
 		CString(const char *pUTF8String, unsigned int iLength);
 		CString(const char *pUTF8String);
@@ -62,11 +63,13 @@ class CString: public std::basic_string<TChar>
 		CString &operator = (const unsigned int *pUTF32String);
 
 		CString &operator += (const std::string &cUTF8String);
+		CString &operator += (const CString &cString);
 		CString &operator += (const char *pUTF8String);
 		CString &operator += (const unsigned short *pUTF16String);
 		CString &operator += (const unsigned int *pUTF32String);
 
 		CString operator + (const std::string &cUTF8String);
+		CString operator + (const CString &cString);
 		CString operator + (const char *pUTF8String);
 		CString operator + (const unsigned short *pUTF16String);
 		CString operator + (const unsigned int *pUTF32String);
