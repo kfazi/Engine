@@ -4,7 +4,7 @@
 #include "core.hpp"
 #include "time.hpp"
 #include "logger.hpp"
-#include "config.hpp"
+#include "sqliteconfig.hpp"
 #include "functionmanager.hpp"
 #include "scene/scenemanager.hpp"
 #include "operating_system/systeminput.hpp"
@@ -53,7 +53,7 @@ void CCore::Create(CCore *pEngine, const CString &cConfigFile)
 	/* Logger system is used by all other systems. */
 	pEngine->m_pLogger = new CLogger();
 	/* Config system is used by all other systems. */
-	pEngine->m_pConfig = new CConfig(cConfigFile);
+	pEngine->m_pConfig = new CSQLiteConfig(cConfigFile);
 	m_pEngine = pEngine;
 	/* Function manager must be created before other managers. */
 	pEngine->m_pFunctionManager = new CFunctionManager();

@@ -18,8 +18,8 @@ typedef unsigned short TChar;
 class CString: public std::basic_string<TChar>
 {
 	private:
-		static const char s_TrailingBytesForUTF8[];
-		static const unsigned int s_OffsetsFromUTF8[];
+		static const char s_aTrailingBytesForUTF8[];
+		static const unsigned int s_aOffsetsFromUTF8[];
 		static const unsigned int s_aFirstByteMark[];
 
 		static unsigned int UTF16strlen(const unsigned short *pUTF16String);

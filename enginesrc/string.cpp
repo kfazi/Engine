@@ -8,7 +8,7 @@
 namespace engine
 {
 
-const char s_aTrailingBytesForUTF8[256] = {
+const char CString::s_aTrailingBytesForUTF8[256] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -19,9 +19,9 @@ const char s_aTrailingBytesForUTF8[256] = {
 	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5
 };
 
-const unsigned int s_aOffsetsFromUTF8[6] = { 0x00000000UL, 0x00003080UL, 0x000E2080UL, 0x03C82080UL, 0xFA082080UL, 0x82082080UL };
+const unsigned int CString::s_aOffsetsFromUTF8[6] = { 0x00000000UL, 0x00003080UL, 0x000E2080UL, 0x03C82080UL, 0xFA082080UL, 0x82082080UL };
 
-const unsigned int s_aFirstByteMark[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+const unsigned int CString::s_aFirstByteMark[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
 
 
 unsigned int CString::UTF16strlen(const unsigned short *pUTF16String)
@@ -346,17 +346,37 @@ CString::CString(const std::basic_string<TChar> &cString)
 
 CString::CString(const std::string &cUTF8String)
 {
-	FromUTF8(cUTF8String);
+	AppendFromUTF8(cUTF8String.c_str(), cUTF8String.length());
 }
 
 CString::CString(const char *pUTF8String, unsigned int iLength)
 {
-	FromUTF8(pUTF8String, iLength);
+	AppendFromUTF8(pUTF8String, iLength);
 }
 
 CString::CString(const char *pUTF8String)
 {
-	FromUTF8(pUTF8String);
+	AppendFromUTF8(pUTF8String, strlen(pUTF8String));
+}
+
+CString::CString(const unsigned short *pUTF16String, unsigned int iLength)
+{
+	AppendFromUTF16(pUTF16String, iLength);
+}
+
+CString::CString(const unsigned short *pUTF16String)
+{
+	AppendFromUTF16(pUTF16String, UTF16strlen(pUTF16String));
+}
+
+CString::CString(const unsigned int *pUTF32String, unsigned int iLength)
+{
+	AppendFromUTF32(pUTF32String, iLength);
+}
+
+CString::CString(const unsigned int *pUTF32String)
+{
+	AppendFromUTF32(pUTF32String, UTF32strlen(pUTF32String));
 }
 
 std::string CString::ToUTF8() const

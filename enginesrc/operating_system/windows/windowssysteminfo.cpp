@@ -44,7 +44,7 @@ CWindowsSystemInfo::CWindowsSystemInfo()
 		m_cSystemName = (Format("Windows operating system %1%.%2%%3%%4%") % sOSVersionInfo.dwMajorVersion % sOSVersionInfo.dwMinorVersion % cOSName % cOSServicePack).str();
 	}
 	else
-		m_cSystemName = "Unknown Windows operating system";
+		m_cSystemName = "Unknown Microsoft Windows operating system";
 	MEMORYSTATUSEX sMemoryStatus;
 	ZeroMemory(&sMemoryStatus, sizeof(MEMORYSTATUSEX));
 	sMemoryStatus.dwLength = sizeof(MEMORYSTATUSEX);

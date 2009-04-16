@@ -27,6 +27,8 @@ SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/functionmanager.hpp
 	${ENGINESRC_DIR}/logger.hpp
 	${ENGINESRC_DIR}/main.cpp
+	${ENGINESRC_DIR}/sqliteconfig.cpp
+	${ENGINESRC_DIR}/sqliteconfig.hpp
 	${ENGINESRC_DIR}/string.cpp
 	${ENGINESRC_DIR}/string.hpp
 	${ENGINESRC_DIR}/time.cpp
@@ -121,6 +123,112 @@ SET(ENGINE_OPERATING_SYSTEM_UNIX_SOURCES
 )
 SOURCE_GROUP("engine\\enginesrc\\operating_system\\unix" FILES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
+
+SET(ENGINE_3RDPARTY_SQLITE_SOURCES
+	${ENGINESRC_DIR}/3rdparty/sqlite/alter.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/analyze.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/attach.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/auth.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/backup.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/bitvec.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/btmutex.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/btree.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/btree.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/btreeInt.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/build.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/callback.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/complete.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/date.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/delete.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/expr.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fault.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_expr.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_expr.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_hash.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_hash.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_icu.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_porter.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_tokenizer.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_tokenizer.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_tokenizer1.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/func.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/global.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/hash.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/hash.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/hwtime.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/insert.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/journal.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/keywordhash.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/legacy.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/loadext.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/main.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/malloc.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mem0.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mem1.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mem2.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mem3.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mem5.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/memjournal.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mutex.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mutex.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/mutex_noop.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mutex_os2.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mutex_unix.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/mutex_w32.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/notify.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/opcodes.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/opcodes.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/os.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/os.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/os_common.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/os_os2.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/os_unix.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/os_win.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/pager.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/pager.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/parse.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/parse.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/pcache.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/pcache.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/pcache1.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/pragma.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/prepare.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/printf.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/random.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/resolve.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/rowset.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/rtree.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/rtree.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/select.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/shell.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/sqlite3.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/sqlite3ext.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/sqliteicu.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/sqliteInt.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/sqliteLimit.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/status.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/table.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/tokenize.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/trigger.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/update.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/utf.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/util.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/vacuum.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/vdbe.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/vdbe.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/vdbeapi.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/vdbeaux.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/vdbeblob.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/vdbeInt.h
+	${ENGINESRC_DIR}/3rdparty/sqlite/vdbemem.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/vtab.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/walker.c
+	${ENGINESRC_DIR}/3rdparty/sqlite/where.c
+)
+SOURCE_GROUP("engine\\enginesrc\\3rdparty\\sqlite" FILES ${ENGINE_3RDPARTY_SQLITE_SOURCES})
+LIST(APPEND ENGINE_SOURCES ${ENGINE_3RDPARTY_SQLITE_SOURCES})
 
 # System specific files
 IF(WIN32)

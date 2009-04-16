@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "enginemain.hpp"
 #include <iostream>
 #include <fstream>
 #include "core.hpp"
@@ -60,6 +61,13 @@ int DefineEngineMainClass(CEngineMain *pMainClass, int argc, char **argv)
 	}
 	return 0;
 }
+
+#ifdef WINDOWS
+int DefineEngineMainClass(CEngineMain *pMainClass, HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	return 0;
+}
+#endif /* WINDOWS */
 
 }
 

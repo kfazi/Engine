@@ -17,6 +17,7 @@ class CSystemWindow;
 class CSystemInfo;
 class CLogger;
 class CConfig;
+class CEngineMain;
 
 /**
  * Main engine class.
@@ -25,7 +26,7 @@ class CConfig;
  */
 class CCore
 {
-	friend int ::main(int argc, char **argv);
+	friend class CEngineMain;
 	friend void Debug(const CString &cMessage);
 	friend void Debug(const boost::basic_format<TChar> &cFormat);
 
