@@ -31,10 +31,10 @@ class CString: public std::basic_string<TChar, std::char_traits<TChar>, std::all
 		static unsigned int UTF32strlen(const unsigned int *pUTF32String);
 		static bool IsLegalUTF8(const char *pSource, int iLength);
 
-		void AppendFromUTF8ToUTF16(const char *pUTF8String, unsigned int iLength);
-		void AppendFromUTF32ToUTF16(const unsigned int *pUTF32String, unsigned int iLength);
-		void AppendFromUTF8ToUTF32(const char *pUTF8String, unsigned int iLength);
-		void AppendFromUTF16ToUTF32(const unsigned short *pUTF16String, unsigned int iLength);
+		void AppendFromUTF8ToUTF16(std::basic_string<unsigned short> &cTarget, const char *pUTF8String, unsigned int iLength) const;
+		void AppendFromUTF32ToUTF16(std::basic_string<unsigned short> &cTarget, const unsigned int *pUTF32String, unsigned int iLength) const;
+		void AppendFromUTF8ToUTF32(std::basic_string<unsigned int> &cTarget, const char *pUTF8String, unsigned int iLength) const;
+		void AppendFromUTF16ToUTF32(std::basic_string<unsigned int> &cTarget, const unsigned short *pUTF16String, unsigned int iLength) const;
 
 		void AppendFromUTF8(const char *pUTF8String, unsigned int iLength);
 		void AppendFromUTF16(const unsigned short *pUTF16String, unsigned int iLength);
@@ -52,6 +52,8 @@ class CString: public std::basic_string<TChar, std::char_traits<TChar>, std::all
 		CString(const unsigned int *pUTF32String);
 		std::string ToUTF8() const;
 		void ToUTF8(std::string &cUTF8String) const;
+		std::basic_string<unsigned short> ToUTF16() const;
+		void ToUTF16(std::basic_string<unsigned short> &cUTF16String) const;
 		static CString FromUTF8(const std::string &cUTF8String);
 		static CString FromUTF8(const char *pUTF8String, unsigned int iLength);
 		static CString FromUTF8(const char *pUTF8String);

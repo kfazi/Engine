@@ -11,7 +11,7 @@ CConfig::CLoadException::CLoadException(const CString &cFileName, const CString 
 CConfig::CSaveException::CSaveException(const CString &cFileName, const CString &cErrorMessage): CConfig::CException((Format("Can't save %1% configuration file (%2%).") % cFileName % cErrorMessage).str()) {}
 
 /* Main code. */
-bool CConfig::CopyWithoutBackSlashes(CString &cOutput, const CString &cInput)
+bool CConfig::CopyWithoutBackSlashes(CString &cOutput, const CString &cInput) const
 {
 	for (unsigned int i = 0; i < cInput.length(); ++i)
 	{
@@ -32,13 +32,7 @@ CConfig::CConfig()
 	m_cFileName = "";
 }
 
-CConfig::~CConfig()
-{
-	if (m_bModified)
-		Save();
-}
-
-bool CConfig::IsModified()
+bool CConfig::IsModified() const
 {
 	return m_bModified;
 }
@@ -51,6 +45,12 @@ void CConfig::SetFileName(const CString &cFileName)
 void CConfig::Clear()
 {
 	m_cValues.clear();
+}
+
+CConfig::~CConfig()
+{
+	if (m_bModified)
+		Save();
 }
 
 const CString &CConfig::GetFileName()

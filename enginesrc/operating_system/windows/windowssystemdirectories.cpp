@@ -57,6 +57,17 @@ CWindowsSystemDirectories::CWindowsSystemDirectories(): CSystemDirectories()
 	SetResourcesPath(cTempPath + "\\Data");
 }
 
+void CWindowsSystemDirectories::CorrectPath(CString &cPath)
+{
+	for (unsigned int i = 0; i < cPath.length(); ++i)
+	{
+		if (cPath[i] == '/')
+			cPath[i] = '\\';
+	}
+	if (cPath[cPath.length() - 1] != '\\')
+		cPath.push_back('\\');
+}
+
 }
 
 #endif /* WINDOWS */

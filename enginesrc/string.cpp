@@ -90,7 +90,7 @@ bool CString::IsLegalUTF8(const char *pSource, int iLength)
 	return true;
 }
 
-void CString::AppendFromUTF8ToUTF16(const char *pUTF8String, unsigned int iLength)
+void CString::AppendFromUTF8ToUTF16(std::basic_string<unsigned short> &cTarget, const char *pUTF8String, unsigned int iLength) const
 {
 	unsigned int iChar;
 	const char *pSource = pUTF8String;
@@ -142,7 +142,7 @@ void CString::AppendFromUTF8ToUTF16(const char *pUTF8String, unsigned int iLengt
 			}
 			else
 			{
-				push_back(static_cast<unsigned short>(iChar)); /* normal case */
+				cTarget.push_back(static_cast<unsigned short>(iChar)); /* normal case */
 			}
 		}
 		else if (iChar > 0x0010FFFFUL)
@@ -152,13 +152,13 @@ void CString::AppendFromUTF8ToUTF16(const char *pUTF8String, unsigned int iLengt
 		else
 		{
 			iChar -= 0x0010000UL;
-			push_back(static_cast<unsigned short>((iChar >> 10) + 0xD800UL));
-			push_back(static_cast<unsigned short>((iChar & 0x3FFUL) + 0xDC00UL));
+			cTarget.push_back(static_cast<unsigned short>((iChar >> 10) + 0xD800UL));
+			cTarget.push_back(static_cast<unsigned short>((iChar & 0x3FFUL) + 0xDC00UL));
 		}
 	}
 }
 
-void CString::AppendFromUTF32ToUTF16(const unsigned int *pUTF32String, unsigned int iLength)
+void CString::AppendFromUTF32ToUTF16(std::basic_string<unsigned short> &cTarget, const unsigned int *pUTF32String, unsigned int iLength) const
 {
 	unsigned int iChar;
 	const unsigned int *pSource = pUTF32String;
@@ -177,7 +177,7 @@ void CString::AppendFromUTF32ToUTF16(const unsigned int *pUTF32String, unsigned 
 			}
 			else
 			{
-				push_back(static_cast<unsigned short >(iChar));
+				cTarget.push_back(static_cast<unsigned short >(iChar));
 			}
 		}
 		else if (iChar > 0x0010FFFFUL)
@@ -188,13 +188,13 @@ void CString::AppendFromUTF32ToUTF16(const unsigned int *pUTF32String, unsigned 
 		{
 			/* target is a character in range 0xFFFF - 0x10FFFF. */
 			iChar -= 0x0010000UL;
-			push_back(static_cast<unsigned short >((iChar >> 10) + 0xD800UL));
-			push_back(static_cast<unsigned short >((iChar & 0x3FFUL) + 0xDC00UL));
+			cTarget.push_back(static_cast<unsigned short >((iChar >> 10) + 0xD800UL));
+			cTarget.push_back(static_cast<unsigned short >((iChar & 0x3FFUL) + 0xDC00UL));
 		}
 	}
 }
 
-void CString::AppendFromUTF8ToUTF32(const char *pUTF8String, unsigned int iLength)
+void CString::AppendFromUTF8ToUTF32(std::basic_string<unsigned int> &cTarget, const char *pUTF8String, unsigned int iLength) const
 {
 	unsigned int iChar;
 	const char *pSource = pUTF8String;
@@ -249,7 +249,7 @@ void CString::AppendFromUTF8ToUTF32(const char *pUTF8String, unsigned int iLengt
 			}
 			else
 			{
-				push_back(iChar);
+				cTarget.push_back(iChar);
 			}
 		}
 		else
@@ -259,7 +259,7 @@ void CString::AppendFromUTF8ToUTF32(const char *pUTF8String, unsigned int iLengt
 	}
 }
 
-void CString::AppendFromUTF16ToUTF32(const unsigned short *pUTF16String, unsigned int iLength)
+void CString::AppendFromUTF16ToUTF32(std::basic_string<unsigned int> &cTarget, const unsigned short *pUTF16String, unsigned int iLength) const
 {
 	unsigned int iChar;
 	unsigned int iChar2;
@@ -302,23 +302,23 @@ void CString::AppendFromUTF16ToUTF32(const unsigned short *pUTF16String, unsigne
 				break;
 			}
 		}
-		push_back(iChar);
+		cTarget.push_back(iChar);
 	}
 }
 
 void CString::AppendFromUTF8(const char *pUTF8String, unsigned int iLength)
 {
 #if ENGINE_STRING_CHAR == 0
-	AppendFromUTF8ToUTF32(pUTF8String, iLength);
+	AppendFromUTF8ToUTF32(*this, pUTF8String, iLength);
 #else
-	AppendFromUTF8ToUTF16(pUTF8String, iLength);
+	AppendFromUTF8ToUTF16(*this, pUTF8String, iLength);
 #endif /* ENGINE_STRING_CHAR */
 }
 
 void CString::AppendFromUTF16(const unsigned short *pUTF16String, unsigned int iLength)
 {
 #if ENGINE_STRING_CHAR == 0
-	AppendFromUTF16ToUTF32(pUTF16String, iLength);
+	AppendFromUTF16ToUTF32(*this, pUTF16String, iLength);
 #else
 	for (unsigned int i = 0; i < iLength; ++i)
 		push_back(pUTF16String[i]);
@@ -331,7 +331,7 @@ void CString::AppendFromUTF32(const unsigned int *pUTF32String, unsigned int iLe
 	for (unsigned int i = 0; i < iLength; ++i)
 		push_back(pUTF32String[i]);
 #else
-	AppendFromUTF32ToUTF16(pUTF32String, iLength);
+	AppendFromUTF32ToUTF16(*this, pUTF32String, iLength);
 #endif /* ENGINE_STRING_CHAR */
 }
 
@@ -461,6 +461,22 @@ void CString::ToUTF8(std::string &cUTF8String) const
 				cUTF8String.push_back(static_cast<char>((iChar | s_aFirstByteMark[iBytesToWrite]) & iByteMask));
 		}
 	}
+}
+
+std::basic_string<unsigned short> CString::ToUTF16() const
+{
+	std::basic_string<unsigned short> cResult;
+	ToUTF16(cResult);
+	return cResult;
+}
+
+void CString::ToUTF16(std::basic_string<unsigned short> &cUTF16String) const
+{
+#if ENGINE_STRING_CHAR == 0
+	AppendFromUTF32ToUTF16(cUTF16String, c_str(), length());
+#else
+	std::copy(begin(), end(), cUTF16String.begin());
+#endif /* ENGINE_STRING_CHAR */
 }
 
 CString CString::FromUTF8(const std::string &cUTF8String)

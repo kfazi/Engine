@@ -69,6 +69,8 @@ SET(ENGINE_OPERATING_SYSTEM_SOURCES
 	${ENGINESRC_DIR}/operating_system/systeminput.hpp
 	${ENGINESRC_DIR}/operating_system/systeminputcontroller.hpp
 	${ENGINESRC_DIR}/operating_system/systeminputois.hpp
+	${ENGINESRC_DIR}/operating_system/systemmodule.cpp
+	${ENGINESRC_DIR}/operating_system/systemmodule.hpp
 	${ENGINESRC_DIR}/operating_system/systemwindow.hpp
 )
 SOURCE_GROUP("engine\\enginesrc\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})
@@ -103,6 +105,8 @@ SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemmodule.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemmodule.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwinmain.cpp
@@ -252,7 +256,7 @@ IF(WIN32)
         # endforeach(warning)
 
         # More MSVC specific compilation flags
-		#LIST(APPEND ENGINE_DEFINITIONS "-D_SCL_SECURE_NO_WARNINGS")
+		LIST(APPEND ENGINE_DEFINITIONS "-D_SCL_SECURE_NO_WARNINGS")
 		LIST(APPEND ENGINE_DEFINITIONS "-D_CRT_SECURE_NO_DEPRECATE")
 		LIST(APPEND ENGINE_DEFINITIONS "-D_UNICODE")
 		LIST(APPEND ENGINE_DEFINITIONS "-DUNICODE")

@@ -47,6 +47,8 @@ class CSystemDirectories
 		{
 		}
 
+		virtual void CorrectPath(CString &cPath) = 0;
+
 		inline const CString &GetConfigPath()
 		{
 			return m_cConfigPath;

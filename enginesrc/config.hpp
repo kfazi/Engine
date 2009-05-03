@@ -77,7 +77,7 @@ class CConfig
 		 * @param[in] cInput Input string.
 		 * @return True when there is at least one slash in output string.
 		 */
-		bool CopyWithoutBackSlashes(CString &cOutput, const CString &cInput);
+		bool CopyWithoutBackSlashes(CString &cOutput, const CString &cInput) const;
 
 	protected:
 		/**
@@ -98,7 +98,7 @@ class CConfig
 		 *
 		 * @return True when configuration is modified.
 		 */
-		bool IsModified();
+		bool IsModified() const;
 
 		/**
 		 * Sets file name.

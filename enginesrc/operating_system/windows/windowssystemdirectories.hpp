@@ -13,6 +13,7 @@ class CWindowsSystemDirectories: public CSystemDirectories
 {
 	public:
 		CWindowsSystemDirectories();
+		virtual void CorrectPath(CString &cPath);
 };
 
 }
