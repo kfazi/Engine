@@ -4,8 +4,6 @@
 #define ENGINE_WINDOWS_SYSTEM_DIRECTORIES_HPP
 
 #include "../../common.hpp"
-#include <windows.h>
-#include <shlobj.h>
 #include "../systemdirectories.hpp"
 
 namespace engine

@@ -1,5 +1,8 @@
 #ifdef WINDOWS
 
+#include <windows.h>
+#include <shlobj.h>
+#include "../../common.hpp"
 #include "windowssystemdirectories.hpp"
 #include "../../string.hpp"
 

@@ -10,6 +10,8 @@
 #include "string.hpp"
 #include "engineexception.hpp"
 
+//#undef ERROR
+
 namespace engine
 {
 
@@ -30,8 +32,9 @@ class CLogger
 		{
 			DEBUG, /**< Debug type. */
 			NOTIFY, /**< Notify type - the most common one, it informs about object creation, scene change, etc. */
-			WARNING, /**< Warning type - used for example when some problems with sound occured. */
-			FATALERROR /**< Error type - shutdowns engine. */
+			WARNING, /**< Warning type - used for example when some problems with sound occurred. */
+			ERROR, /**< Error type - something went wrong, but there's a chance to recover. */
+			SYSTEMERROR /**< System error type - engine will shutdown. */
 		};
 
 	private:
@@ -106,8 +109,6 @@ class CLogger
 		{
 			for (std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
 				(*cFunctorIterator).second(cMessage, eMessageType);
-			if (eMessageType == FATALERROR)
-				throw CEngineException(cMessage);
 		}
 };
 

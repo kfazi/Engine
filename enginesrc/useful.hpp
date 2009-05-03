@@ -4,8 +4,8 @@
 #include "common.hpp"
 #include <boost/format.hpp>
 #include "core.hpp"
-#include "logger.hpp"
 #include "string.hpp"
+#include "logger.hpp"
 
 namespace engine
 {
@@ -44,10 +44,22 @@ inline void Warning(const boost::basic_format<TChar> &cFormat)
 
 inline void Error(const CString &cMessage)
 {
-	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::FATALERROR);
+	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::ERROR);
+	throw CEngineException(cMessage);
 }
 
 inline void Error(const boost::basic_format<TChar> &cFormat)
+{
+	Error(cFormat.str());
+}
+
+inline void SystemError(const CString &cMessage)
+{
+	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::SYSTEMERROR);
+	throw CEngineException(cMessage);
+}
+
+inline void SystemError(const boost::basic_format<TChar> &cFormat)
 {
 	Error(cFormat.str());
 }
