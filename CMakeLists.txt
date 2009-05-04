@@ -103,6 +103,8 @@ SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdirectories.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemerrormessages.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemerrormessages.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemmodule.cpp

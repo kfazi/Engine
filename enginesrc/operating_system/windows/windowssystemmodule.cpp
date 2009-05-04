@@ -6,6 +6,7 @@
 #include "../systemmodule.hpp"
 #include "../systemdirectories.hpp"
 #include "windowssystemmodule.hpp"
+#include "windowssystemerrormessages.hpp"
 #include <windows.h>
 #include <string>
 
@@ -25,17 +26,11 @@ CString CWindowsSystemModule::GetSystemName(const CString &cDirectory, const CSt
 	CString cResult = cDirectory;
 	CCore::GetInstance()->GetSystemDirectories()->CorrectPath(cResult);
 	if (cFileName.substr(cFileName.length() - 5, 4) == CString(".dll"))
-	{
 		cResult += cFileName;
-	}
-	else if (cFileName.substr(0, 3) == CString("lib"))
-	{
-		cResult += cFileName;
-		cResult += CString(".dll");
-	}
 	else
 	{
-		cResult += CString("lib");
+		if (cFileName.substr(0, 3) != CString("lib"))
+			cResult += CString("lib");
 		cResult += cFileName;
 		cResult += CString(".dll");
 	}
@@ -50,7 +45,7 @@ unsigned int CWindowsSystemModule::Load(const CString &cFileName)
 	std::basic_string<unsigned short> cFileName16 = cFileName.ToUTF16();
 	HINSTANCE pHandle = LoadLibraryW(reinterpret_cast<const wchar_t *>(cFileName16.c_str()));
 	if (!pHandle)
-		;/* ERROR */
+		throw CLoadException(cFileName, CWindowsSystemErrorMessages::GetError(GetLastError()));
 	SModule *pModule = new SModule(cFileName, pHandle);
 	iResult = AddModule(pModule);
 	return iResult;
@@ -70,7 +65,7 @@ void CWindowsSystemModule::Close(const unsigned int iModuleId)
 	SModule *pModule = GetModule(iModuleId);
 	pModule->iReferences--;
 	if (!FreeLibrary(static_cast<HMODULE>(pModule->pHandle)))
-		; /* ERROR */
+		throw CLoadException(pModule->cName, CWindowsSystemErrorMessages::GetError(GetLastError()));
 	if (!pModule->iReferences)
 	{
 		RemoveModule(iModuleId);

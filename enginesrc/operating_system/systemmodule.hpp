@@ -12,6 +12,51 @@ class CSystemModule
 {
 	friend class CCore;
 
+	public:
+		/**
+		 * Base exception class for CSystemModule.
+		 */
+		class CException: public CEngineException
+		{
+			public:
+				/**
+				 * Constructor.
+				 *
+				 * @param[in] cMessage Message passed to CEngineException.
+				 */
+				CException(const CString &cMessage);
+		};
+
+		/**
+		 * Load error exception.
+		 */
+		class CLoadException: public CException
+		{
+			public:
+				/**
+				 * Constructor.
+				 *
+				 * @param[in] cFileName Name of the module file.
+				 * @param[in] cErrorMessage Error message.
+				 */
+			CLoadException(const CString &cFileName, const CString &cErrorMessage);
+		};
+
+		/**
+		 * Close error exception.
+		 */
+		class CCloseException: public CException
+		{
+			public:
+				/**
+				 * Constructor.
+				 *
+				 * @param[in] cFileName Name of the module file.
+				 * @param[in] cErrorMessage Error message.
+				 */
+				CCloseException(const CString &cFileName, const CString &cErrorMessage);
+		};
+
 	protected:
 		struct SModule
 		{

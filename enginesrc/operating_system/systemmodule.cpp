@@ -4,6 +4,12 @@
 namespace engine
 {
 
+/* Exceptions. */
+CSystemModule::CException::CException(const CString &cMessage): CEngineException(cMessage) {}
+CSystemModule::CLoadException::CLoadException(const CString &cFileName, const CString &cErrorMessage): CConfig::CException((Format("Can't load module %1% (%2%).") % cFileName % cErrorMessage).str()) {}
+CSystemModule::CCloseException::CCloseException(const CString &cFileName, const CString &cErrorMessage): CConfig::CException((Format("Can't close module %1% (%2%).") % cFileName % cErrorMessage).str()) {}
+
+/* Main code. */
 CSystemModule::SModule::SModule(const CString &cName, void *pHandle)
 {
 	iReferences = 1;
