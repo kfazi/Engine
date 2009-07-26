@@ -11,7 +11,7 @@
 /* Stupidity prevented. */
 
 /* engineconfig.hpp file must be located in game's directory. */
-#include <engineconfig.hpp>
+#include "engineconfig.hpp"
 
 #endif /* ENGINE_COMMON_HPP */
 

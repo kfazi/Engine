@@ -3,6 +3,8 @@
 namespace engine
 {
 
+boost::thread_specific_ptr<CErrorStack::TStack> CErrorStack::m_cErrors;
+
 void CErrorStack::Init()
 {
 	m_cErrors.reset(new TStack());

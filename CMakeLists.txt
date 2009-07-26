@@ -1,26 +1,30 @@
+PROJECT(Engine)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-SET(CMAKE_MODULE_PATH ${ENGINE_PATH}/cmake_scripts)
+
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_scripts")
 
 FIND_PACKAGE(Doxygen)
 IF(DOXYGEN_FOUND)
-	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} ${ENGINE_PATH}/doxygen.conf WORKING_DIRECTORY ${ENGINE_PATH} COMMENT "Generating engine's documentation")
+	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} doxygen.conf COMMENT "Generating engine's documentation")
 ELSE(DOXYGEN_FOUND)
 	ADD_CUSTOM_TARGET(engine_docs COMMENT "Doxygen not found.")
 ENDIF(DOXYGEN_FOUND)
 
-SET(ENGINESRC_DIR ${ENGINE_PATH}/enginesrc)
+SET(ENGINESRC_DIR "enginesrc")
 SET(ENGINE_SOURCES "")
 SET(ENGINE_DEFINITIONS "")
 SET(ENGINE_INCLUDE_DIR "")
 SET(ENGINE_LIBRARIES "")
 
 SET(ENGINE_CORE_SOURCES
+	${ENGINESRC_DIR}/boostthrowexception.cpp
 	${ENGINESRC_DIR}/common.hpp
 	${ENGINESRC_DIR}/config.cpp
 	${ENGINESRC_DIR}/config.hpp
 	${ENGINESRC_DIR}/core.cpp
 	${ENGINESRC_DIR}/core.hpp
 	${ENGINESRC_DIR}/engine.hpp
+	${ENGINESRC_DIR}/engineconfig.hpp
 	${ENGINESRC_DIR}/enginemain.hpp
 	${ENGINESRC_DIR}/errorstack.cpp
 	${ENGINESRC_DIR}/errorstack.hpp
@@ -37,7 +41,7 @@ SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/useful.hpp
 	${ENGINESRC_DIR}/windowscleanup.hpp
 )
-SOURCE_GROUP("engine\\enginesrc" FILES ${ENGINE_CORE_SOURCES})
+SOURCE_GROUP("src" FILES ${ENGINE_CORE_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_CORE_SOURCES})
 
 SET(ENGINE_MATH_SOURCES
@@ -55,7 +59,7 @@ SET(ENGINE_MATH_SOURCES
 	${ENGINESRC_DIR}/math/vector4.hpp
 	${ENGINESRC_DIR}/math/worldmatrix.hpp
 )
-SOURCE_GROUP("engine\\enginesrc\\math" FILES ${ENGINE_MATH_SOURCES})
+SOURCE_GROUP("src\\math" FILES ${ENGINE_MATH_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_MATH_SOURCES})
 
 SET(ENGINE_OPERATING_SYSTEM_SOURCES
@@ -74,13 +78,13 @@ SET(ENGINE_OPERATING_SYSTEM_SOURCES
 	${ENGINESRC_DIR}/operating_system/systemmodule.hpp
 	${ENGINESRC_DIR}/operating_system/systemwindow.hpp
 )
-SOURCE_GROUP("engine\\enginesrc\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})
+SOURCE_GROUP("src\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_SOURCES})
 
 SET(ENGINE_RENDERER_SOURCES
 	${ENGINESRC_DIR}/renderer/rendertarget.hpp
 )
-SOURCE_GROUP("engine\\enginesrc\\renderer" FILES ${ENGINE_RENDERER_SOURCES})
+SOURCE_GROUP("src\\renderer" FILES ${ENGINE_RENDERER_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_RENDERER_SOURCES})
 
 SET(ENGINE_SCENE_SOURCES
@@ -96,7 +100,7 @@ SET(ENGINE_SCENE_SOURCES
 	${ENGINESRC_DIR}/scene/targetedcamera.cpp
 	${ENGINESRC_DIR}/scene/targetedcamera.hpp
 )
-SOURCE_GROUP("engine\\enginesrc\\scene" FILES ${ENGINE_SCENE_SOURCES})
+SOURCE_GROUP("src\\scene" FILES ${ENGINE_SCENE_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_SCENE_SOURCES})
 
 SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
@@ -104,6 +108,7 @@ SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdirectories.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystementrypoint.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemerrormessages.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemerrormessages.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.cpp
@@ -112,9 +117,8 @@ SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemmodule.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.hpp
-	${ENGINESRC_DIR}/operating_system/windows/windowssystemwinmain.cpp
 )
-SOURCE_GROUP("engine\\enginesrc\\operating_system\\windows" FILES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
+SOURCE_GROUP("src\\operating_system\\windows" FILES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES})
 
 SET(ENGINE_OPERATING_SYSTEM_UNIX_SOURCES
@@ -128,7 +132,7 @@ SET(ENGINE_OPERATING_SYSTEM_UNIX_SOURCES
 	${ENGINESRC_DIR}/operating_system/unix/unixsysteminfo.cpp
 	${ENGINESRC_DIR}/operating_system/unix/unixsysteminfo.hpp
 )
-SOURCE_GROUP("engine\\enginesrc\\operating_system\\unix" FILES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
+SOURCE_GROUP("src\\operating_system\\unix" FILES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_OPERATING_SYSTEM_UNIX_SOURCES})
 
 SET(ENGINE_3RDPARTY_SQLITE_SOURCES
@@ -149,17 +153,6 @@ SET(ENGINE_3RDPARTY_SQLITE_SOURCES
 	${ENGINESRC_DIR}/3rdparty/sqlite/delete.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/expr.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/fault.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3.h
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_expr.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_expr.h
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_hash.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_hash.h
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_icu.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_porter.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_tokenizer.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_tokenizer.h
-	${ENGINESRC_DIR}/3rdparty/sqlite/fts3_tokenizer1.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/func.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/global.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/hash.c
@@ -206,13 +199,10 @@ SET(ENGINE_3RDPARTY_SQLITE_SOURCES
 	${ENGINESRC_DIR}/3rdparty/sqlite/random.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/resolve.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/rowset.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/rtree.c
-	${ENGINESRC_DIR}/3rdparty/sqlite/rtree.h
 	${ENGINESRC_DIR}/3rdparty/sqlite/select.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/shell.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/sqlite3.h
 	${ENGINESRC_DIR}/3rdparty/sqlite/sqlite3ext.h
-	${ENGINESRC_DIR}/3rdparty/sqlite/sqliteicu.h
 	${ENGINESRC_DIR}/3rdparty/sqlite/sqliteInt.h
 	${ENGINESRC_DIR}/3rdparty/sqlite/sqliteLimit.h
 	${ENGINESRC_DIR}/3rdparty/sqlite/status.c
@@ -234,7 +224,7 @@ SET(ENGINE_3RDPARTY_SQLITE_SOURCES
 	${ENGINESRC_DIR}/3rdparty/sqlite/walker.c
 	${ENGINESRC_DIR}/3rdparty/sqlite/where.c
 )
-SOURCE_GROUP("engine\\enginesrc\\3rdparty\\sqlite" FILES ${ENGINE_3RDPARTY_SQLITE_SOURCES})
+SOURCE_GROUP("src\\3rdparty\\sqlite" FILES ${ENGINE_3RDPARTY_SQLITE_SOURCES})
 LIST(APPEND ENGINE_SOURCES ${ENGINE_3RDPARTY_SQLITE_SOURCES})
 
 # System specific files
@@ -257,7 +247,7 @@ IF(WIN32)
 		STRING(REGEX REPLACE "/EHsc" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 		# Disable RTTI
-		STRING(REGEX REPLACE "/EHsc" "/GR+" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+		STRING(REGEX REPLACE "/GR+" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 		LIST(APPEND ENGINE_DEFINITIONS "-DBOOST_NO_TYPEID")
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /GR-")
 
@@ -286,7 +276,7 @@ IF(UNIX)
 ENDIF(UNIX)
 
 FIND_PACKAGE(Boost 1.36.0 COMPONENTS thread signals date_time REQUIRED)
-FIND_PACKAGE(OIS)
+FIND_PACKAGE(OIS REQUIRED)
 
 LIST(APPEND ENGINE_DEFINITIONS "-DCOMPANY_NAME=\"${COMPANY_NAME}\"")
 LIST(APPEND ENGINE_DEFINITIONS "-DGAME_NAME=\"${BINARY_NAME}\"")
@@ -298,9 +288,17 @@ LIST(APPEND ENGINE_LIBRARIES ${Boost_LIBRARIES})
 LIST(APPEND ENGINE_LIBRARIES ${ENGINE_SYSTEM_LIBRARIES})
 LIST(APPEND ENGINE_LIBRARY_DIR ${Boost_LIBRARY_DIRS})
 
-SET(ENGINE_DEFINITIONS ${ENGINE_DEFINITIONS} CACHE INTERNAL "")
-SET(ENGINE_INCLUDE_DIR ${ENGINE_INCLUDE_DIR} CACHE INTERNAL "")
-SET(ENGINE_SOURCES ${ENGINE_SOURCES} CACHE INTERNAL "")
-SET(ENGINE_LIBRARIES ${ENGINE_LIBRARIES} CACHE INTERNAL "")
+#SET(ENGINE_DEFINITIONS ${ENGINE_DEFINITIONS} CACHE INTERNAL "")
+#SET(ENGINE_INCLUDE_DIR ${ENGINE_INCLUDE_DIR} CACHE INTERNAL "")
+#SET(ENGINE_SOURCES ${ENGINE_SOURCES} CACHE INTERNAL "")
+#SET(ENGINE_LIBRARIES ${ENGINE_LIBRARIES} CACHE INTERNAL "")
+
+LIST(APPEND SOURCES ${ENGINE_SOURCES})
+ADD_DEFINITIONS(${ENGINE_DEFINITIONS})
+INCLUDE_DIRECTORIES(${ENGINE_INCLUDE_DIR} ${ENGINE_CONFIG_PATH})
+LINK_DIRECTORIES(${ENGINE_LIBRARY_DIR})
+
+ADD_LIBRARY("engine" MODULE ${SOURCES})
+TARGET_LINK_LIBRARIES("engine" ${ENGINE_LIBRARIES})
 
 # EOF

@@ -27,6 +27,11 @@ CConfig::CConfig()
 	m_cFileName = "";
 }
 
+const std::map<CString, CString> &CConfig::GetValues()
+{
+	return m_cValues;
+}
+
 bool CConfig::IsModified() const
 {
 	return m_bModified;
@@ -44,8 +49,6 @@ void CConfig::Clear()
 
 CConfig::~CConfig()
 {
-	if (m_bModified)
-		Save();
 }
 
 const CString &CConfig::GetFileName()

@@ -35,17 +35,17 @@ class CConfig
 
 	protected:
 		/**
+		* Constructor.
+		*/
+		CConfig();
+
+		/**
 		 * Returns map of the configuration values.
 		 * Should be used during saving.
 		 *
 		 * @return Map of the configuration values.
 		 */
 		const std::map<CString, CString> &GetValues();
-
-		/**
-		 * Constructor.
-		 */
-		CConfig();
 
 		/**
 		 * Checks if configuration has been modified.
@@ -70,7 +70,7 @@ class CConfig
 		/**
 		 * Virtual destructor.
 		 */
-		virtual ~CConfig();
+		virtual ~CConfig() = 0;
 
 		/**
 		 * Loads given configuration file.

@@ -6,6 +6,7 @@
 #include "logger.hpp"
 #include "sqliteconfig.hpp"
 #include "functionmanager.hpp"
+#include "errorstack.hpp"
 #include "scene/scenemanager.hpp"
 #include "operating_system/systeminput.hpp"
 #include "operating_system/windows/windowssystemdirectories.hpp"
@@ -30,6 +31,7 @@ CCore::CCore()
 	m_pSystemDirectories = NULL;
 	m_pSystemWindow = NULL;
 	m_pSystemInfo = NULL;
+	CErrorStack::Init();
 }
 
 CCore::~CCore()

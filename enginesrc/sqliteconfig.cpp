@@ -13,6 +13,8 @@ CSQLiteConfig::CSQLiteConfig(const CString &cFileName): CConfig()
 
 CSQLiteConfig::~CSQLiteConfig()
 {
+	if (IsModified())
+		Save();
 	sqlite3_close(m_pDataBase);
 }
 

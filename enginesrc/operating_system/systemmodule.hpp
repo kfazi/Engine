@@ -87,11 +87,6 @@ class CSystemModule
 
 	public:
 		/**
-		 * Constructor.
-		 */
-		CSystemModule();
-
-		/**
 		 * Virtual destructor.
 		 */
 		virtual ~CSystemModule();
@@ -139,7 +134,7 @@ class CSystemModule
 		 * @throws CCloseException Module can't be closed because of operating system error.
 		 * @param[in] iModuleId ID of the module to close.
 		 */
-		virtual void Close(const unsigned int iModuleId) = 0;
+		virtual void Close(const unsigned int iModuleId) {}
 };
 
 }
