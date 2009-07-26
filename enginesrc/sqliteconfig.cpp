@@ -29,12 +29,11 @@ void CSQLiteConfig::Load(const CString &cFileName, bool bSave)
 		cUsedFileName = CString("./") + cFileName;
 	else
 		cUsedFileName = cFileName;
-	int iResult;
-	iResult = sqlite3_open_v2(cUsedFileName.ToUTF8().c_str(), &m_pDataBase, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+	int iResult = sqlite3_open_v2(cUsedFileName.ToUTF8().c_str(), &m_pDataBase, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
 	if (iResult != SQLITE_OK)
 	{
 		sqlite3_close(m_pDataBase);
-		throw CConfig::CLoadException(cFileName, sqlite3_errmsg(m_pDataBase));
+		CErrorStack::Push(CErrorStack::DOES_NOT_EXSISTS, sqlite3_errmsg(m_pDataBase));
 	}
 
 	/* Prepare statements */
@@ -46,33 +45,13 @@ void CSQLiteConfig::Load(const CString &cFileName, bool bSave)
 																");";
 	const char *pSelectAllDataSQL = "SELECT name, value FROM config;";
 	sqlite3_stmt *pCreateTableStatement;
-	iResult = sqlite3_prepare_v2(m_pDataBase, pCreateTableSQL, -1, &pCreateTableStatement, NULL);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CLoadException(cFileName, sqlite3_errmsg(m_pDataBase));
-	}
+	sqlite3_prepare_v2(m_pDataBase, pCreateTableSQL, -1, &pCreateTableStatement, NULL);
 	sqlite3_stmt *pSelectAllDataStatement;
-	iResult = sqlite3_prepare_v2(m_pDataBase, pSelectAllDataSQL, -1, &pSelectAllDataStatement, NULL);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CLoadException(cFileName, sqlite3_errmsg(m_pDataBase));
-	}
+	sqlite3_prepare_v2(m_pDataBase, pSelectAllDataSQL, -1, &pSelectAllDataStatement, NULL);
 
 	/* Create table if it doesn't exist. */
-	iResult = sqlite3_step(pCreateTableStatement);
-	if (iResult != SQLITE_DONE)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CLoadException(cFileName, sqlite3_errmsg(m_pDataBase));
-	}
-	iResult = sqlite3_finalize(pCreateTableStatement);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CLoadException(cFileName, sqlite3_errmsg(m_pDataBase));
-	}
+	sqlite3_step(pCreateTableStatement);
+	sqlite3_finalize(pCreateTableStatement);
 
 	/* Load all data. */
 	do 
@@ -86,17 +65,7 @@ void CSQLiteConfig::Load(const CString &cFileName, bool bSave)
 		}
 	}
 	while (iResult == SQLITE_ROW);
-	if (iResult != SQLITE_DONE)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CLoadException(cFileName, sqlite3_errmsg(m_pDataBase));
-	}
-	iResult = sqlite3_finalize(pSelectAllDataStatement);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CLoadException(cFileName, sqlite3_errmsg(m_pDataBase));
-	}
+	sqlite3_finalize(pSelectAllDataStatement);
 	SetFileName(cFileName);
 }
 
@@ -104,46 +73,20 @@ void CSQLiteConfig::Save()
 {
 	if (!IsModified())
 		return;
-	int iResult;
 	/* Prepare statements */
 	const char *pInsertSQL = "INSERT OR REPLACE INTO config(name, value) VALUES(?, ?);";
 	const char *pBeginSQL = "BEGIN;";
 	const char *pCommitSQL = "COMMIT;";
 	sqlite3_stmt *pInsertStatement;
-	iResult = sqlite3_prepare_v2(m_pDataBase, pInsertSQL, -1, &pInsertStatement, NULL);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-	}
 	sqlite3_stmt *pBeginStatement;
-	iResult = sqlite3_prepare_v2(m_pDataBase, pBeginSQL, -1, &pBeginStatement, NULL);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-	}
 	sqlite3_stmt *pCommitStatement;
-	iResult = sqlite3_prepare_v2(m_pDataBase, pCommitSQL, -1, &pCommitStatement, NULL);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-	}
+	sqlite3_prepare_v2(m_pDataBase, pInsertSQL, -1, &pInsertStatement, NULL);
+	sqlite3_prepare_v2(m_pDataBase, pBeginSQL, -1, &pBeginStatement, NULL);
+	sqlite3_prepare_v2(m_pDataBase, pCommitSQL, -1, &pCommitStatement, NULL);
 
 	/* Begin transaction. */
-	iResult = sqlite3_step(pBeginStatement);
-	if (iResult != SQLITE_DONE)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-	}
-	iResult = sqlite3_finalize(pBeginStatement);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-	}
+	sqlite3_step(pBeginStatement);
+	sqlite3_finalize(pBeginStatement);
 
 	/* Insert/update data. */
 	const std::map<CString, CString> &cValues = GetValues();
@@ -151,33 +94,13 @@ void CSQLiteConfig::Save()
 	{
 		sqlite3_bind_text(pInsertStatement, 1, (*cValuesIterator).first.ToUTF8().c_str(), -1, SQLITE_TRANSIENT);
 		sqlite3_bind_text(pInsertStatement, 2, (*cValuesIterator).second.ToUTF8().c_str(), -1, SQLITE_TRANSIENT);
-		iResult = sqlite3_step(pInsertStatement);
-		if (iResult != SQLITE_DONE)
-		{
-			sqlite3_close(m_pDataBase);
-			throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-		}
-		iResult = sqlite3_reset(pInsertStatement);
-		if (iResult != SQLITE_OK)
-		{
-			sqlite3_close(m_pDataBase);
-			throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-		}
+		sqlite3_step(pInsertStatement);
+		sqlite3_reset(pInsertStatement);
 	}
 
 	/* Commit transaction. */
-	iResult = sqlite3_step(pCommitStatement);
-	if (iResult != SQLITE_DONE)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-	}
-	iResult = sqlite3_finalize(pCommitStatement);
-	if (iResult != SQLITE_OK)
-	{
-		sqlite3_close(m_pDataBase);
-		throw CConfig::CSaveException(GetFileName(), sqlite3_errmsg(m_pDataBase));
-	}
+	sqlite3_step(pCommitStatement);
+	sqlite3_finalize(pCommitStatement);
 }
 
 }

@@ -5,11 +5,6 @@
 namespace engine
 {
 
-/* Exceptions. */
-CConfig::CException::CException(const CString &cMessage): CEngineException(cMessage) {}
-CConfig::CLoadException::CLoadException(const CString &cFileName, const CString &cErrorMessage): CConfig::CException((Format("Can't load %1% configuration file (%2%).") % cFileName % cErrorMessage).str()) {}
-CConfig::CSaveException::CSaveException(const CString &cFileName, const CString &cErrorMessage): CConfig::CException((Format("Can't save %1% configuration file (%2%).") % cFileName % cErrorMessage).str()) {}
-
 /* Main code. */
 bool CConfig::CopyWithoutBackSlashes(CString &cOutput, const CString &cInput) const
 {

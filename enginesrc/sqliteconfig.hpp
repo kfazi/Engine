@@ -4,7 +4,6 @@
 #include "common.hpp"
 #include "useful.hpp"
 #include "config.hpp"
-#include "engineexception.hpp"
 #include "3rdparty/sqlite/sqlite3.h"
 
 namespace engine

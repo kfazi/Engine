@@ -5,7 +5,7 @@
 #include "common.hpp"
 #include "config.hpp"
 #include "core.hpp"
-#include "engineexception.hpp"
+#include "errorstack.hpp"
 #include "functionmanager.hpp"
 #include "logger.hpp"
 #include "time.hpp"

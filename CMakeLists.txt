@@ -21,8 +21,9 @@ SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/core.cpp
 	${ENGINESRC_DIR}/core.hpp
 	${ENGINESRC_DIR}/engine.hpp
-	${ENGINESRC_DIR}/engineexception.hpp
 	${ENGINESRC_DIR}/enginemain.hpp
+	${ENGINESRC_DIR}/errorstack.cpp
+	${ENGINESRC_DIR}/errorstack.hpp
 	${ENGINESRC_DIR}/functionmanager.cpp
 	${ENGINESRC_DIR}/functionmanager.hpp
 	${ENGINESRC_DIR}/logger.hpp
@@ -252,10 +253,20 @@ IF(WIN32)
             SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
         ENDIF(WIN32_USE_MP)
 
-        # turn off various warnings
-        # foreach(warning 4244 4251 4267 4275 4290 4786 4305 4996)
-        #     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd${warning}")
-        # endforeach(warning)
+		# Disable exceptions handling
+		STRING(REGEX REPLACE "/EHsc" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+		# Disable RTTI
+		STRING(REGEX REPLACE "/EHsc" "/GR+" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+		LIST(APPEND ENGINE_DEFINITIONS "-DBOOST_NO_TYPEID")
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /GR-")
+
+        # Turn off various warnings
+		# 4530 - C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
+		#        C++ exception handling was used but /EHsc was not selected.
+		foreach(warning 4530)
+			SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd${warning}")
+		endforeach(warning)
 
         # More MSVC specific compilation flags
 		LIST(APPEND ENGINE_DEFINITIONS "-D_SCL_SECURE_NO_WARNINGS")

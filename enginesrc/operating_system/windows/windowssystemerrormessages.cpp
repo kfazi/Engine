@@ -14,10 +14,11 @@ CString CWindowsSystemErrorMessages::GetError(unsigned int iErrorCode)
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_FROM_SYSTEM,
 		NULL, 
 		iErrorCode,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		0 /*MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT)*/,
 		(LPWSTR)&pTemp,
 		1,
 		NULL);
+	/* wchar_t is unsigned short under Windows. */
 	CString cResult = reinterpret_cast<unsigned short *>(pTemp);
 	::LocalFree(pTemp);
 	return cResult;

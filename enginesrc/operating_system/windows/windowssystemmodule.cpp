@@ -43,9 +43,10 @@ unsigned int CWindowsSystemModule::Load(const CString &cFileName)
 	if (FindModule(iResult, cFileName))
 		return iResult;
 	std::basic_string<unsigned short> cFileName16 = cFileName.ToUTF16();
+	/* wchar_t is unsigned short under Windows. */
 	HINSTANCE pHandle = LoadLibraryW(reinterpret_cast<const wchar_t *>(cFileName16.c_str()));
 	if (!pHandle)
-		throw CLoadException(cFileName, CWindowsSystemErrorMessages::GetError(GetLastError()));
+		;// CWindowsSystemErrorMessages::GetError(GetLastError()));
 	SModule *pModule = new SModule(cFileName, pHandle);
 	iResult = AddModule(pModule);
 	return iResult;
@@ -65,7 +66,7 @@ void CWindowsSystemModule::Close(const unsigned int iModuleId)
 	SModule *pModule = GetModule(iModuleId);
 	pModule->iReferences--;
 	if (!FreeLibrary(static_cast<HMODULE>(pModule->pHandle)))
-		throw CLoadException(pModule->cName, CWindowsSystemErrorMessages::GetError(GetLastError()));
+		;// CWindowsSystemErrorMessages::GetError(GetLastError()));
 	if (!pModule->iReferences)
 	{
 		RemoveModule(iModuleId);

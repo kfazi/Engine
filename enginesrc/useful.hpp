@@ -6,6 +6,7 @@
 #include "core.hpp"
 #include "string.hpp"
 #include "logger.hpp"
+#include "errorstack.hpp"
 
 namespace engine
 {
@@ -45,7 +46,7 @@ inline void Warning(const boost::basic_format<TChar> &cFormat)
 inline void Error(const CString &cMessage)
 {
 	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::ERROR);
-	throw CEngineException(cMessage);
+	exit(-1);
 }
 
 inline void Error(const boost::basic_format<TChar> &cFormat)
@@ -56,7 +57,7 @@ inline void Error(const boost::basic_format<TChar> &cFormat)
 inline void SystemError(const CString &cMessage)
 {
 	CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::SYSTEMERROR);
-	throw CEngineException(cMessage);
+	exit(-1);
 }
 
 inline void SystemError(const boost::basic_format<TChar> &cFormat)

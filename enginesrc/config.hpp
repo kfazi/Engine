@@ -3,7 +3,6 @@
 
 #include "common.hpp"
 #include "string.hpp"
-#include "engineexception.hpp"
 #include <map>
 
 namespace engine
@@ -15,51 +14,6 @@ namespace engine
  */
 class CConfig
 {
-	public:
-		/**
-		 * Base exception class for CConfig.
-		 */
-		class CException: public CEngineException
-		{
-			public:
-				/**
-				 * Constructor.
-				 *
-				 * @param[in] cMessage Message passed to CEngineException.
-				 */
-				CException(const CString &cMessage);
-		};
-
-		/**
-		 * Load error exception.
-		 */
-		class CLoadException: public CException
-		{
-			public:
-				/**
-				 * Constructor.
-				 *
-				 * @param[in] cFileName Name of the configuration file.
-				 * @param[in] cErrorMessage Error message.
-				 */
-				CLoadException(const CString &cFileName, const CString &cErrorMessage);
-		};
-
-		/**
-		 * Save error exception.
-		 */
-		class CSaveException: public CException
-		{
-			public:
-				/**
-				 * Constructor.
-				 *
-				 * @param[in] cFileName Name of the configuration file.
-				 * @param[in] cErrorMessage Error message.
-				 */
-				CSaveException(const CString &cFileName, const CString &cErrorMessage);
-		};
-
 	private:
 		/** Marks if configuration was modified. */
 		bool m_bModified;
@@ -121,6 +75,7 @@ class CConfig
 		/**
 		 * Loads given configuration file.
 		 *
+		 * @throws CLoadException Configuration file can't be loaded.
 		 * @param[in] cFileName File name of the configuration to load.
 		 * @param[in] bSave Should be saved if modified.
 		 */
@@ -128,6 +83,8 @@ class CConfig
 
 		/**
 		 * Saves configuration.
+		 *
+		 * @throws CSaveException Configuration file can't be saved.
 		 */
 		virtual void Save() = 0;
 

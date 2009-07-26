@@ -1,0 +1,39 @@
+#include "errorstack.hpp"
+
+namespace engine
+{
+
+void CErrorStack::Init()
+{
+	m_cErrors.reset(new TStack());
+	Push(NO_ERROR, "");
+}
+
+void CErrorStack::Push(const CErrorStack::ECode eCode, const CString &cMessage)
+{
+	TStack *cStack = m_cErrors.get();
+	cStack->push(SError(eCode, cMessage));
+}
+
+void CErrorStack::Pop()
+{
+	TStack *cStack = m_cErrors.get();
+	if (cStack->size() > 1)
+		cStack->pop();
+}
+
+const CErrorStack::SError &CErrorStack::Check()
+{
+	TStack *cStack = m_cErrors.get();
+	return cStack->top();
+}
+
+unsigned int CErrorStack::Count()
+{
+	TStack *cStack = m_cErrors.get();
+	return cStack->size() - 1;
+}
+
+}
+
+/* EOF */

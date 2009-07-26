@@ -8,7 +8,6 @@
 #include <boost/bind.hpp>
 #include "core.hpp"
 #include "string.hpp"
-#include "engineexception.hpp"
 
 //#undef ERROR
 
