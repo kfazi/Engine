@@ -45,6 +45,7 @@ class CErrorStack
 		static void Init();
 		static void Push(const ECode eCode, const CString &cMessage);
 		static void Pop();
+		static void Clear();
 		static const SError &Check();
 		static unsigned int Count();
 };

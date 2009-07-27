@@ -24,6 +24,13 @@ void CErrorStack::Pop()
 		cStack->pop();
 }
 
+void CErrorStack::Clear()
+{
+	TStack *cStack = m_cErrors.get();
+	while (cStack->size() > 1)
+		cStack->pop();
+}
+
 const CErrorStack::SError &CErrorStack::Check()
 {
 	TStack *cStack = m_cErrors.get();

@@ -22,10 +22,6 @@ class CSceneManager
 	public:
 		void Add(CScene *pScene);
 		bool Remove(CScene *pScene);
-		CString ToString() const
-		{
-			return CString("CSceneManager[ ") + CString(" ]");
-		}
 };
 
 }

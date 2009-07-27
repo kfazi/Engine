@@ -5,7 +5,22 @@
 #include "string.hpp"
 #include <boost/format.hpp>
 
-extern int main(int argc, char **argv);
+
+namespace engine
+{
+
+class CEngineMain;
+
+}
+
+/**
+ * Creates engine's core.
+ *
+ * @param[in] cEngineMain Main class responsible for managing applications flow.
+ * @param[in] iArgc Quantity of arguments passed to the application (the same as in main()).
+ * @param[in] pArgv Two dimensional array of zero terminated arguments passed to the application (the same as in main()).
+ */
+extern "C" void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
 
 namespace engine
 {
@@ -17,7 +32,6 @@ class CSystemWindow;
 class CSystemInfo;
 class CLogger;
 class CConfig;
-class CEngineMain;
 
 /**
  * Main engine class.
@@ -26,9 +40,9 @@ class CEngineMain;
  */
 class CCore
 {
-	friend class CEngineMain;
 	friend void Debug(const CString &cMessage);
 	friend void Debug(const boost::basic_format<TChar> &cFormat);
+	friend void ::Create(CEngineMain &cEngineMain, int iArgc, char **pArgv);
 
 	private:
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
@@ -39,9 +53,10 @@ class CCore
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
 		CConfig *m_pConfig; /**< Pointer to the config system. */
 		double m_fFrameTime; /**< How much time passed in last frame. */
-		bool m_bFinished;
-		static bool m_bDebug;
-		static CCore *m_pEngine; /**< Makes sure CCore is created before main(). */
+		bool m_bFinished; /**< Flag indicating if engine is going to return to operating system. */
+		static CString m_cConfigFile; /**< Startup configuration file. */
+		static CCore *m_pEngine; /**< Singleton's instance. */
+		static bool m_bDebug; /**< Flag indicating if engine is in debug mode. */
 
 		/**
 		 * Private constructor.
@@ -52,8 +67,6 @@ class CCore
 		 * Private destructor.
 		 */
 		~CCore();
-
-		static void Create(CCore *pEngine, const CString &cConfigFile);
 
 	public:
 		/**
@@ -128,16 +141,6 @@ class CCore
 		inline void Finish()
 		{
 			m_bFinished = true;
-		}
-
-		/**
-		 * Convert CCore to a string.
-		 * Creates string with all engine objects converted to a string.
-		 * @return A string.
-		 */
-		CString ToString() const
-		{
-			return "CCore[ ";// + m_pSceneManager->ToString() + " ]";
 		}
 
 		/**

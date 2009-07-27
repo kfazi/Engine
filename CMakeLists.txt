@@ -5,7 +5,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_scripts")
 
 FIND_PACKAGE(Doxygen)
 IF(DOXYGEN_FOUND)
-	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} doxygen.conf COMMENT "Generating engine's documentation")
+	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} "${CMAKE_SOURCE_DIR}/doxygen.conf" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMENT "Generating engine's documentation")
 ELSE(DOXYGEN_FOUND)
 	ADD_CUSTOM_TARGET(engine_docs COMMENT "Doxygen not found.")
 ENDIF(DOXYGEN_FOUND)

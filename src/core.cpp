@@ -7,6 +7,7 @@
 #include "sqliteconfig.hpp"
 #include "functionmanager.hpp"
 #include "errorstack.hpp"
+#include "enginemain.hpp"
 #include "scene/scenemanager.hpp"
 #include "operating_system/systeminput.hpp"
 #include "operating_system/windows/windowssystemdirectories.hpp"
@@ -16,9 +17,32 @@
 #include "operating_system/unix/unixsystemwindow.hpp"
 #include "operating_system/unix/unixsysteminfo.hpp"
 
+void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
+{
+	/* Ignore executable path/name. */
+	for (int i = 1; i < iArgc; ++i)
+	{
+		engine::CString cArgument = pArgv[i];
+		int iEqualSignIndex = cArgument.find_first_of('=');
+		if (iEqualSignIndex != engine::CString::npos)
+		{
+			/* This argument has a value. */
+			engine::CString cName = cArgument.substr(0, iEqualSignIndex);
+			engine::CString cValue = cArgument.substr(iEqualSignIndex - 1);
+			cEngineMain.ParseArgument(cName, cValue);
+		}
+		else
+			cEngineMain.ParseArgument(cArgument, engine::CString(""));
+	}
+	engine::CCore::m_pEngine = new engine::CCore();
+	/* Run application */
+	cEngineMain.Run();
+}
+
 namespace engine
 {
 
+CString CCore::m_cConfigFile = CString("config.cfg");
 CCore *CCore::m_pEngine = NULL;
 bool CCore::m_bDebug = true;
 
@@ -32,6 +56,25 @@ CCore::CCore()
 	m_pSystemWindow = NULL;
 	m_pSystemInfo = NULL;
 	CErrorStack::Init();
+	/* Logger system is used by all other systems. */
+	m_pEngine->m_pLogger = new CLogger();
+	/* Config system is used by all other systems. */
+	m_pEngine->m_pConfig = new CSQLiteConfig(m_cConfigFile);
+	/* Function manager must be created before other managers. */
+	m_pEngine->m_pFunctionManager = new CFunctionManager();
+	m_pEngine->m_pSceneManager = new CSceneManager();
+#ifdef WINDOWS
+	m_pEngine->m_pSystemDirectories = new CWindowsSystemDirectories();
+	//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
+	m_pEngine->m_pSystemInfo = new CWindowsSystemInfo();
+#endif /* WINDOWS */
+#ifdef UNIX
+	m_pEngine->m_pSystemDirectories = new CUnixSystemDirectories();
+	m_pEngine->m_pSystemWindow = new CUnixSystemWindow();
+	m_pEngine->m_pSystemInfo = new CUnixSystemInfo();
+#endif /* UNIX */
+	m_pEngine->m_fFrameTime = 0;
+	m_pEngine->m_bFinished = false;
 }
 
 CCore::~CCore()
@@ -48,30 +91,6 @@ CCore::~CCore()
 		/* Logger system must be deleted last. */
 		delete m_pLogger;
 	}
-}
-
-void CCore::Create(CCore *pEngine, const CString &cConfigFile)
-{
-	/* Logger system is used by all other systems. */
-	pEngine->m_pLogger = new CLogger();
-	/* Config system is used by all other systems. */
-	pEngine->m_pConfig = new CSQLiteConfig(cConfigFile);
-	m_pEngine = pEngine;
-	/* Function manager must be created before other managers. */
-	pEngine->m_pFunctionManager = new CFunctionManager();
-	pEngine->m_pSceneManager = new CSceneManager();
-#ifdef WINDOWS
-	pEngine->m_pSystemDirectories = new CWindowsSystemDirectories();
-//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
-	pEngine->m_pSystemInfo = new CWindowsSystemInfo();
-#endif /* WINDOWS */
-#ifdef UNIX
-	pEngine->m_pSystemDirectories = new CUnixSystemDirectories();
-	pEngine->m_pSystemWindow = new CUnixSystemWindow();
-	pEngine->m_pSystemInfo = new CUnixSystemInfo();
-#endif /* UNIX */
-	pEngine->m_fFrameTime = 0;
-	pEngine->m_bFinished = false;
 }
 
 void CCore::ProcessFrame()
@@ -93,6 +112,14 @@ void CCore::ProcessFrame()
 		m_pFunctionManager->Process();
 		m_fFrameTime -= fFrameWait;
 	}
+#ifdef _DEBUG
+	if (CErrorStack::Count() > 0)
+	{
+		exit(-1);
+	}
+#else /* DEBUG */
+	CErrorStack::Clear();
+#endif /* DEBUG */
 //	m_pSystemWindow->ProcessEvents(); /* Once per frame is enough. */
 //	m_pSystemWindow->SwapBuffers();
 }
