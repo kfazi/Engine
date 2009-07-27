@@ -10,13 +10,24 @@
 #endif /* !defined WINDOWS && !defined UNIX && !defined OSX */
 /* Stupidity prevented. */
 
-/* engineconfig.hpp file must be located in game's directory. */
 #include "engineconfig.hpp"
 
 #endif /* ENGINE_COMMON_HPP */
 
 #ifdef WINDOWS
 #include "windowscleanup.hpp"
+#endif /* WINDOWS */
+
+/* Compiler dependent DLL macros */
+#ifdef WINDOWS
+#ifdef __MINGW32__
+#else /* __MINGW32__ */
+#ifdef engine_EXPORTS
+#define DLLFUNCTION __declspec(dllexport)
+#else
+#define DLLFUNCTION __declspec(dllimport)
+#endif /* engine_EXPORTS */
+#endif /* __MINGW32__ */
 #endif /* WINDOWS */
 
 /* EOF */

@@ -9,7 +9,9 @@ namespace engine
 class CEngineMain
 {
 	public:
-		virtual ~CEngineMain() = 0;
+		virtual ~CEngineMain()
+		{
+		}
 		virtual void Run() = 0;
 		virtual void ParseArgument(const CString &cArgumentName, const CString &cArgumentValue) = 0;
 };

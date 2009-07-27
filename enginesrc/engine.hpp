@@ -10,6 +10,7 @@
 #include "logger.hpp"
 #include "time.hpp"
 #include "useful.hpp"
+#include "string.hpp"
 #include "math/vector3.hpp"
 #include "operating_system/systemdisplaymanager.hpp"
 #include "operating_system/systeminfo.hpp"

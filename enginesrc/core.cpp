@@ -34,7 +34,7 @@ void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 		else
 			cEngineMain.ParseArgument(cArgument, engine::CString(""));
 	}
-	engine::CCore::m_pEngine = new engine::CCore();
+	engine::CCore cCore;
 	/* Run application */
 	cEngineMain.Run();
 }
@@ -48,6 +48,7 @@ bool CCore::m_bDebug = true;
 
 CCore::CCore()
 {
+	m_pEngine = this;
 	m_pLogger = NULL;
 	m_pConfig = NULL;
 	m_pFunctionManager = NULL;

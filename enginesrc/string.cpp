@@ -341,7 +341,7 @@ CString::CString()
 
 CString::CString(const std::basic_string<TChar> &cString)
 {
-	std::copy(cString.begin(), cString.end(), begin());
+	std::copy(cString.begin(), cString.end(), std::back_inserter(*this));
 }
 
 CString::CString(const std::string &cUTF8String)

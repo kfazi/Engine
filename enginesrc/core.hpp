@@ -20,7 +20,7 @@ class CEngineMain;
  * @param[in] iArgc Quantity of arguments passed to the application (the same as in main()).
  * @param[in] pArgv Two dimensional array of zero terminated arguments passed to the application (the same as in main()).
  */
-extern "C" void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
+extern "C" DLLFUNCTION void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
 
 namespace engine
 {
