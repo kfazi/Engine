@@ -23,9 +23,9 @@
 #ifdef __MINGW32__
 #else /* __MINGW32__ */
 #ifdef engine_EXPORTS
-#define DLLFUNCTION __declspec(dllexport)
+#define DLLEXPORTIMPORT __declspec(dllexport)
 #else
-#define DLLFUNCTION __declspec(dllimport)
+#define DLLEXPORTIMPORT __declspec(dllimport)
 #endif /* engine_EXPORTS */
 #endif /* __MINGW32__ */
 #endif /* WINDOWS */

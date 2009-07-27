@@ -9,7 +9,7 @@
 namespace engine
 {
 
-template <class CDeviceClass, typename TEvent> class CSystemInputController
+template <class CDeviceClass, typename TEvent> class DLLEXPORTIMPORT CSystemInputController
 {
 	private:
 		typedef boost::function<void (const CDeviceClass *, const TEvent)> TFunctor;

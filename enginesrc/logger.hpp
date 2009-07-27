@@ -18,7 +18,7 @@ namespace engine
  * Class encapsulating all logging functions.
  * Use it through CCore singleton.
  */
-class CLogger
+class DLLEXPORTIMPORT CLogger
 {
 	/** Allow CCore to create this class. */
 	friend class CCore;

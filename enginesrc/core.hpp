@@ -20,7 +20,7 @@ class CEngineMain;
  * @param[in] iArgc Quantity of arguments passed to the application (the same as in main()).
  * @param[in] pArgv Two dimensional array of zero terminated arguments passed to the application (the same as in main()).
  */
-extern "C" DLLFUNCTION void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
+extern "C" DLLEXPORTIMPORT void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
 
 namespace engine
 {
@@ -38,7 +38,7 @@ class CConfig;
  * This is singleton.
  * Use it to communicate with the engine.
  */
-class CCore
+class DLLEXPORTIMPORT CCore
 {
 	friend void Debug(const CString &cMessage);
 	friend void Debug(const boost::basic_format<TChar> &cFormat);

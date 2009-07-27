@@ -19,6 +19,7 @@
 
 void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 {
+	cEngineMain.Create();
 	/* Ignore executable path/name. */
 	for (int i = 1; i < iArgc; ++i)
 	{

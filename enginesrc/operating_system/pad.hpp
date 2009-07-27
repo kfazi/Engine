@@ -7,7 +7,7 @@
 namespace engine
 {
 
-class CPad: public CSystemInputController<CPad, int>
+class DLLEXPORTIMPORT CPad: public CSystemInputController<CPad, int>
 {
 	friend class CSystemInput;
 

@@ -20,7 +20,7 @@ typedef std::basic_istringstream<TChar, std::char_traits<TChar>, std::allocator<
 typedef std::basic_ostringstream<TChar, std::char_traits<TChar>, std::allocator<TChar> > TOStringStream;
 typedef std::basic_stringstream<TChar, std::char_traits<TChar>, std::allocator<TChar> > TStringStream;
 
-class CString: public std::basic_string<TChar, std::char_traits<TChar>, std::allocator<TChar> >
+class DLLEXPORTIMPORT CString: public std::basic_string<TChar, std::char_traits<TChar>, std::allocator<TChar> >
 {
 	private:
 		static const char s_aTrailingBytesForUTF8[];

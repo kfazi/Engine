@@ -11,7 +11,7 @@
 namespace engine
 {
 
-class CScene
+class DLLEXPORTIMPORT CScene
 {
 	private:
 		int m_iUpdateID;

@@ -19,7 +19,7 @@ namespace engine
 /**
  * Class encapsulating a standard 3-element vector.
  */
-class CVector3
+class DLLEXPORTIMPORT CVector3
 {
 	public:
 		double X; /**< An X component of the vector. */

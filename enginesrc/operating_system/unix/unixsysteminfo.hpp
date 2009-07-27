@@ -8,7 +8,7 @@
 namespace engine
 {
 
-class CUnixSystemInfo: public CSystemInfo
+class DLLEXPORTIMPORT CUnixSystemInfo: public CSystemInfo
 {
 	friend class CCore;
 

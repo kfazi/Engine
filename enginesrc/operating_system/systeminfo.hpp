@@ -7,7 +7,7 @@
 namespace engine
 {
 
-class CSystemInfo
+class DLLEXPORTIMPORT CSystemInfo
 {
 	friend class CCore;
 

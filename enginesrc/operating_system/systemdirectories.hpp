@@ -7,7 +7,7 @@
 namespace engine
 {
 
-class CSystemDirectories
+class DLLEXPORTIMPORT CSystemDirectories
 {
 	private:
 		CString m_cConfigPath;

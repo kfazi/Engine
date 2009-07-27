@@ -7,7 +7,7 @@
 namespace engine
 {
 
-class CFreeCamera: public CCamera
+class DLLEXPORTIMPORT CFreeCamera: public CCamera
 {
 	public:
 };

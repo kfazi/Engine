@@ -14,7 +14,7 @@ namespace engine
 /**
  * Class for storing error codes.
  */
-class CErrorStack
+class DLLEXPORTIMPORT CErrorStack
 {
 	public:
 		enum ECode

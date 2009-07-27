@@ -8,7 +8,7 @@
 namespace engine
 {
 
-class CWindowsSystemInfo: public CSystemInfo
+class DLLEXPORTIMPORT CWindowsSystemInfo: public CSystemInfo
 {
 	friend class CCore;
 

@@ -10,7 +10,7 @@
 namespace engine
 {
 
-class CWorldMatrix
+class DLLEXPORTIMPORT CWorldMatrix
 {
 	private:
 		CMatrix4 m_cAbsoluteMatrix;

@@ -8,7 +8,7 @@
 namespace engine
 {
 
-class CSystemWindow
+class DLLEXPORTIMPORT CSystemWindow
 {
 	friend class CCore;
 

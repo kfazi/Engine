@@ -10,6 +10,7 @@ class CEngineMainImplementation: public engine::CEngineMain
 {
 	public:
 		virtual ~CEngineMainImplementation();
+		virtual void Create();
 		virtual void Run();
 		virtual void ParseArgument(const engine::CString &cArgumentName, const engine::CString &cArgumentValue);
 };

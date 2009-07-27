@@ -7,7 +7,7 @@
 namespace engine
 {
 
-class CMouse: public CSystemInputController<CMouse, int>
+class DLLEXPORTIMPORT CMouse: public CSystemInputController<CMouse, int>
 {
 	friend class CSystemInput;
 

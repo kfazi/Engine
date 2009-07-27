@@ -19,7 +19,7 @@ namespace engine
 /**
  * Class encapsulating a rectangle.
  */
-class CRect
+class DLLEXPORTIMPORT CRect
 {
 	private:
 		/**
@@ -134,6 +134,7 @@ class CRect
 			Top = cRect.Top;
 			Right = cRect.Right;
 			Bottom = cRect.Bottom;
+			return *this;
 		}
 };
 

@@ -9,7 +9,7 @@
 namespace engine
 {
 
-class CWindowsSystemErrorMessages
+class DLLEXPORTIMPORT CWindowsSystemErrorMessages
 {
 	public:
 		static CString GetError(unsigned int iErrorCode);

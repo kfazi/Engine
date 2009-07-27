@@ -9,7 +9,7 @@
 namespace engine
 {
 
-class CSQLiteConfig: public CConfig
+class DLLEXPORTIMPORT CSQLiteConfig: public CConfig
 {
 	private:
 		sqlite3 *m_pDataBase;

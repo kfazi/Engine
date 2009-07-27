@@ -31,7 +31,7 @@ namespace engine
  * --                                                       --
  * </pre>
  */
-class CMatrix4
+class DLLEXPORTIMPORT CMatrix4
 {
 	protected:
 		union

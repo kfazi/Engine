@@ -10,7 +10,7 @@
 namespace engine
 {
 
-class CWindowsSystemModule: public CSystemModule
+class DLLEXPORTIMPORT CWindowsSystemModule: public CSystemModule
 {
 	friend class CCore;
 

@@ -7,7 +7,7 @@
 namespace engine
 {
 
-class CKeyboard: public CSystemInputController<CKeyboard, int>
+class DLLEXPORTIMPORT CKeyboard: public CSystemInputController<CKeyboard, int>
 {
 	friend class CSystemInput;
 

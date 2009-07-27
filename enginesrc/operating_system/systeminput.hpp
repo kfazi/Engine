@@ -14,7 +14,7 @@
 namespace engine
 {
 
-class CSystemInput
+class DLLEXPORTIMPORT CSystemInput
 {
 	friend class CCore;
 

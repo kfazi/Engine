@@ -19,7 +19,7 @@ namespace engine
 /**
  * Class encapsulating a standard 2-element vector.
  */
-class CVector2
+class DLLEXPORTIMPORT CVector2
 {
 	public:
 		double X; /**< An X component of the vector. */

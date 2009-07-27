@@ -13,7 +13,7 @@ namespace engine
  * Modules are dynamically loaded libraries.
  * Use it through CCore singleton.
  */
-class CSystemModule
+class DLLEXPORTIMPORT CSystemModule
 {
 	/** Allow CCore to create this class. */
 	friend class CCore;

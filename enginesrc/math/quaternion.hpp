@@ -6,7 +6,7 @@
 namespace engine
 {
 
-class CQuaternion
+class DLLEXPORTIMPORT CQuaternion
 {
 	public:
 		double W;
@@ -154,7 +154,7 @@ class CQuaternion
 		 */
 		template<typename TType> friend CQuaternion operator * (TType tScalar, const CQuaternion &cQuaternion)
 		{
-			return CQuaternion(cQuaternion) * tScalar;
+			return CQuaternion(cQuaternion) *= tScalar;
 		}
 
 		/**
@@ -162,7 +162,7 @@ class CQuaternion
 		 */
 		template<typename TType> friend CQuaternion operator * (const CQuaternion &cQuaternion, TType tScalar)
 		{
-			return CQuaternion(cQuaternion) * tScalar;
+			return CQuaternion(cQuaternion) *= tScalar;
 		}
 
 		/**
@@ -170,7 +170,7 @@ class CQuaternion
 		 */
 		template<typename TType> friend CQuaternion operator / (TType tScalar, const CQuaternion &cQuaternion)
 		{
-			return CQuaternion(cQuaternion) / tScalar;
+			return CQuaternion(cQuaternion) /= tScalar;
 		}
 
 		/**
@@ -178,7 +178,7 @@ class CQuaternion
 		 */
 		template<typename TType> friend CQuaternion operator / (const CQuaternion &cQuaternion, TType tScalar)
 		{
-			return CQuaternion(cQuaternion) / tScalar;
+			return CQuaternion(cQuaternion) /= tScalar;
 		}
 		
 		/**

@@ -6,7 +6,7 @@
 namespace engine
 {
 
-class CSceneObject
+class DLLEXPORTIMPORT CSceneObject
 {
 	public:
 		CSceneObject()

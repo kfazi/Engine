@@ -21,7 +21,6 @@ SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/functionmanager.cpp
 	${ENGINESRC_DIR}/functionmanager.hpp
 	${ENGINESRC_DIR}/logger.hpp
-	${ENGINESRC_DIR}/main.cpp
 	${ENGINESRC_DIR}/sqliteconfig.cpp
 	${ENGINESRC_DIR}/sqliteconfig.hpp
 	${ENGINESRC_DIR}/string.cpp

@@ -11,7 +11,7 @@ namespace engine
 
 class CScene;
 
-class CSceneManager
+class DLLEXPORTIMPORT CSceneManager
 {
 	/* Allow engine to create this class. */
 	friend class CCore;

@@ -17,7 +17,7 @@
 namespace engine
 {
 
-class CSystemInput: public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener
+class DLLEXPORTIMPORT CSystemInput: public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener
 {
 	friend class CCore;
 

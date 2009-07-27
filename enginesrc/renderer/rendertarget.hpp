@@ -6,7 +6,7 @@
 namespace engine
 {
 
-class CRenderTarget
+class DLLEXPORTIMPORT CRenderTarget
 {
 	public:
 };

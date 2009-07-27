@@ -14,7 +14,7 @@ namespace engine
  * Class for manipulating functions with delayed execution time.
  * Use it through CCore singleton.
  */
-class CFunctionManager
+class DLLEXPORTIMPORT CFunctionManager
 {
 	/** Allow CCore to create this class, and run Process() every frame. */
 	friend class CCore;

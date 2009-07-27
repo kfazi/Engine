@@ -7,7 +7,7 @@
 namespace engine
 {
 
-class CMath
+class DLLEXPORTIMPORT CMath
 {
 	public:
 		/**

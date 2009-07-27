@@ -11,7 +11,7 @@ namespace engine
  * Class for storing frames time.
  * This class is static.
  */
-class CTime
+class DLLEXPORTIMPORT CTime
 {
 	/** Allow CCore to call Update(). */
 	friend class CCore;

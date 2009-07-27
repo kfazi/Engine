@@ -12,7 +12,7 @@ namespace engine
  * Class for managing configuration.
  * This is just an interface, you should use specialized class such as CSQLiteConfig.
  */
-class CConfig
+class DLLEXPORTIMPORT CConfig
 {
 	private:
 		/** Marks if configuration was modified. */
