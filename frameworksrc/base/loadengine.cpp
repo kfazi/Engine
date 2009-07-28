@@ -3,6 +3,8 @@
 
 typedef void (*TEngineCreateFunction)(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
 TEngineCreateFunction g_pEngineCreate;
+typedef void (*TEngineDestroyFunction)();
+TEngineDestroyFunction g_pEngineDestroy;
 
 #ifdef WINDOWS
 #include <windows.h>
@@ -17,12 +19,19 @@ void LoadEngine()
 #ifdef WINDOWS
 	g_pEngineInstance = LoadLibraryA(ENGINE_NAME);
 	g_pEngineCreate = reinterpret_cast<TEngineCreateFunction>(GetProcAddress(g_pEngineInstance, "Create"));
+	g_pEngineDestroy = reinterpret_cast<TEngineDestroyFunction>(GetProcAddress(g_pEngineInstance, "Destroy"));
 #endif /* WINDOWS */
 }
 
 void RunEngine(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 {
 	(*g_pEngineCreate)(cEngineMain, iArgc, pArgv);
+	/* Run application */
+	while (!engine::CCore::GetInstance()->IsFinished())
+	{
+		engine::CCore::GetInstance()->ProcessFrame();
+	}
+	(*g_pEngineDestroy)();
 }
 
 void CloseEngine()

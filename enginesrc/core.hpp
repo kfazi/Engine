@@ -22,6 +22,11 @@ class CEngineMain;
  */
 extern "C" DLLEXPORTIMPORT void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
 
+/**
+ * Destroys engine's core.
+ */
+extern "C" DLLEXPORTIMPORT void Destroy();
+
 namespace engine
 {
 
@@ -43,8 +48,10 @@ class DLLEXPORTIMPORT CCore
 	friend void Debug(const CString &cMessage);
 	friend void Debug(const boost::basic_format<TChar> &cFormat);
 	friend void ::Create(CEngineMain &cEngineMain, int iArgc, char **pArgv);
+	friend void ::Destroy();
 
 	private:
+		CEngineMain *m_pEngineMain; /**< Application's class. */
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
 		CFunctionManager *m_pFunctionManager; /**< Pointer to the function manager. */
 		CSystemDirectories *m_pSystemDirectories; /**< Pointer to the system directories object. */
@@ -54,9 +61,9 @@ class DLLEXPORTIMPORT CCore
 		CConfig *m_pConfig; /**< Pointer to the config system. */
 		double m_fFrameTime; /**< How much time passed in last frame. */
 		bool m_bFinished; /**< Flag indicating if engine is going to return to operating system. */
-		static CString m_cConfigFile; /**< Startup configuration file. */
-		static CCore *m_pEngine; /**< Singleton's instance. */
-		static bool m_bDebug; /**< Flag indicating if engine is in debug mode. */
+		static CString s_cConfigFile; /**< Startup configuration file. */
+		static CCore *s_pEngine; /**< Singleton's instance. */
+		static bool s_bDebug; /**< Flag indicating if engine is in debug mode. */
 
 		/**
 		 * Private constructor.
@@ -68,13 +75,18 @@ class DLLEXPORTIMPORT CCore
 		 */
 		~CCore();
 
+		/**
+		 * Creates all core systems.
+		 */
+		void Create();
+
 	public:
 		/**
 		 * @return Instance of the engine.
 		 */
 		inline static CCore *GetInstance()
 		{
-			return m_pEngine;
+			return s_pEngine;
 		}
 
 		/**
@@ -133,7 +145,7 @@ class DLLEXPORTIMPORT CCore
 			return m_pConfig;
 		}
 
-		inline bool Finished() const
+		inline bool IsFinished() const
 		{
 			return m_bFinished;
 		}

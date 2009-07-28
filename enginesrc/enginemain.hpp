@@ -13,7 +13,8 @@ class CEngineMain
 		{
 		}
 		virtual void Create() = 0;
-		virtual void Run() = 0;
+		virtual void Destroy() = 0;
+		virtual void ChooseScene() = 0;
 		virtual void ParseArgument(const CString &cArgumentName, const CString &cArgumentValue) = 0;
 };
 

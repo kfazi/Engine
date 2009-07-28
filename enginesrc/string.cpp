@@ -394,7 +394,7 @@ void CString::ToUTF8(std::string &cUTF8String) const
 	while (cSourceIterator != end())
 	{
 		unsigned int iBytesToWrite = 0;
-		const unsigned int iByteMask = 0xBF;
+		const unsigned int iByteMask = 0x7F; /* WAS 0xBF, TODO: INVESTIGATE!!! */
 		const unsigned int iByteMark = 0x80; 
 		iChar = *cSourceIterator++;
 #if ENGINE_STRING_CHAR == 0
@@ -450,7 +450,8 @@ void CString::ToUTF8(std::string &cUTF8String) const
 			/* ERROR */
 		}
 
-		switch (iBytesToWrite) { /* note: everything falls through. */
+		switch (iBytesToWrite)
+		{ /* note: everything falls through. */
 			case 4:
 				cUTF8String.push_back(static_cast<char>(((iChar >> 18) | iByteMark) & iByteMask));
 			case 3:

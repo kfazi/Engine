@@ -13,13 +13,13 @@ namespace engine
 
 inline void Debug(const CString &cMessage)
 {
-	if (CCore::m_bDebug)
+	if (CCore::s_bDebug)
 		CCore::GetInstance()->GetLogger()->Log(cMessage, CLogger::DEBUG);
 }
 
 inline void Debug(const boost::basic_format<TChar> &cFormat)
 {
-	if (CCore::m_bDebug)
+	if (CCore::s_bDebug)
 		Debug(cFormat.str());
 }
 

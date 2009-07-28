@@ -19,7 +19,10 @@
 
 void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 {
-	cEngineMain.Create();
+	engine::CCore *pCore = new engine::CCore;
+	engine::CCore::s_pEngine = pCore;
+	pCore->m_pEngineMain = &cEngineMain;
+	pCore->m_pEngineMain->Create();
 	/* Ignore executable path/name. */
 	for (int i = 1; i < iArgc; ++i)
 	{
@@ -27,29 +30,32 @@ void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 		int iEqualSignIndex = cArgument.find_first_of('=');
 		if (iEqualSignIndex != engine::CString::npos)
 		{
-			/* This argument has a value. */
+			/* This argument has some value. */
 			engine::CString cName = cArgument.substr(0, iEqualSignIndex);
 			engine::CString cValue = cArgument.substr(iEqualSignIndex - 1);
-			cEngineMain.ParseArgument(cName, cValue);
+			pCore->m_pEngineMain->ParseArgument(cName, cValue);
 		}
 		else
-			cEngineMain.ParseArgument(cArgument, engine::CString(""));
+			pCore->m_pEngineMain->ParseArgument(cArgument, "");
 	}
-	engine::CCore cCore;
-	/* Run application */
-	cEngineMain.Run();
+	pCore->Create();
+	pCore->m_pEngineMain->ChooseScene();
+}
+
+void Destroy()
+{
+	delete engine::CCore::s_pEngine;
 }
 
 namespace engine
 {
 
-CString CCore::m_cConfigFile = CString("config.cfg");
-CCore *CCore::m_pEngine = NULL;
-bool CCore::m_bDebug = true;
+CString CCore::s_cConfigFile = CString("config.cfg");
+CCore *CCore::s_pEngine = NULL;
+bool CCore::s_bDebug = true;
 
 CCore::CCore()
 {
-	m_pEngine = this;
 	m_pLogger = NULL;
 	m_pConfig = NULL;
 	m_pFunctionManager = NULL;
@@ -57,51 +63,55 @@ CCore::CCore()
 	m_pSystemDirectories = NULL;
 	m_pSystemWindow = NULL;
 	m_pSystemInfo = NULL;
+	m_fFrameTime = 0;
+	m_bFinished = false;
 	CErrorStack::Init();
+	CTime::Update();
 	/* Logger system is used by all other systems. */
-	m_pEngine->m_pLogger = new CLogger();
-	/* Config system is used by all other systems. */
-	m_pEngine->m_pConfig = new CSQLiteConfig(m_cConfigFile);
-	/* Function manager must be created before other managers. */
-	m_pEngine->m_pFunctionManager = new CFunctionManager();
-	m_pEngine->m_pSceneManager = new CSceneManager();
-#ifdef WINDOWS
-	m_pEngine->m_pSystemDirectories = new CWindowsSystemDirectories();
-	//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
-	m_pEngine->m_pSystemInfo = new CWindowsSystemInfo();
-#endif /* WINDOWS */
-#ifdef UNIX
-	m_pEngine->m_pSystemDirectories = new CUnixSystemDirectories();
-	m_pEngine->m_pSystemWindow = new CUnixSystemWindow();
-	m_pEngine->m_pSystemInfo = new CUnixSystemInfo();
-#endif /* UNIX */
-	m_pEngine->m_fFrameTime = 0;
-	m_pEngine->m_bFinished = false;
+	m_pLogger = new CLogger();
 }
 
 CCore::~CCore()
 {
-	if (m_pEngine)
-	{
-		delete m_pSceneManager;
-		delete m_pFunctionManager;
-		delete m_pSystemDirectories;
+	m_pEngineMain->Destroy();
+	delete m_pSceneManager;
+	delete m_pFunctionManager;
+	delete m_pSystemDirectories;
 //		delete m_pSystemWindow;
-		delete m_pSystemInfo;
-		/* Config system must be deleted just before logger system. */
-		delete m_pConfig;
-		/* Logger system must be deleted last. */
-		delete m_pLogger;
-	}
+	delete m_pSystemInfo;
+	/* Config system must be deleted just before logger system. */
+	delete m_pConfig;
+	/* Logger system must be deleted last. */
+	delete m_pLogger;
+}
+
+void CCore::Create()
+{
+	/* Config system is used by all other systems. */
+	m_pConfig = new CSQLiteConfig(s_cConfigFile);
+	/* Function manager must be created before other managers. */
+	m_pFunctionManager = new CFunctionManager();
+	m_pSceneManager = new CSceneManager();
+#ifdef WINDOWS
+	m_pSystemDirectories = new CWindowsSystemDirectories();
+	//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
+	m_pSystemInfo = new CWindowsSystemInfo();
+#endif /* WINDOWS */
+#ifdef UNIX
+	m_pSystemDirectories = new CUnixSystemDirectories();
+	m_pSystemWindow = new CUnixSystemWindow();
+	m_pSystemInfo = new CUnixSystemInfo();
+#endif /* UNIX */
+	m_fFrameTime = static_cast<double>(ENGINE_FPS);
 }
 
 void CCore::ProcessFrame()
 {
-	static double fFrameWait = 1.0 / ENGINE_FPS;
+	static double fFrameWait = 1.0 / static_cast<double>(ENGINE_FPS);
 #ifdef ENGINE_CONSTRAIN_FPS
 	if (m_fFrameTime < fFrameWait)
 	{
-		boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<int>((fFrameWait - m_fFrameTime) * static_cast<double>(1000.0))));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(static_cast<int>((fFrameWait - m_fFrameTime) * 1000.0)));
 		CTime::Update();
 		m_fFrameTime += CTime::GetFrameTime();
 	}
@@ -117,7 +127,13 @@ void CCore::ProcessFrame()
 #ifdef _DEBUG
 	if (CErrorStack::Count() > 0)
 	{
-		exit(-1);
+		Warning("Error stack is not empty!");
+		while (CErrorStack::Count() > 0)
+		{
+			Warning(Format("Code: %1%, Message: %2%") % CErrorStack::Check().eCode % CErrorStack::Check().cMessage);
+			CErrorStack::Pop();
+		}
+		Error("Can't continue!");
 	}
 #else /* DEBUG */
 	CErrorStack::Clear();
