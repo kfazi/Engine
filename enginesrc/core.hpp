@@ -33,6 +33,7 @@ namespace engine
 class CSceneManager;
 class CFunctionManager;
 class CSystemDirectories;
+class CSystemDisplayManager;
 class CSystemWindow;
 class CSystemInfo;
 class CLogger;
@@ -55,6 +56,7 @@ class DLLEXPORTIMPORT CCore
 		CSceneManager *m_pSceneManager; /**< Pointer to the scene manager. */
 		CFunctionManager *m_pFunctionManager; /**< Pointer to the function manager. */
 		CSystemDirectories *m_pSystemDirectories; /**< Pointer to the system directories object. */
+		CSystemDisplayManager *m_pSystemDisplayManager; /**< Pointer to the system display manager object. */
 		CSystemWindow *m_pSystemWindow; /**< Pointer to the system window object. */
 		CSystemInfo *m_pSystemInfo; /**< Pointer to the system info object. */
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
@@ -111,6 +113,14 @@ class DLLEXPORTIMPORT CCore
 		inline CSystemDirectories *GetSystemDirectories()
 		{
 			return m_pSystemDirectories;
+		}
+
+		/**
+		* @return Pointer to the system display mnager object.
+		*/
+		inline CSystemDisplayManager *GetSystemDisplayManager()
+		{
+			return m_pSystemDisplayManager;
 		}
 
 		/**

@@ -9,7 +9,7 @@
 namespace engine
 {
 
-class DLLEXPORTIMPORT CWindowsSystemDirectories: public CSystemDirectories
+class CWindowsSystemDirectories: public CSystemDirectories
 {
 	public:
 		CWindowsSystemDirectories();

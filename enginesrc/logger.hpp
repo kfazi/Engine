@@ -9,8 +9,6 @@
 #include "core.hpp"
 #include "string.hpp"
 
-//#undef ERROR
-
 namespace engine
 {
 

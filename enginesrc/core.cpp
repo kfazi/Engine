@@ -11,6 +11,7 @@
 #include "scene/scenemanager.hpp"
 #include "operating_system/systeminput.hpp"
 #include "operating_system/windows/windowssystemdirectories.hpp"
+#include "operating_system/windows/windowssystemdisplaymanager.hpp"
 #include "operating_system/windows/windowssystemwindow.hpp"
 #include "operating_system/windows/windowssysteminfo.hpp"
 #include "operating_system/unix/unixsystemdirectories.hpp"
@@ -61,6 +62,7 @@ CCore::CCore()
 	m_pFunctionManager = NULL;
 	m_pSceneManager = NULL;
 	m_pSystemDirectories = NULL;
+	m_pSystemDisplayManager = NULL;
 	m_pSystemWindow = NULL;
 	m_pSystemInfo = NULL;
 	m_fFrameTime = 0;
@@ -94,6 +96,7 @@ void CCore::Create()
 	m_pSceneManager = new CSceneManager();
 #ifdef WINDOWS
 	m_pSystemDirectories = new CWindowsSystemDirectories();
+	m_pSystemDisplayManager = new CWindowsSystemDisplayManager();
 	//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
 	m_pSystemInfo = new CWindowsSystemInfo();
 #endif /* WINDOWS */
