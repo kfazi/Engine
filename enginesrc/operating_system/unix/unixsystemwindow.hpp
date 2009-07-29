@@ -13,7 +13,7 @@
 namespace engine
 {
 
-class DLLEXPORTIMPORT CUnixSystemWindow: public CSystemWindow
+class CUnixSystemWindow: public CSystemWindow
 {
 	friend class CCore;
 	private:

@@ -31,27 +31,37 @@ unsigned int CSystemResolution::GetRefreshRate() const
 	return m_iRefreshRate;
 }
 
-bool CSystemResolution::LessThanPointer(const CSystemResolution *pLeft, const CSystemResolution *pRight)
+bool CSystemResolution::operator < (const CSystemResolution &cResolution) const
 {
-	int iAreaLeft = pLeft->m_iWidth * pLeft->m_iHeight;
-	int iAreaRight = pRight->m_iWidth * pRight->m_iHeight;
+	int iAreaLeft = m_iWidth * m_iHeight;
+	int iAreaRight = cResolution.m_iWidth * cResolution.m_iHeight;
 	if (iAreaLeft < iAreaRight)
 		return true;
 	else if (iAreaLeft == iAreaRight)
 	{
-		if (pLeft->m_iBPP < pRight->m_iBPP)
+		if (m_iBPP < cResolution.m_iBPP)
 			return true;
-		else if (pLeft->m_iBPP == pRight->m_iBPP)
-			return pLeft->m_iRefreshRate < pRight->m_iRefreshRate;
+		else if (m_iBPP == cResolution.m_iBPP)
+			return m_iRefreshRate < cResolution.m_iRefreshRate;
 	}
 	return false;
 }
 
+bool CSystemResolution::operator == (const CSystemResolution &cResolution) const
+{
+	int iAreaLeft = m_iWidth * m_iHeight;
+	int iAreaRight = cResolution.m_iWidth * cResolution.m_iHeight;
+	return (iAreaLeft == iAreaRight && m_iBPP == cResolution.m_iBPP && m_iRefreshRate == cResolution.m_iRefreshRate);
+}
+
+bool CSystemResolution::LessThanPointer(const CSystemResolution *pLeft, const CSystemResolution *pRight)
+{
+	return *pLeft < *pRight;
+}
+
 bool CSystemResolution::EqualToPointer(const CSystemResolution *pLeft, const CSystemResolution *pRight)
 {
-	int iAreaLeft = pLeft->m_iWidth * pLeft->m_iHeight;
-	int iAreaRight = pRight->m_iWidth * pRight->m_iHeight;
-	return (iAreaLeft == iAreaRight && pLeft->m_iBPP == pRight->m_iBPP && pLeft->m_iRefreshRate == pRight->m_iRefreshRate);
+	return *pLeft == *pRight;
 }
 
 }

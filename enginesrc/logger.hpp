@@ -6,7 +6,6 @@
 #include <boost/format.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#include "core.hpp"
 #include "string.hpp"
 
 namespace engine

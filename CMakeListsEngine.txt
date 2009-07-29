@@ -57,6 +57,9 @@ SET(ENGINE_OPERATING_SYSTEM_SOURCES
 	${ENGINESRC_DIR}/operating_system/mouse.hpp
 	${ENGINESRC_DIR}/operating_system/pad.hpp
 	${ENGINESRC_DIR}/operating_system/systemdirectories.hpp
+	${ENGINESRC_DIR}/operating_system/systemdisplay.cpp
+	${ENGINESRC_DIR}/operating_system/systemdisplay.hpp
+	${ENGINESRC_DIR}/operating_system/systemdisplaymanager.cpp
 	${ENGINESRC_DIR}/operating_system/systemdisplaymanager.hpp
 	${ENGINESRC_DIR}/operating_system/systeminfo.hpp
 	${ENGINESRC_DIR}/operating_system/systeminput.cpp
@@ -65,6 +68,8 @@ SET(ENGINE_OPERATING_SYSTEM_SOURCES
 	${ENGINESRC_DIR}/operating_system/systeminputois.hpp
 	${ENGINESRC_DIR}/operating_system/systemmodule.cpp
 	${ENGINESRC_DIR}/operating_system/systemmodule.hpp
+	${ENGINESRC_DIR}/operating_system/systemresolution.cpp
+	${ENGINESRC_DIR}/operating_system/systemresolution.hpp
 	${ENGINESRC_DIR}/operating_system/systemwindow.hpp
 )
 SOURCE_GROUP("src\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})
@@ -95,6 +100,8 @@ LIST(APPEND ENGINE_SOURCES ${ENGINE_SCENE_SOURCES})
 SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdirectories.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdirectories.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplay.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplay.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemdisplaymanager.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystementrypoint.cpp
@@ -104,6 +111,8 @@ SET(ENGINE_OPERATING_SYSTEM_WINDOWS_SOURCES
 	${ENGINESRC_DIR}/operating_system/windows/windowssysteminfo.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemmodule.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemmodule.hpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemresolution.cpp
+	${ENGINESRC_DIR}/operating_system/windows/windowssystemresolution.hpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.cpp
 	${ENGINESRC_DIR}/operating_system/windows/windowssystemwindow.hpp
 )

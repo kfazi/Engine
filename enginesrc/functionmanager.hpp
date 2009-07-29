@@ -5,7 +5,6 @@
 #include <map>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#include "core.hpp"
 
 namespace engine
 {

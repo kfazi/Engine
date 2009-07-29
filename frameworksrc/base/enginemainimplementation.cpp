@@ -1,4 +1,7 @@
 #include "enginemainimplementation.hpp"
+#ifdef WINDOWS
+#include <windows.h>
+#endif /* WINDOWS */
 
 using namespace engine;
 
@@ -8,6 +11,7 @@ namespace framework
 void CEngineMainImplementation::BasicLog(const engine::CString &cMessage, const engine::CLogger::EMessageType)
 {
 	m_cLogFile << CTime::GetTotalTime() << " - " << cMessage.ToUTF8() << std::endl;
+	std::cout << CTime::GetTotalTime() << " - " << cMessage.ToUTF8() << std::endl;
 }
 
 CEngineMainImplementation::~CEngineMainImplementation()
@@ -16,13 +20,19 @@ CEngineMainImplementation::~CEngineMainImplementation()
 
 void CEngineMainImplementation::Create()
 {
-	m_cLogFile.open("EngineLog.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+#ifdef WINDOWS
+	AllocConsole();
+	freopen("CONIN$", "rb", stdin);
+	freopen("CONOUT$", "wb", stdout);
+	freopen("CONOUT$", "wb", stderr);
+#endif /* WINDOWS */
 	CCore::GetInstance()->GetLogger()->Register(this, &CEngineMainImplementation::BasicLog);
 }
 
 void CEngineMainImplementation::Destroy()
 {
 	m_cLogFile.close();
+	FreeConsole();
 }
 
 void CEngineMainImplementation::ChooseScene()

@@ -12,7 +12,7 @@
 namespace engine
 {
 
-class DLLEXPORTIMPORT CUnixSystemMessageBox
+class CUnixSystemMessageBox
 {
 	private:
 		Display *m_pDisplay;

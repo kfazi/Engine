@@ -20,6 +20,8 @@ class DLLEXPORTIMPORT CSystemResolution
 		unsigned int GetHeight() const;
 		unsigned int GetBPP() const;
 		unsigned int GetRefreshRate() const;
+		bool operator < (const CSystemResolution &cResolution) const;
+		bool operator == (const CSystemResolution &cResolution) const;
 		static bool LessThanPointer(const CSystemResolution *pLeft, const CSystemResolution *pRight);
 		static bool EqualToPointer(const CSystemResolution *pLeft, const CSystemResolution *pRight);
 };
