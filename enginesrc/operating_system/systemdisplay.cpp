@@ -28,14 +28,14 @@ void CSystemDisplay::AddResolution(CSystemResolution *pResolution)
 	}
 }
 
-void CSystemDisplay::SetDefaultResolutionNumber(unsigned int iResolutionNumber)
+void CSystemDisplay::SetDefaultResolutionIndex(unsigned int iResolutionIndex)
 {
-	m_iDefaultResolutionNumber = iResolutionNumber;
+	m_iDefaultResolutionIndex = iResolutionIndex;
 }
 
-void CSystemDisplay::SetCurrentResolutionNumber(unsigned int iResolutionNumber)
+void CSystemDisplay::SetCurrentResolutionIndex(unsigned int iResolutionIndex)
 {
-	m_iCurrentResolutionNumber = iResolutionNumber;
+	m_iCurrentResolutionIndex = iResolutionIndex;
 }
 
 unsigned int CSystemDisplay::ResolutionToIndex(const CSystemResolution &cResolution)
@@ -51,12 +51,12 @@ unsigned int CSystemDisplay::ResolutionToIndex(const CSystemResolution &cResolut
 
 const CSystemResolution &CSystemDisplay::GetCurrentResolution()
 {
-	return *m_cResolutions[m_iCurrentResolutionNumber];
+	return *m_cResolutions[m_iCurrentResolutionIndex];
 }
 
 const CSystemResolution &CSystemDisplay::GetDefaultResolution()
 {
-	return *m_cResolutions[m_iDefaultResolutionNumber];
+	return *m_cResolutions[m_iDefaultResolutionIndex];
 }
 
 unsigned int CSystemDisplay::GetResolutionsCount() const

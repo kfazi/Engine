@@ -14,15 +14,15 @@ class CSystemResolution;
 class DLLEXPORTIMPORT CSystemDisplay
 {
 	private:
-		unsigned int m_iCurrentResolutionNumber;
-		unsigned int m_iDefaultResolutionNumber;
+		unsigned int m_iCurrentResolutionIndex;
+		unsigned int m_iDefaultResolutionIndex;
 		std::vector<CSystemResolution *> m_cResolutions;
 		boost::function<bool (const CSystemResolution &)> m_pFilterFunctor;
 
 	protected:
 		void AddResolution(CSystemResolution *pResolution);
-		void SetDefaultResolutionNumber(unsigned int iResolutionNumber);
-		void SetCurrentResolutionNumber(unsigned int iResolutionNumber);
+		void SetDefaultResolutionIndex(unsigned int iResolutionIndex);
+		void SetCurrentResolutionIndex(unsigned int iResolutionIndex);
 		unsigned int ResolutionToIndex(const CSystemResolution &cResolution);
 
 	public:
@@ -31,7 +31,7 @@ class DLLEXPORTIMPORT CSystemDisplay
 		virtual void RefreshResolutionsList() = 0;
 		virtual void SetResolution(const CSystemResolution &cResolution) = 0;
 		unsigned int GetResolutionsCount() const;
-		const CSystemResolution &GetResolution(unsigned int iResolutionNumber) const;
+		const CSystemResolution &GetResolution(unsigned int iResolutionIndex) const;
 		const CSystemResolution &GetCurrentResolution();
 		const CSystemResolution &GetDefaultResolution();
 		bool IsValid() const;

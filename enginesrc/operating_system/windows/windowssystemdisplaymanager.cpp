@@ -29,7 +29,7 @@ void CWindowsSystemDisplayManager::RefreshDisplaysList()
 	DISPLAY_DEVICE sDisplayDevice;
 	sDisplayDevice.cb = sizeof(sDisplayDevice);
 
-	for (int iDeviceNumber = 0; EnumDisplayDevices(NULL, iDeviceNumber, &sDisplayDevice, 0); ++iDeviceNumber)
+	for (int iDeviceNumber = 0; ::EnumDisplayDevices(NULL, iDeviceNumber, &sDisplayDevice, 0); ++iDeviceNumber)
 	{
 		if ((sDisplayDevice.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) || !(sDisplayDevice.StateFlags & DISPLAY_DEVICE_ACTIVE))
 			continue;

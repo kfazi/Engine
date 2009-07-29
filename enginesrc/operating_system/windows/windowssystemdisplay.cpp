@@ -33,7 +33,7 @@ void CWindowsSystemDisplay::RefreshResolutionsList()
 
 void CWindowsSystemDisplay::SetResolution(const CSystemResolution &cResolution)
 {
-	SetCurrentResolutionNumber(ResolutionToIndex(cResolution));
+	SetCurrentResolutionIndex(ResolutionToIndex(cResolution));
 }
 
 }
