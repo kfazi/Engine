@@ -42,9 +42,7 @@ unsigned int CWindowsSystemModule::Load(const CString &cFileName)
 	unsigned int iResult;
 	if (FindModule(iResult, cFileName))
 		return iResult;
-	std::basic_string<unsigned short> cFileName16 = cFileName.ToUTF16();
-	/* wchar_t is unsigned short under Windows. */
-	HINSTANCE pHandle = LoadLibraryW(reinterpret_cast<const wchar_t *>(cFileName16.c_str()));
+	HINSTANCE pHandle = LoadLibraryW(cFileName.ToWCHAR().c_str());
 	if (!pHandle)
 		;// CWindowsSystemErrorMessages::GetError(GetLastError()));
 	SModule *pModule = new SModule(cFileName, pHandle);

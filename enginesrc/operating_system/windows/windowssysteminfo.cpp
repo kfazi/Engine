@@ -13,7 +13,7 @@ CWindowsSystemInfo::CWindowsSystemInfo()
 	SYSTEM_INFO sSystemInfo;
 	GetSystemInfo(&sSystemInfo);
 	OSVERSIONINFOEX sOSVersionInfo;
-	ZeroMemory(&sOSVersionInfo, sizeof(OSVERSIONINFOEX));
+	::memset(&sOSVersionInfo, 0, sizeof(OSVERSIONINFOEX));
 	sOSVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	if (GetVersionEx(reinterpret_cast<OSVERSIONINFO *>(&sOSVersionInfo)))
 	{
@@ -46,7 +46,7 @@ CWindowsSystemInfo::CWindowsSystemInfo()
 	else
 		m_cSystemName = "Unknown Microsoft Windows operating system";
 	MEMORYSTATUSEX sMemoryStatus;
-	ZeroMemory(&sMemoryStatus, sizeof(MEMORYSTATUSEX));
+	::memset(&sMemoryStatus, 0, sizeof(MEMORYSTATUSEX));
 	sMemoryStatus.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&sMemoryStatus);
 	m_iNumberOfProcessors = sSystemInfo.dwNumberOfProcessors;
@@ -70,7 +70,7 @@ unsigned long long CWindowsSystemInfo::GetTotalMemory() const
 unsigned long long CWindowsSystemInfo::GetFreeMemory() const
 {
 	MEMORYSTATUSEX sMemoryStatus;
-	ZeroMemory(&sMemoryStatus, sizeof(MEMORYSTATUSEX));
+	::memset(&sMemoryStatus, 0, sizeof(MEMORYSTATUSEX));
 	sMemoryStatus.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&sMemoryStatus);
 	return sMemoryStatus.ullAvailPhys;

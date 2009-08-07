@@ -49,9 +49,7 @@ bool CSystemResolution::operator < (const CSystemResolution &cResolution) const
 
 bool CSystemResolution::operator == (const CSystemResolution &cResolution) const
 {
-	int iAreaLeft = m_iWidth * m_iHeight;
-	int iAreaRight = cResolution.m_iWidth * cResolution.m_iHeight;
-	return (iAreaLeft == iAreaRight && m_iBPP == cResolution.m_iBPP && m_iRefreshRate == cResolution.m_iRefreshRate);
+	return (m_iWidth == cResolution.m_iWidth && m_iHeight == cResolution.m_iHeight && m_iBPP == cResolution.m_iBPP && m_iRefreshRate == cResolution.m_iRefreshRate);
 }
 
 bool CSystemResolution::LessThanPointer(const CSystemResolution *pLeft, const CSystemResolution *pRight)

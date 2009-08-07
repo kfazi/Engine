@@ -8,34 +8,34 @@ namespace engine
 
 CSystemDisplay::CSystemDisplay()
 {
-
 }
 
 CSystemDisplay::~CSystemDisplay()
 {
 }
 
-void CSystemDisplay::AddResolution(CSystemResolution *pResolution)
+void CSystemDisplay::RestoreDefaultResolution()
 {
-	bool bMayAdd = true;
-	if (m_pFilterFunctor)
-		bMayAdd = m_pFilterFunctor(*pResolution);
-	if (bMayAdd)
-	{
-		m_cResolutions.push_back(pResolution);
-		std::sort(m_cResolutions.begin(), m_cResolutions.end(), CSystemResolution::LessThanPointer);
-		m_cResolutions.erase(std::unique(m_cResolutions.begin(), m_cResolutions.end(), CSystemResolution::EqualToPointer), m_cResolutions.end());
-	}
+	SetResolution(m_iDefaultResolutionIndex);
 }
 
-void CSystemDisplay::SetDefaultResolutionIndex(unsigned int iResolutionIndex)
+void CSystemDisplay::AddResolution(CSystemResolution *pResolution)
 {
-	m_iDefaultResolutionIndex = iResolutionIndex;
+	m_cResolutions.push_back(pResolution);
+	/* Sort from the smallest to the biggest. */
+	std::sort(m_cResolutions.begin(), m_cResolutions.end(), CSystemResolution::LessThanPointer);
+	/* Remove duplicates. */
+	m_cResolutions.erase(std::unique(m_cResolutions.begin(), m_cResolutions.end(), CSystemResolution::EqualToPointer), m_cResolutions.end());
 }
 
 void CSystemDisplay::SetCurrentResolutionIndex(unsigned int iResolutionIndex)
 {
 	m_iCurrentResolutionIndex = iResolutionIndex;
+}
+
+void CSystemDisplay::SetDefaultResolutionIndex(unsigned int iResolutionIndex)
+{
+	m_iDefaultResolutionIndex = iResolutionIndex;
 }
 
 unsigned int CSystemDisplay::ResolutionToIndex(const CSystemResolution &cResolution)
@@ -49,14 +49,31 @@ unsigned int CSystemDisplay::ResolutionToIndex(const CSystemResolution &cResolut
 	return 0;
 }
 
-const CSystemResolution &CSystemDisplay::GetCurrentResolution()
+const CSystemResolution *CSystemDisplay::GetCurrentResolution() const
 {
-	return *m_cResolutions[m_iCurrentResolutionIndex];
+	return m_cResolutions[m_iCurrentResolutionIndex];
 }
 
-const CSystemResolution &CSystemDisplay::GetDefaultResolution()
+const CSystemResolution *CSystemDisplay::GetDefaultResolution() const
 {
-	return *m_cResolutions[m_iDefaultResolutionIndex];
+	return m_cResolutions[m_iDefaultResolutionIndex];
+}
+
+unsigned int CSystemDisplay::GetCurrentResolutionIndex() const
+{
+	return m_iCurrentResolutionIndex;
+}
+
+void CSystemDisplay::SetResolution(unsigned int iResolutionIndex)
+{
+	SetCurrentResolutionIndex(iResolutionIndex);
+	SetResolutionInternal(*m_cResolutions[iResolutionIndex]);
+}
+
+void CSystemDisplay::SetResolution(const CSystemResolution &cResolution)
+{
+	int iResolutionIndex = ResolutionToIndex(cResolution);
+	SetResolution(iResolutionIndex);
 }
 
 unsigned int CSystemDisplay::GetResolutionsCount() const
@@ -64,14 +81,9 @@ unsigned int CSystemDisplay::GetResolutionsCount() const
 	return m_cResolutions.size();
 }
 
-const CSystemResolution &CSystemDisplay::GetResolution(unsigned int iResolutionNumber) const
+const CSystemResolution *CSystemDisplay::GetResolution(unsigned int iResolutionNumber) const
 {
-	return *m_cResolutions[iResolutionNumber];
-}
-
-bool CSystemDisplay::IsValid() const
-{
-	return (m_cResolutions.size() != 0);
+	return m_cResolutions[iResolutionNumber];
 }
 
 }

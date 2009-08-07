@@ -2,38 +2,62 @@
 #undef ERROR
 #include "windowssystemdisplay.hpp"
 #include "windowssystemresolution.hpp"
+#include "../../useful.hpp"
 
 namespace engine
 {
 
+void CWindowsSystemDisplay::SetResolutionInternal(const CSystemResolution &cResolution)
+{
+	DEVMODE sDeviceMode;
+	::memset(&sDeviceMode, 0, sizeof(sDeviceMode));
+	sDeviceMode.dmSize = sizeof(sDeviceMode);
+	sDeviceMode.dmPelsWidth = cResolution.GetWidth();
+	sDeviceMode.dmPelsHeight = cResolution.GetHeight();
+	sDeviceMode.dmBitsPerPel = cResolution.GetBPP();
+	sDeviceMode.dmDisplayFrequency = cResolution.GetRefreshRate();
+	sDeviceMode.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY;
+	::ChangeDisplaySettingsEx(m_cDisplayName.ToWCHAR().c_str(), &sDeviceMode, NULL, 0, NULL);
+}
+
 CWindowsSystemDisplay::CWindowsSystemDisplay(const CString cDisplayName)
 {
 	m_cDisplayName = cDisplayName;
-	RefreshResolutionsList();
+
+	DEVMODE sDeviceMode;
+	DEVMODE sCurrentDeviceMode;
+	::memset(&sDeviceMode, 0, sizeof(sDeviceMode));
+	::memset(&sCurrentDeviceMode, 0, sizeof(sDeviceMode));
+	sDeviceMode.dmSize = sizeof(sDeviceMode);
+	sCurrentDeviceMode.dmSize = sizeof(sDeviceMode);
+	CWindowsSystemResolution *pCurrentResolution = NULL;
+	CWindowsSystemResolution *pDefaultResolution = NULL;
+	::EnumDisplaySettings(m_cDisplayName.ToWCHAR().c_str(), ENUM_CURRENT_SETTINGS, &sCurrentDeviceMode);
+	for (int iModeNumber = 0; ::EnumDisplaySettings(m_cDisplayName.ToWCHAR().c_str(), iModeNumber, &sDeviceMode); ++iModeNumber)
+	{
+		CWindowsSystemResolution *pResolution = new CWindowsSystemResolution(sDeviceMode.dmPelsWidth, sDeviceMode.dmPelsHeight, sDeviceMode.dmBitsPerPel, sDeviceMode.dmDisplayFrequency);
+		m_cResolutions.push_back(pResolution);
+		AddResolution(pResolution);
+		if (sDeviceMode.dmPelsWidth == sCurrentDeviceMode.dmPelsWidth && sDeviceMode.dmPelsHeight == sCurrentDeviceMode.dmPelsHeight && sDeviceMode.dmBitsPerPel == sCurrentDeviceMode.dmBitsPerPel && sDeviceMode.dmDisplayFrequency == sCurrentDeviceMode.dmDisplayFrequency)
+		{
+			pCurrentResolution = pResolution;
+			pDefaultResolution = pResolution;
+		}
+	}
+	for (unsigned int iIndex = 0; iIndex < GetResolutionsCount(); ++iIndex)
+	{
+		const CSystemResolution *pResolution = GetResolution(iIndex);
+		if (*pResolution == *pCurrentResolution)
+			SetCurrentResolutionIndex(iIndex);
+		if (*pResolution == *pDefaultResolution)
+			SetDefaultResolutionIndex(iIndex);
+	}
 }
 
 CWindowsSystemDisplay::~CWindowsSystemDisplay()
 {
 	for (unsigned int i = 0; i < m_cResolutions.size(); ++i)
 		delete m_cResolutions[i];
-}
-
-void CWindowsSystemDisplay::RefreshResolutionsList()
-{
-	DEVMODE sDeviceMode;
-	ZeroMemory(&sDeviceMode, sizeof(sDeviceMode));
-	sDeviceMode.dmSize = sizeof(sDeviceMode);
-	for (int iModeNumber = 0; ::EnumDisplaySettings(reinterpret_cast<const wchar_t *>(m_cDisplayName.ToUTF16().c_str()), iModeNumber, &sDeviceMode); ++iModeNumber)
-	{
-		CWindowsSystemResolution *pResolution = new CWindowsSystemResolution(sDeviceMode.dmPelsWidth, sDeviceMode.dmPelsHeight, sDeviceMode.dmBitsPerPel, sDeviceMode.dmDisplayFrequency);
-		m_cResolutions.push_back(pResolution);
-		AddResolution(pResolution);
-	}
-}
-
-void CWindowsSystemDisplay::SetResolution(const CSystemResolution &cResolution)
-{
-	SetCurrentResolutionIndex(ResolutionToIndex(cResolution));
 }
 
 }

@@ -70,6 +70,7 @@ SET(ENGINE_OPERATING_SYSTEM_SOURCES
 	${ENGINESRC_DIR}/operating_system/systemmodule.hpp
 	${ENGINESRC_DIR}/operating_system/systemresolution.cpp
 	${ENGINESRC_DIR}/operating_system/systemresolution.hpp
+	${ENGINESRC_DIR}/operating_system/systemwindow.cpp
 	${ENGINESRC_DIR}/operating_system/systemwindow.hpp
 )
 SOURCE_GROUP("src\\operating_system" FILES ${ENGINE_OPERATING_SYSTEM_SOURCES})

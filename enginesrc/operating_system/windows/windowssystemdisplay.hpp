@@ -17,11 +17,12 @@ class CWindowsSystemDisplay: public CSystemDisplay
 		CString m_cDisplayName;
 		std::vector<CWindowsSystemResolution *> m_cResolutions;
 
+	protected:
+		virtual void SetResolutionInternal(const CSystemResolution &cResolution);
+
 	public:
 		CWindowsSystemDisplay(const CString cDisplayName);
 		virtual ~CWindowsSystemDisplay();
-		virtual void RefreshResolutionsList();
-		virtual void SetResolution(const CSystemResolution &cResolution);
 };
 
 }

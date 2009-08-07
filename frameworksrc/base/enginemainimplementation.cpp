@@ -26,6 +26,7 @@ void CEngineMainImplementation::Create()
 	freopen("CONOUT$", "wb", stdout);
 	freopen("CONOUT$", "wb", stderr);
 #endif /* WINDOWS */
+	m_cLogFile.open("EngineLog.txt");
 	CCore::GetInstance()->GetLogger()->Register(this, &CEngineMainImplementation::BasicLog);
 }
 
@@ -38,6 +39,10 @@ void CEngineMainImplementation::Destroy()
 void CEngineMainImplementation::ChooseScene()
 {
 	CCore::GetInstance()->GetLogger()->Log("Start");
+	CCore::GetInstance()->GetLogger()->Log("Setting resolution number 0");
+	CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).SetResolution(0);
+	CCore::GetInstance()->GetLogger()->Log("Setting default resolution");
+	CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).RestoreDefaultResolution();
 }
 
 void CEngineMainImplementation::ParseArgument(const engine::CString &cArgumentName, const engine::CString &cArgumentValue)

@@ -33,9 +33,9 @@ void CWindowsSystemDisplayManager::RefreshDisplaysList()
 	{
 		if ((sDisplayDevice.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) || !(sDisplayDevice.StateFlags & DISPLAY_DEVICE_ACTIVE))
 			continue;
-		CWindowsSystemDisplay *pDisplay = new CWindowsSystemDisplay(reinterpret_cast<unsigned short *>(sDisplayDevice.DeviceName));
-		Debug(Format("DeviceName: %1%") % CString(reinterpret_cast<unsigned short *>(sDisplayDevice.DeviceName)));
-		Debug(Format("DeviceString: %1%") % CString(reinterpret_cast<unsigned short *>(sDisplayDevice.DeviceString)));
+		CWindowsSystemDisplay *pDisplay = new CWindowsSystemDisplay(sDisplayDevice.DeviceName);
+		Debug(Format("DeviceName: %1%") % CString(sDisplayDevice.DeviceName));
+		Debug(Format("DeviceString: %1%") % CString(sDisplayDevice.DeviceString));
 		Debug(Format("Flags: %1%") % sDisplayDevice.StateFlags);
 		if (sDisplayDevice.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE)
 			Debug("Primary Display");
@@ -43,10 +43,16 @@ void CWindowsSystemDisplayManager::RefreshDisplaysList()
 		m_cDisplays.push_back(pDisplay);
 		AddDisplay(pDisplay, (sDisplayDevice.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) ? true : false);
 
+		const CSystemResolution *pResolution;
 		for (unsigned int i = 0; i < pDisplay->GetResolutionsCount(); ++i)
 		{
-			Debug(Format("%1%x%2%:%3%@%4%") % pDisplay->GetResolution(i).GetWidth() % pDisplay->GetResolution(i).GetHeight() % pDisplay->GetResolution(i).GetBPP() % pDisplay->GetResolution(i).GetRefreshRate());
+			pResolution = pDisplay->GetResolution(i);
+			Debug(Format("%1%x%2%:%3%@%4%") % pResolution->GetWidth() % pResolution->GetHeight() % pResolution->GetBPP() % pResolution->GetRefreshRate());
 		}
+		pResolution = pDisplay->GetCurrentResolution();
+		Debug(Format("Current %1%x%2%:%3%@%4%") % pResolution->GetWidth() % pResolution->GetHeight() % pResolution->GetBPP() % pResolution->GetRefreshRate());
+		pResolution = pDisplay->GetDefaultResolution();
+		Debug(Format("Default %1%x%2%:%3%@%4%") % pResolution->GetWidth() % pResolution->GetHeight() % pResolution->GetBPP() % pResolution->GetRefreshRate());
 	}
 }
 
