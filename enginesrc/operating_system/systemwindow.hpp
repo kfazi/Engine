@@ -11,16 +11,17 @@ namespace engine
 
 class DLLEXPORTIMPORT CSystemWindow
 {
-	friend class CCore;
+	friend class CSystemDisplay;
 
 	private:
 		boost::function<bool ()> m_pOnCloseFunctor;
 		boost::function<bool ()> m_pOnMinimalizeFunctor;
-		boost::function<bool ()> m_pOnMaximalizeFunctor;
+		boost::function<bool ()> m_pOnRestoreFunctor;
 		bool m_bVisible;
+		bool m_bMinimalized;
 
 	protected:
-		CSystemWindow(const CString &cCaption, bool bCaptionBar, bool bCloseButton, bool bMaximalizeButton, bool bMinimalizeButton);
+		CSystemWindow(int iX, int iY, unsigned int iWidth, unsigned int iHeight, const CString &cCaption, bool bCaptionBar, bool bCloseButton, bool bMaximalizeButton, bool bMinimalizeButton);
 
 		virtual ~CSystemWindow();
 
@@ -28,7 +29,7 @@ class DLLEXPORTIMPORT CSystemWindow
 
 		bool OnClose();
 		bool OnMinimalize();
-		bool OnMaximalize();
+		bool OnRestore();
 
 	public:
 		virtual void Show();
@@ -36,6 +37,7 @@ class DLLEXPORTIMPORT CSystemWindow
 
 		void SetVisible(bool bVisible);
 		bool GetVisible() const;
+		bool IsMinimalized() const;
 
 		template <class CClass> void SetOnCloseFunction(CClass *cClass, bool (CClass::*pFunctor)())
 		{
@@ -47,9 +49,9 @@ class DLLEXPORTIMPORT CSystemWindow
 			m_pOnMinimalizeFunctor = boost::bind(pFunctor, cClass);
 		}
 
-		template <class CClass> void SetOnMaximalizeFunction(CClass *cClass, bool (CClass::*pFunctor)())
+		template <class CClass> void SetOnRestoreFunction(CClass *cClass, bool (CClass::*pFunctor)())
 		{
-			m_pOnMaximalizeFunctor = boost::bind(pFunctor, cClass);
+			m_pOnRestoreFunctor = boost::bind(pFunctor, cClass);
 		}
 };
 

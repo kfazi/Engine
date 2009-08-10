@@ -2,7 +2,7 @@
 
 #include "enginemainimplementation.hpp"
 #include "loadengine.hpp"
-#include <windows.h>
+#include <Windows.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {

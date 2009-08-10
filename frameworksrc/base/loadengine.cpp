@@ -7,7 +7,7 @@ typedef void (*TEngineDestroyFunction)();
 TEngineDestroyFunction g_pEngineDestroy;
 
 #ifdef WINDOWS
-#include <windows.h>
+#include <Windows.h>
 HINSTANCE g_pEngineInstance;
 #endif /* WINDOWS */
 
@@ -31,6 +31,7 @@ void RunEngine(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 	{
 		engine::CCore::GetInstance()->ProcessFrame();
 	}
+	engine::CCore::GetInstance()->GetLogger()->Log("Engine exited normally.");
 	(*g_pEngineDestroy)();
 }
 

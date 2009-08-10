@@ -1,7 +1,16 @@
 #include "systemdisplaymanager.hpp"
+#include "systemdisplay.hpp"
 
 namespace engine
 {
+
+CSystemDisplayManager::CSystemDisplayManager()
+{
+}
+
+CSystemDisplayManager::~CSystemDisplayManager()
+{
+}
 
 void CSystemDisplayManager::ClearDisplaysList()
 {
@@ -16,8 +25,10 @@ void CSystemDisplayManager::AddDisplay(CSystemDisplay *pDisplay, bool bPrimary)
 		m_cDisplays.push_back(pDisplay);
 }
 
-CSystemDisplayManager::~CSystemDisplayManager()
+void CSystemDisplayManager::ProcessEvents()
 {
+	for (unsigned int i = 0; i < m_cDisplays.size(); ++i)
+		m_cDisplays[i]->ProcessEvents();
 }
 
 unsigned int CSystemDisplayManager::GetDisplaysCount() const

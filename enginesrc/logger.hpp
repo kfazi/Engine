@@ -6,6 +6,7 @@
 #include <boost/format.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <boost/thread.hpp>
 #include "string.hpp"
 
 namespace engine
@@ -39,6 +40,8 @@ class DLLEXPORTIMPORT CLogger
 
 		/** Next ID to assign when new logging function is registered. */
 		unsigned int m_iNextId;
+
+		boost::mutex cMutex;
 
 		/** Default constructor. */
 		CLogger()
@@ -103,8 +106,11 @@ class DLLEXPORTIMPORT CLogger
 		 */
 		void Log(const CString &cMessage, const EMessageType eMessageType = NOTIFY)
 		{
+			boost::mutex::scoped_lock mylock(cMutex, boost::defer_lock);
+			mylock.lock();
 			for (std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
 				(*cFunctorIterator).second(cMessage, eMessageType);
+			mylock.unlock();
 		}
 };
 

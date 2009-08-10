@@ -2,6 +2,7 @@
 #undef ERROR
 #include "windowssystemdisplay.hpp"
 #include "windowssystemresolution.hpp"
+#include "windowssystemwindow.hpp"
 #include "../../useful.hpp"
 
 namespace engine
@@ -18,6 +19,16 @@ void CWindowsSystemDisplay::SetResolutionInternal(const CSystemResolution &cReso
 	sDeviceMode.dmDisplayFrequency = cResolution.GetRefreshRate();
 	sDeviceMode.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY;
 	::ChangeDisplaySettingsEx(m_cDisplayName.ToWCHAR().c_str(), &sDeviceMode, NULL, 0, NULL);
+}
+
+CSystemWindow *CWindowsSystemDisplay::AddWindowInternal(int iX, int iY, unsigned int iWidth, unsigned int iHeight, const CString &cCaption, bool bCaptionBar, bool bCloseButton, bool bMaximalizeButton, bool bMinimalizeButton)
+{
+	return new CWindowsSystemWindow(iX, iY, iWidth, iHeight, cCaption, bCaptionBar, bCloseButton, bMaximalizeButton, bMinimalizeButton);
+}
+
+void CWindowsSystemDisplay::RemoveWindowInternal(CSystemWindow *pWindow)
+{
+	delete static_cast<CWindowsSystemWindow *>(pWindow);
 }
 
 CWindowsSystemDisplay::CWindowsSystemDisplay(const CString cDisplayName)

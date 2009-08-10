@@ -19,11 +19,13 @@ class DLLEXPORTIMPORT CSystemDisplayManager
 		std::vector<CSystemDisplay *> m_cDisplays;
 
 	protected:
+		CSystemDisplayManager();
+		virtual ~CSystemDisplayManager();
 		void ClearDisplaysList();
 		void AddDisplay(CSystemDisplay *pDisplay, bool bPrimary);
+		void ProcessEvents();
 
 	public:
-		virtual ~CSystemDisplayManager();
 		unsigned int GetDisplaysCount() const;
 		CSystemDisplay &GetDisplay(unsigned int iDisplayNumber);
 		virtual void RefreshDisplaysList() = 0;

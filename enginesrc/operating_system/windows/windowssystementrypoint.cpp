@@ -1,6 +1,6 @@
 #ifdef WINDOWS
 
-#include <windows.h>
+#include <Windows.h>
 
 BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
 {

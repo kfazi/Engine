@@ -3,7 +3,7 @@
 #include "../../common.hpp"
 #include "../../useful.hpp"
 #include "windowssysteminfo.hpp"
-#include <windows.h>
+#include <Windows.h>
 
 namespace engine
 {

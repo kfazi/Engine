@@ -1,6 +1,6 @@
 #ifdef WINDOWS
 
-#include <windows.h>
+#include <Windows.h>
 #include <shlobj.h>
 #include "../../common.hpp"
 #include "windowssystemdirectories.hpp"

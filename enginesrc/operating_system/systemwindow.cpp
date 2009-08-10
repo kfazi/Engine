@@ -3,7 +3,7 @@
 namespace engine
 {
 
-CSystemWindow::CSystemWindow(const CString &cCaption, bool bCaptionBar, bool bCloseButton, bool bMaximalizeButton, bool bMinimalizeButton)
+CSystemWindow::CSystemWindow(int iX, int iY, unsigned int iWidth, unsigned int iHeight, const CString &cCaption, bool bCaptionBar, bool bCloseButton, bool bMaximalizeButton, bool bMinimalizeButton)
 {
 }
 
@@ -21,15 +21,19 @@ bool CSystemWindow::OnClose()
 bool CSystemWindow::OnMinimalize()
 {
 	if (m_pOnMinimalizeFunctor)
-		return m_pOnMinimalizeFunctor();
-	return true;
+		m_bMinimalized = m_pOnMinimalizeFunctor();
+	else
+		m_bMinimalized = true;
+	return m_bMinimalized;
 }
 
-bool CSystemWindow::OnMaximalize()
+bool CSystemWindow::OnRestore()
 {
-	if (m_pOnMaximalizeFunctor)
-		return m_pOnMaximalizeFunctor();
-	return true;
+	if (m_pOnRestoreFunctor)
+		m_bMinimalized = !m_pOnRestoreFunctor();
+	else
+		m_bMinimalized = false;
+	return !m_bMinimalized;
 }
 
 void CSystemWindow::Show()
@@ -53,6 +57,11 @@ void CSystemWindow::SetVisible(bool bVisible)
 bool CSystemWindow::GetVisible() const
 {
 	return m_bVisible;
+}
+
+bool CSystemWindow::IsMinimalized() const
+{
+	return m_bMinimalized;
 }
 
 }

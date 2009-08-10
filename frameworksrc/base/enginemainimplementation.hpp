@@ -12,6 +12,8 @@ class CEngineMainImplementation: public engine::CEngineMain
 {
 	private:
 		std::fstream m_cLogFile;
+		bool OnWindowClose();
+		bool OnWindowClose2();
 		void BasicLog(const engine::CString &cMessage, const engine::CLogger::EMessageType);
 
 	public:

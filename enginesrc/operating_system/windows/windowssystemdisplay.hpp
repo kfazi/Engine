@@ -19,6 +19,8 @@ class CWindowsSystemDisplay: public CSystemDisplay
 
 	protected:
 		virtual void SetResolutionInternal(const CSystemResolution &cResolution);
+		virtual CSystemWindow *AddWindowInternal(int iX, int iY, unsigned int iWidth, unsigned int iHeight, const CString &cCaption, bool bCaptionBar, bool bCloseButton, bool bMaximalizeButton, bool bMinimalizeButton);
+		virtual void RemoveWindowInternal(CSystemWindow *pWindow);
 
 	public:
 		CWindowsSystemDisplay(const CString cDisplayName);

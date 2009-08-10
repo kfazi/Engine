@@ -141,6 +141,7 @@ void CCore::ProcessFrame()
 #else /* DEBUG */
 	CErrorStack::Clear();
 #endif /* DEBUG */
+	m_pSystemDisplayManager->ProcessEvents();
 //	m_pSystemWindow->ProcessEvents(); /* Once per frame is enough. */
 //	m_pSystemWindow->SwapBuffers();
 }
