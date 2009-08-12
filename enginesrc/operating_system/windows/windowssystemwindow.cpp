@@ -15,18 +15,18 @@ LRESULT CALLBACK CWindowsSystemWindow::WindowProc(HWND hWnd, UINT iMessage, WPAR
 			return 0;
 		case WM_CLOSE:
 			if (pObject->OnClose())
-				DestroyWindow(pObject->m_pHWND);
+				DestroyWindow(pObject->m_sWindowData.pHWND);
 			return 0;
 		case WM_SYSCOMMAND:
 			switch (wParam)
 			{
 				case SC_MINIMIZE:
 					if (pObject->OnMinimalize())
-						::ShowWindow(pObject->m_pHWND, SW_MINIMIZE);
+						::ShowWindow(pObject->m_sWindowData.pHWND, SW_MINIMIZE);
 					return 0;
 				case SC_RESTORE:
 					if (pObject->OnRestore())
-						::ShowWindow(pObject->m_pHWND, SW_RESTORE);
+						::ShowWindow(pObject->m_sWindowData.pHWND, SW_RESTORE);
 					return 0;
 			}
 			break;
@@ -70,16 +70,16 @@ CWindowsSystemWindow::CWindowsSystemWindow(int iX, int iY, unsigned int iWidth, 
 	}
 	else
 		iStyle |= WS_POPUP;
-	m_pHWND = ::CreateWindow(m_pClassName, cCaption.ToWCHAR().c_str(), iStyle, iX, iY, iWidth, iHeight, NULL, NULL, hInstance, NULL);
-	if (!m_pHWND)
+	m_sWindowData.pHWND = ::CreateWindow(m_pClassName, cCaption.ToWCHAR().c_str(), iStyle, iX, iY, iWidth, iHeight, NULL, NULL, hInstance, NULL);
+	if (!m_sWindowData.pHWND)
 		Error(Format("Call to CreateWindow failed! (%1%)") % GetLastError());
 	if (bCaptionBar && !bCloseButton)
 	{
-		HMENU hMenu = ::GetSystemMenu(m_pHWND, FALSE);
+		HMENU hMenu = ::GetSystemMenu(m_sWindowData.pHWND, FALSE);
 		::EnableMenuItem(hMenu, SC_CLOSE, MF_GRAYED);
 	}
-	SetWindowLongPtr(m_pHWND, GWLP_USERDATA, reinterpret_cast<LONG>(this));
-	::UpdateWindow(m_pHWND);
+	SetWindowLongPtr(m_sWindowData.pHWND, GWLP_USERDATA, reinterpret_cast<LONG>(this));
+	::UpdateWindow(m_sWindowData.pHWND);
 }
 
 CWindowsSystemWindow::~CWindowsSystemWindow()
@@ -90,25 +90,30 @@ CWindowsSystemWindow::~CWindowsSystemWindow()
 void CWindowsSystemWindow::ProcessEvents()
 {
 	MSG sMessage;
-	if (::PeekMessage(&sMessage, m_pHWND, 0, 0, PM_REMOVE))
+	if (::PeekMessage(&sMessage, m_sWindowData.pHWND, 0, 0, PM_REMOVE))
 	{
 		::TranslateMessage(&sMessage);
 		::DispatchMessage(&sMessage);
 	}
 }
 
+const SSystemSpecificWindowData *CWindowsSystemWindow::GetSystemSpecificData() const
+{
+	return &m_sWindowData;
+}
+
 void CWindowsSystemWindow::Show()
 {
 	CSystemWindow::Show();
-	::ShowWindow(m_pHWND, true);
-	::UpdateWindow(m_pHWND);
+	::ShowWindow(m_sWindowData.pHWND, true);
+	::UpdateWindow(m_sWindowData.pHWND);
 }
 
 void CWindowsSystemWindow::Hide()
 {
 	CSystemWindow::Hide();
-	::ShowWindow(m_pHWND, false);
-	::UpdateWindow(m_pHWND);
+	::ShowWindow(m_sWindowData.pHWND, false);
+	::UpdateWindow(m_sWindowData.pHWND);
 }
 
 }

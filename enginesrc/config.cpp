@@ -108,7 +108,7 @@ void CConfig::Set(const CString &cName, const CString &cValue)
 	CString cCorrectName;
 	if (CopyWithoutBackSlashes(cCorrectName, cName))
 	{
-		m_cValues[cCorrectName] = cName;
+		m_cValues[cCorrectName] = cValue;
 		m_bModified = true;
 	}
 	else

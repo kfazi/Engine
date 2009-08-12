@@ -10,12 +10,17 @@
 namespace engine
 {
 
+struct SSystemSpecificWindowData
+{
+	HWND pHWND;
+};
+
 class CWindowsSystemWindow: public CSystemWindow
 {
 	friend class CWindowsSystemDisplay;
 
 	private:
-		HWND m_pHWND;
+		SSystemSpecificWindowData m_sWindowData;
 		wchar_t *m_pClassName;
 
 		static LRESULT CALLBACK WindowProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
@@ -26,6 +31,7 @@ class CWindowsSystemWindow: public CSystemWindow
 		virtual void ProcessEvents();
 
 	public:
+		virtual const SSystemSpecificWindowData *GetSystemSpecificData() const;
 		virtual void Show();
 		virtual void Hide();
 };

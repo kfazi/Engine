@@ -8,7 +8,7 @@ namespace engine
 CSQLiteConfig::CSQLiteConfig(const CString &cFileName): CConfig()
 {
 	m_pDataBase = NULL;
-	Load(cFileName);	
+	Load(cFileName, false);
 }
 
 CSQLiteConfig::~CSQLiteConfig()
@@ -76,7 +76,7 @@ void CSQLiteConfig::Save()
 	if (!IsModified())
 		return;
 	/* Prepare statements */
-	const char *pInsertSQL = "INSERT OR REPLACE INTO config(name, value) VALUES(?, ?);";
+	const char *pInsertSQL = "INSERT OR REPLACE INTO config(name, value) VALUES(?1, ?2);";
 	const char *pBeginSQL = "BEGIN;";
 	const char *pCommitSQL = "COMMIT;";
 	sqlite3_stmt *pInsertStatement;

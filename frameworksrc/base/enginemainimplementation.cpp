@@ -39,6 +39,8 @@ void CEngineMainImplementation::Create()
 #endif /* WINDOWS */
 	m_cLogFile.open("EngineLog.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
 	CCore::GetInstance()->GetLogger()->Register(this, &CEngineMainImplementation::BasicLog);
+	CCore::GetInstance()->GetLogger()->Log(CCore::GetInstance()->GetConfig()->GetString("/Zmienna"));
+	CCore::GetInstance()->GetConfig()->Set("/Zmienna", "Wartosc");
 }
 
 void CEngineMainImplementation::Destroy()
@@ -57,9 +59,9 @@ void CEngineMainImplementation::ChooseScene()
 	int iWindow = CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).AddWindow(10, 10, 500, 500, "DUPA", true, true, true, true);
 	CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).GetWindow(iWindow)->SetOnCloseFunction(this, &CEngineMainImplementation::OnWindowClose);
 	CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).GetWindow(iWindow)->Show();
-	int iWindow2 = CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).AddWindow(10, 10, 500, 500, "DUPA2", true, true, true, false);
-	CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).GetWindow(iWindow2)->SetOnCloseFunction(this, &CEngineMainImplementation::OnWindowClose2);
-	CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).GetWindow(iWindow2)->Show();
+	//int iWindow2 = CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).AddWindow(10, 10, 500, 500, "DUPA2", true, true, true, false);
+	//CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).GetWindow(iWindow2)->SetOnCloseFunction(this, &CEngineMainImplementation::OnWindowClose2);
+	//CCore::GetInstance()->GetSystemDisplayManager()->GetDisplay(0).GetWindow(iWindow2)->Show();
 }
 
 void CEngineMainImplementation::ParseArgument(const engine::CString &cArgumentName, const engine::CString &cArgumentValue)

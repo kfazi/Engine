@@ -15,9 +15,9 @@ FIND_PACKAGE(Boost 1.36.0 COMPONENTS thread signals date_time REQUIRED)
 FIND_PACKAGE(OIS REQUIRED)
 FIND_PACKAGE(Doxygen)
 IF(DOXYGEN_FOUND)
-	ADD_CUSTOM_TARGET(engine_docs ${DOXYGEN_EXECUTABLE} "${CMAKE_SOURCE_DIR}/doxygen.conf" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMENT "Generating engine's documentation")
+	ADD_CUSTOM_TARGET(docs ${DOXYGEN_EXECUTABLE} "${CMAKE_SOURCE_DIR}/doxygen.conf" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMENT "Generating engine's documentation")
 ELSE(DOXYGEN_FOUND)
-	ADD_CUSTOM_TARGET(engine_docs COMMENT "Doxygen not found.")
+	ADD_CUSTOM_TARGET(docs COMMENT "Doxygen not found.")
 ENDIF(DOXYGEN_FOUND)
 
 INCLUDE("CheckTypeSize")
@@ -68,6 +68,8 @@ LIST(APPEND COMMON_DEFINITIONS "GAME_NAME=\"${GAME_NAME}\"")
 
 INCLUDE("CMakeListsEngine.txt")
 INCLUDE("CMakeListsFramework.txt")
+INCLUDE("CMakeListsRendererDirectX.txt")
+INCLUDE("CMakeListsRendererOpenGL.txt")
 SOURCE_GROUP("" REGULAR_EXPRESSION ".*")
 
 # EOF

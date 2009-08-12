@@ -22,6 +22,10 @@ void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 {
 	engine::CCore *pCore = new engine::CCore;
 	engine::CCore::s_pEngine = pCore;
+	/* Logger system is used by all other systems. */
+	pCore->m_pLogger = new engine::CLogger();
+	/* Config system is used by all other systems. */
+	pCore->m_pConfig = new engine::CSQLiteConfig(pCore->s_cConfigFile);
 	pCore->m_pEngineMain = &cEngineMain;
 	pCore->m_pEngineMain->Create();
 	/* Ignore executable path/name. */
@@ -69,8 +73,6 @@ CCore::CCore()
 	m_bFinished = false;
 	CErrorStack::Init();
 	CTime::Update();
-	/* Logger system is used by all other systems. */
-	m_pLogger = new CLogger();
 }
 
 CCore::~CCore()
@@ -89,8 +91,6 @@ CCore::~CCore()
 
 void CCore::Create()
 {
-	/* Config system is used by all other systems. */
-	m_pConfig = new CSQLiteConfig(s_cConfigFile);
 	/* Function manager must be created before other managers. */
 	m_pFunctionManager = new CFunctionManager();
 	m_pSceneManager = new CSceneManager();

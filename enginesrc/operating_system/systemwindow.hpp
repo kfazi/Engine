@@ -9,6 +9,8 @@
 namespace engine
 {
 
+struct SSystemSpecificWindowData;
+
 class DLLEXPORTIMPORT CSystemWindow
 {
 	friend class CSystemDisplay;
@@ -32,6 +34,7 @@ class DLLEXPORTIMPORT CSystemWindow
 		bool OnRestore();
 
 	public:
+		virtual const SSystemSpecificWindowData *GetSystemSpecificData() const = 0;
 		virtual void Show();
 		virtual void Hide();
 
