@@ -2,6 +2,7 @@
 #include "string.hpp"
 #include <algorithm>
 #include <cstring>
+#include <boost/regex.hpp>
 
 /* http://www.unicode.org/Public/PROGRAMS/CVTUTF/ConvertUTF.c */
 
@@ -23,6 +24,10 @@ const unsigned int CString::s_aOffsetsFromUTF8[6] = { 0x00000000UL, 0x00003080UL
 
 const unsigned int CString::s_aFirstByteMark[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
 
+typedef boost::cpp_regex_traits<TChar> TCharCPPRegexTraits;
+typedef boost::regex_traits<TChar, TCharCPPRegexTraits> TCharRegexTraits;
+typedef boost::basic_regex<TChar, TCharRegexTraits> TCharRegex;
+typedef boost::match_results<const TChar *> TCharMatchResults;
 
 unsigned int CString::UTF16strlen(const unsigned short *pUTF16String)
 {
@@ -349,6 +354,15 @@ CString::CString(const std::string &cUTF8String)
 	AppendFromUTF8(cUTF8String.c_str(), cUTF8String.length());
 }
 
+CString::CString(const std::wstring &cUTFString)
+{
+#if WCHAR_SIZE == 2
+	AppendFromUTF16(reinterpret_cast<const unsigned short *>(cUTFString.c_str()), cUTFString.length());
+#else
+	AppendFromUTF32(reinterpret_cast<const unsigned int *>(cUTFString.c_str()), cUTFString.length());
+#endif /* WCHAR_SIZE == 2 */
+}
+
 CString::CString(const char *pUTF8String, unsigned int iLength)
 {
 	AppendFromUTF8(pUTF8String, iLength);
@@ -604,6 +618,28 @@ CString CString::FromWCHAR(const wchar_t *pUTFString, unsigned int iLength)
 CString CString::FromWCHAR(const wchar_t *pUTFString)
 {
 	return CString(pUTFString);
+}
+
+TFormat CString::Format(const CString &cFormat)
+{
+	return TFormat(cFormat);
+}
+
+bool CString::MatchRegex(const CString &cRegex) const
+{
+	TCharMatchResults cMatch;
+	return boost::regex_match(c_str(), cMatch, TCharRegex(cRegex), boost::regex_constants::match_not_dot_null);
+}
+
+CString CString::SecureRegex() const
+{
+	CString cResult = boost::regex_replace(*this, TCharRegex(CString("\\$")), CString("$$"), boost::regex_constants::match_not_dot_null | boost::regex_constants::format_literal);
+	cResult = boost::regex_replace(cResult, TCharRegex(CString("\\\\")), CString("\\\\"), boost::regex_constants::match_not_dot_null | boost::regex_constants::format_literal);
+	cResult = boost::regex_replace(cResult, TCharRegex(CString("\\:")), CString("\\:"), boost::regex_constants::match_not_dot_null | boost::regex_constants::format_literal);
+	cResult = boost::regex_replace(cResult, TCharRegex(CString("\\?")), CString("\\?"), boost::regex_constants::match_not_dot_null | boost::regex_constants::format_literal);
+	cResult = boost::regex_replace(cResult, TCharRegex(CString("\\(")), CString("\\("), boost::regex_constants::match_not_dot_null | boost::regex_constants::format_literal);
+	cResult = boost::regex_replace(cResult, TCharRegex(CString("\\)")), CString("\\)"), boost::regex_constants::match_not_dot_null | boost::regex_constants::format_literal);
+	return cResult;
 }
 
 CString &CString::operator = (const std::string &cUTF8String)

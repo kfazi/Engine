@@ -3,12 +3,38 @@
 
 #include "../common.hpp"
 #include "../string.hpp"
+#include <vector>
+#include <boost/filesystem.hpp>
+#include <boost/shared_ptr.hpp>
 
 namespace engine
 {
 
 class DLLEXPORTIMPORT CSystemDirectories
 {
+	public:
+		class CFilesList
+		{
+			public:
+				enum EType
+				{
+					RegularFile,
+					Directory,
+					SymLink,
+					Other
+				};
+
+			private:
+				typedef boost::shared_ptr<CString> TStringPtr;
+				std::vector<TStringPtr> m_cFiles;
+
+			public:
+				~CFilesList();
+				unsigned int GetCount() const;
+				const CString &GetName(unsigned int iFileNumber) const;
+				void AddFile(const CString &cPath);
+		};
+
 	private:
 		CString m_cConfigPath;
 		CString m_cExecutablePath;
@@ -17,58 +43,29 @@ class DLLEXPORTIMPORT CSystemDirectories
 		CString m_cSavesPath;
 
 	protected:
-		inline void SetConfigPath(const CString &cConfigPath)
-		{
-			m_cConfigPath = cConfigPath;
-		}
-		inline void SetExecutablePath(const CString &cExecutablePath)
-		{
-			m_cExecutablePath = cExecutablePath;
-		}
-		inline void SetModsPath(const CString &cModsPath)
-		{
-			m_cModsPath = cModsPath;
-		}
-		inline void SetResourcesPath(const CString &cResourcesPath)
-		{
-			m_cResourcesPath = cResourcesPath;
-		}
-		inline void SetSavesPath(const CString &cSavesPath)
-		{
-			m_cSavesPath = cSavesPath;
-		}
+		void SetConfigPath(const CString &cConfigPath);
+		void SetExecutablePath(const CString &cExecutablePath);
+		void SetModsPath(const CString &cModsPath);
+		void SetResourcesPath(const CString &cResourcesPath);
+		void SetSavesPath(const CString &cSavesPath);
 
 	public:
-		CSystemDirectories()
-		{
-		}
-
-		virtual ~CSystemDirectories()
-		{
-		}
+		CSystemDirectories();
+		virtual ~CSystemDirectories();
 
 		virtual void CorrectPath(CString &cPath) = 0;
+		virtual CString GetLibraryPrefix() const = 0;
+		virtual CString GetLibraryPostfix() const = 0;
 
-		inline const CString &GetConfigPath()
-		{
-			return m_cConfigPath;
-		}
-		inline const CString &GetExecutablePath()
-		{
-			return m_cExecutablePath;
-		}
-		inline const CString &GetModsPath()
-		{
-			return m_cModsPath;
-		}
-		inline const CString &GetResourcesPath()
-		{
-			return m_cResourcesPath;
-		}
-		inline const CString &GetSavesPath()
-		{
-			return m_cSavesPath;
-		}
+		bool CreateDirectory(const CString &cPath);
+		bool Remove(const CString &cPath, bool bRecurring = false);
+		CFilesList GetFilesList(const CString &cPath, const CString &cRegexFile);
+
+		const CString &GetConfigPath();
+		const CString &GetExecutablePath();
+		const CString &GetModsPath();
+		const CString &GetResourcesPath();
+		const CString &GetSavesPath();
 };
 
 }

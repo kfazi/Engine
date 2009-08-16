@@ -35,9 +35,11 @@ class CFunctionManager;
 class CSystemDirectories;
 class CSystemDisplayManager;
 class CSystemWindow;
+class CSystemModule;
 class CSystemInfo;
 class CLogger;
 class CConfig;
+class CRenderersManager;
 
 /**
  * Main engine class.
@@ -58,9 +60,11 @@ class DLLEXPORTIMPORT CCore
 		CSystemDirectories *m_pSystemDirectories; /**< Pointer to the system directories object. */
 		CSystemDisplayManager *m_pSystemDisplayManager; /**< Pointer to the system display manager object. */
 		CSystemWindow *m_pSystemWindow; /**< Pointer to the system window object. */
+		CSystemModule *m_pSystemModule; /**< Pointer to the system module object. */
 		CSystemInfo *m_pSystemInfo; /**< Pointer to the system info object. */
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
 		CConfig *m_pConfig; /**< Pointer to the config system. */
+		CRenderersManager *m_pRenderersManager; /**< Pointer to the renderers manager system. */
 		double m_fFrameTime; /**< How much time passed in last frame. */
 		bool m_bFinished; /**< Flag indicating if engine is going to return to operating system. */
 		static CString s_cConfigFile; /**< Startup configuration file. */
@@ -132,6 +136,14 @@ class DLLEXPORTIMPORT CCore
 		}
 
 		/**
+		 * @return Pointer to the system window object.
+		 */
+		inline CSystemModule *GetModule()
+		{
+			return m_pSystemModule;
+		}
+
+		/**
 		 * @return Pointer to the system info object.
 		 */
 		inline CSystemInfo *GetSystemInfo()
@@ -153,6 +165,11 @@ class DLLEXPORTIMPORT CCore
 		inline CConfig *GetConfig()
 		{
 			return m_pConfig;
+		}
+
+		inline CRenderersManager *GetRenderersManager()
+		{
+			return m_pRenderersManager;
 		}
 
 		inline bool IsFinished() const

@@ -1,7 +1,8 @@
 #ifdef WINDOWS
 
 #include <Windows.h>
-#include <shlobj.h>
+#include <Shlobj.h>
+#include <Shlwapi.h>
 #include "../../common.hpp"
 #include "windowssystemdirectories.hpp"
 #include "../../string.hpp"
@@ -15,9 +16,11 @@ CWindowsSystemDirectories::CWindowsSystemDirectories(): CSystemDirectories()
 
 	/* Get executable path, so it can be used when SHGetKnownFolderPath or SHGetFolderPath fails */
 	WCHAR aExecutablePath[MAX_PATH + 1];
-	::GetModuleFileName(NULL, aExecutablePath, MAX_PATH);
-	aExecutablePath[MAX_PATH] = 0;
-
+	unsigned int iLastChar = ::GetModuleFileName(NULL, aExecutablePath, MAX_PATH);
+	if (iLastChar > MAX_PATH - 1)
+		iLastChar = MAX_PATH - 1;
+	aExecutablePath[iLastChar + 1] = 0;
+	::PathRemoveFileSpec(aExecutablePath);
 #ifndef __MINGW32__
 	PWSTR pLocalAppDataPath;
 	if (::SHGetKnownFolderPath(::FOLDERID_LocalAppData, KF_FLAG_CREATE | KF_FLAG_DEFAULT_PATH | KF_FLAG_NOT_PARENT_RELATIVE, NULL, &pLocalAppDataPath) == S_OK)
@@ -66,6 +69,16 @@ void CWindowsSystemDirectories::CorrectPath(CString &cPath)
 	}
 	if (cPath[cPath.length() - 1] != '\\')
 		cPath.push_back('\\');
+}
+
+CString CWindowsSystemDirectories::GetLibraryPrefix() const
+{
+	return "";
+}
+
+CString CWindowsSystemDirectories::GetLibraryPostfix() const
+{
+	return ".dll";
 }
 
 }

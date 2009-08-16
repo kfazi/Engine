@@ -4,6 +4,7 @@
 #include "common.hpp"
 #include <string>
 #include <sstream>
+#include <boost/format.hpp>
 
 namespace engine
 {
@@ -19,6 +20,7 @@ typedef unsigned short TChar;
 typedef std::basic_istringstream<TChar, std::char_traits<TChar>, std::allocator<TChar> > TIStringStream;
 typedef std::basic_ostringstream<TChar, std::char_traits<TChar>, std::allocator<TChar> > TOStringStream;
 typedef std::basic_stringstream<TChar, std::char_traits<TChar>, std::allocator<TChar> > TStringStream;
+typedef boost::basic_format<TChar, std::char_traits<TChar>, std::allocator<TChar> > TFormat;
 
 class DLLEXPORTIMPORT CString: public std::basic_string<TChar, std::char_traits<TChar>, std::allocator<TChar> >
 {
@@ -47,6 +49,7 @@ class DLLEXPORTIMPORT CString: public std::basic_string<TChar, std::char_traits<
 		CString();
 		CString(const std::basic_string<TChar> &cString);
 		CString(const std::string &cUTF8String);
+		CString(const std::wstring &cUTFString);
 		CString(const char *pUTF8String, unsigned int iLength);
 		CString(const char *pUTF8String);
 		CString(const unsigned short *pUTF16String, unsigned int iLength);
@@ -75,6 +78,10 @@ class DLLEXPORTIMPORT CString: public std::basic_string<TChar, std::char_traits<
 		static CString FromWCHAR(const std::string &cUTFString);
 		static CString FromWCHAR(const wchar_t *pUTFString, unsigned int iLength);
 		static CString FromWCHAR(const wchar_t *pUTFString);
+		static TFormat Format(const CString &cFormat);
+
+		bool MatchRegex(const CString &cRegex) const;
+		CString SecureRegex() const;
 
 		CString &operator = (const std::string &cUTF8String);
 		CString &operator = (const char *pUTF8String);

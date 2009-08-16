@@ -14,6 +14,8 @@ class CWindowsSystemDirectories: public CSystemDirectories
 	public:
 		CWindowsSystemDirectories();
 		virtual void CorrectPath(CString &cPath);
+		virtual CString GetLibraryPrefix() const;
+		virtual CString GetLibraryPostfix() const;
 };
 
 }

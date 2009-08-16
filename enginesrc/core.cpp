@@ -13,10 +13,12 @@
 #include "operating_system/windows/windowssystemdirectories.hpp"
 #include "operating_system/windows/windowssystemdisplaymanager.hpp"
 #include "operating_system/windows/windowssystemwindow.hpp"
+#include "operating_system/windows/windowssystemmodule.hpp"
 #include "operating_system/windows/windowssysteminfo.hpp"
 #include "operating_system/unix/unixsystemdirectories.hpp"
 #include "operating_system/unix/unixsystemwindow.hpp"
 #include "operating_system/unix/unixsysteminfo.hpp"
+#include "renderer/renderersmanager.hpp"
 
 void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 {
@@ -68,7 +70,9 @@ CCore::CCore()
 	m_pSystemDirectories = NULL;
 	m_pSystemDisplayManager = NULL;
 	m_pSystemWindow = NULL;
+	m_pSystemModule = NULL;
 	m_pSystemInfo = NULL;
+	m_pRenderersManager = NULL;
 	m_fFrameTime = 0;
 	m_bFinished = false;
 	CErrorStack::Init();
@@ -78,9 +82,11 @@ CCore::CCore()
 CCore::~CCore()
 {
 	m_pEngineMain->Destroy();
+	delete m_pRenderersManager;
 	delete m_pSceneManager;
 	delete m_pFunctionManager;
 	delete m_pSystemDirectories;
+	delete m_pSystemModule;
 //		delete m_pSystemWindow;
 	delete m_pSystemInfo;
 	/* Config system must be deleted just before logger system. */
@@ -97,6 +103,7 @@ void CCore::Create()
 #ifdef WINDOWS
 	m_pSystemDirectories = new CWindowsSystemDirectories();
 	m_pSystemDisplayManager = new CWindowsSystemDisplayManager();
+	m_pSystemModule = new CWindowsSystemModule();
 	//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
 	m_pSystemInfo = new CWindowsSystemInfo();
 #endif /* WINDOWS */
@@ -105,6 +112,7 @@ void CCore::Create()
 	m_pSystemWindow = new CUnixSystemWindow();
 	m_pSystemInfo = new CUnixSystemInfo();
 #endif /* UNIX */
+	m_pRenderersManager = new CRenderersManager();
 	m_fFrameTime = static_cast<double>(ENGINE_FPS);
 }
 

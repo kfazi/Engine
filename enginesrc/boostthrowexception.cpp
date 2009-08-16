@@ -6,7 +6,8 @@ namespace boost
 
 void throw_exception(std::exception const &e)
 {
-	exit(-1);
+//	if (!engine::g_bBoostExceptionNonFatal)
+//		exit(-1);
 }
 
 }
