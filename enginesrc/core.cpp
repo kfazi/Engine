@@ -20,7 +20,7 @@
 #include "operating_system/unix/unixsysteminfo.hpp"
 #include "renderer/renderersmanager.hpp"
 
-void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
+void CreateEngine(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 {
 	engine::CCore *pCore = new engine::CCore;
 	engine::CCore::s_pEngine = pCore;
@@ -49,7 +49,7 @@ void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv)
 	pCore->m_pEngineMain->ChooseScene();
 }
 
-void Destroy()
+void DestroyEngine()
 {
 	delete engine::CCore::s_pEngine;
 }
@@ -69,7 +69,6 @@ CCore::CCore()
 	m_pSceneManager = NULL;
 	m_pSystemDirectories = NULL;
 	m_pSystemDisplayManager = NULL;
-	m_pSystemWindow = NULL;
 	m_pSystemModule = NULL;
 	m_pSystemInfo = NULL;
 	m_pRenderersManager = NULL;
@@ -87,7 +86,6 @@ CCore::~CCore()
 	delete m_pFunctionManager;
 	delete m_pSystemDirectories;
 	delete m_pSystemModule;
-//		delete m_pSystemWindow;
 	delete m_pSystemInfo;
 	/* Config system must be deleted just before logger system. */
 	delete m_pConfig;
@@ -104,12 +102,10 @@ void CCore::Create()
 	m_pSystemDirectories = new CWindowsSystemDirectories();
 	m_pSystemDisplayManager = new CWindowsSystemDisplayManager();
 	m_pSystemModule = new CWindowsSystemModule();
-	//	pEngine->m_pSystemWindow = new CWindowsSystemWindow();
 	m_pSystemInfo = new CWindowsSystemInfo();
 #endif /* WINDOWS */
 #ifdef UNIX
 	m_pSystemDirectories = new CUnixSystemDirectories();
-	m_pSystemWindow = new CUnixSystemWindow();
 	m_pSystemInfo = new CUnixSystemInfo();
 #endif /* UNIX */
 	m_pRenderersManager = new CRenderersManager();
@@ -150,8 +146,6 @@ void CCore::ProcessFrame()
 	CErrorStack::Clear();
 #endif /* DEBUG */
 	m_pSystemDisplayManager->ProcessEvents();
-//	m_pSystemWindow->ProcessEvents(); /* Once per frame is enough. */
-//	m_pSystemWindow->SwapBuffers();
 }
 
 }

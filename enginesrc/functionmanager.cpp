@@ -6,7 +6,7 @@ namespace engine
 
 CFunctionManager::CFunctionManager()
 {
-	m_iNextId = 0;
+	m_cRegisteredFunctors.resize(100, SFunctorData());
 }
 
 CFunctionManager::~CFunctionManager()
@@ -15,41 +15,43 @@ CFunctionManager::~CFunctionManager()
 
 bool CFunctionManager::Remove(const unsigned int iId)
 {
-	std::map<unsigned int, CFunctorData>::iterator cFoundFunctor = m_cFunctorMap.find(iId);
-	if (cFoundFunctor == m_cFunctorMap.end())
+	if (iId >= m_cRegisteredFunctors.size() || m_cRegisteredFunctors[iId].bRemoved)
 	{
-		Debug(Format("CFunctionManager::Remove - Functor with ID %d not found\n") % iId);
+		Debug(Format("CFunctionManager::Remove - Functor with ID %1% not found\n") % iId);
 		return false;
 	}
-	m_cFunctorMap.erase(cFoundFunctor);
+	m_cRegisteredFunctors[iId].bRemoved = true;
+	m_cUnregisteredFunctorsIndices.push(iId);
 	return true;
 }
 
 unsigned int CFunctionManager::GetNextId()
 {
-	unsigned int iNextId = m_iNextId;
-	while (m_cFunctorMap.find(iNextId) != m_cFunctorMap.end()) /* Make sure this ID isn't in use. */
-		++iNextId;
-	m_iNextId = iNextId + 1;
-	return iNextId;
+	if (m_cUnregisteredFunctorsIndices.size() > 0)
+	{
+		unsigned int iNextId = m_cUnregisteredFunctorsIndices.front();
+		m_cUnregisteredFunctorsIndices.pop();
+		return iNextId;
+	}
+	return m_cRegisteredFunctors.size();
 }
 
 void CFunctionManager::Process()
 {
-	for (std::map<unsigned int, CFunctorData>::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
+	for (unsigned int iId = 0; iId < m_cRegisteredFunctors.size(); ++iId)
 	{
-		CFunctorData *pFunctorData = &((*cFunctorIterator).second);
-		unsigned int iId = (*cFunctorIterator).first;
-		if (!pFunctorData->iFramesDelay)
+		SFunctorData *pFunctorData = &m_cRegisteredFunctors[iId];
+		if (!pFunctorData->bRemoved)
 		{
-			pFunctorData->pFunctor(iId, pFunctorData->pArgument); /* Execute function with it's ID and it's argument. */
-			if (iId == (*cFunctorIterator).first) /* Functor continues executions (iterator's ID didn't change, so CFunctionManager::Remove wasn't called). */
-				pFunctorData->iFramesDelay = pFunctorData->iInitialFramesDelay; /* Reset delay. */
-			else /* Functor removed itself. */
-				--cFunctorIterator; /* Prevent skipping elements. */
+			if (!pFunctorData->iFramesDelay)
+			{
+				pFunctorData->pFunctor(iId, pFunctorData->pArgument); /* Execute function with it's ID and it's argument. */
+				if (!pFunctorData->bRemoved) /* Functor continues executions. */
+					pFunctorData->iFramesDelay = pFunctorData->iInitialFramesDelay; /* Reset delay. */
+			}
+			else
+				pFunctorData->iFramesDelay--; /* Decrease delay. */
 		}
-		else
-			--pFunctorData->iFramesDelay; /* Decrease delay. */
 	}
 }
 

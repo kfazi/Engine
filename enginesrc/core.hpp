@@ -20,12 +20,12 @@ class CEngineMain;
  * @param[in] iArgc Quantity of arguments passed to the application (the same as in main()).
  * @param[in] pArgv Two dimensional array of zero terminated arguments passed to the application (the same as in main()).
  */
-extern "C" DLLEXPORTIMPORT void Create(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
+extern "C" DLLEXPORTIMPORT void CreateEngine(engine::CEngineMain &cEngineMain, int iArgc, char **pArgv);
 
 /**
  * Destroys engine's core.
  */
-extern "C" DLLEXPORTIMPORT void Destroy();
+extern "C" DLLEXPORTIMPORT void DestroyEngine();
 
 namespace engine
 {
@@ -34,7 +34,6 @@ class CSceneManager;
 class CFunctionManager;
 class CSystemDirectories;
 class CSystemDisplayManager;
-class CSystemWindow;
 class CSystemModule;
 class CSystemInfo;
 class CLogger;
@@ -50,8 +49,8 @@ class DLLEXPORTIMPORT CCore
 {
 	friend void Debug(const CString &cMessage);
 	friend void Debug(const boost::basic_format<TChar> &cFormat);
-	friend void ::Create(CEngineMain &cEngineMain, int iArgc, char **pArgv);
-	friend void ::Destroy();
+	friend void ::CreateEngine(CEngineMain &cEngineMain, int iArgc, char **pArgv);
+	friend void ::DestroyEngine();
 
 	private:
 		CEngineMain *m_pEngineMain; /**< Application's class. */
@@ -59,7 +58,6 @@ class DLLEXPORTIMPORT CCore
 		CFunctionManager *m_pFunctionManager; /**< Pointer to the function manager. */
 		CSystemDirectories *m_pSystemDirectories; /**< Pointer to the system directories object. */
 		CSystemDisplayManager *m_pSystemDisplayManager; /**< Pointer to the system display manager object. */
-		CSystemWindow *m_pSystemWindow; /**< Pointer to the system window object. */
 		CSystemModule *m_pSystemModule; /**< Pointer to the system module object. */
 		CSystemInfo *m_pSystemInfo; /**< Pointer to the system info object. */
 		CLogger *m_pLogger; /**< Pointer to the logger system. */
@@ -120,19 +118,11 @@ class DLLEXPORTIMPORT CCore
 		}
 
 		/**
-		* @return Pointer to the system display mnager object.
-		*/
+		 * @return Pointer to the system display mnager object.
+		 */
 		inline CSystemDisplayManager *GetSystemDisplayManager()
 		{
 			return m_pSystemDisplayManager;
-		}
-
-		/**
-		 * @return Pointer to the system window object.
-		 */
-		inline CSystemWindow *GetWindow()
-		{
-			return m_pSystemWindow;
 		}
 
 		/**
@@ -167,16 +157,25 @@ class DLLEXPORTIMPORT CCore
 			return m_pConfig;
 		}
 
+		/**
+		* @return Pointer to the renderers manager object.
+		*/
 		inline CRenderersManager *GetRenderersManager()
 		{
 			return m_pRenderersManager;
 		}
 
+		/**
+		 * @return True if engine is shutting down.
+		 */
 		inline bool IsFinished() const
 		{
 			return m_bFinished;
 		}
 
+		/**
+		 * Tells engine to shutdown.
+		 */
 		inline void Finish()
 		{
 			m_bFinished = true;

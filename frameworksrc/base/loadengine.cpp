@@ -18,8 +18,8 @@ void LoadEngine()
 {
 #ifdef WINDOWS
 	g_pEngineInstance = LoadLibraryA(ENGINE_NAME);
-	g_pEngineCreate = reinterpret_cast<TEngineCreateFunction>(GetProcAddress(g_pEngineInstance, "Create"));
-	g_pEngineDestroy = reinterpret_cast<TEngineDestroyFunction>(GetProcAddress(g_pEngineInstance, "Destroy"));
+	g_pEngineCreate = reinterpret_cast<TEngineCreateFunction>(GetProcAddress(g_pEngineInstance, "CreateEngine"));
+	g_pEngineDestroy = reinterpret_cast<TEngineDestroyFunction>(GetProcAddress(g_pEngineInstance, "DestroyEngine"));
 #endif /* WINDOWS */
 }
 

@@ -3,7 +3,8 @@
 
 #include "../common.hpp"
 #include "../string.hpp"
-#include <map>
+#include <vector>
+#include <queue>
 
 namespace engine
 {
@@ -39,11 +40,11 @@ class DLLEXPORTIMPORT CSystemModule
 		};
 
 	private:
-		/** Map of modules and their IDs. */
-		std::map<unsigned int, SModule *> m_cModulesMap;
+		/** Vector of loaded modules. */
+		std::vector<SModule *> m_cLoadedModules;
 
-		/** Next ID to assign when new module is added. */
-		unsigned int m_iNextId;
+		/** Vector of removed modules indices. */
+		std::queue<unsigned int> m_cRemovedModules;
 
 		/**
 		 * Generates next ID for new module.
@@ -53,6 +54,11 @@ class DLLEXPORTIMPORT CSystemModule
 		unsigned int GetNextId();
 
 	protected:
+		/**
+		 * Constructor
+		 */
+		CSystemModule();
+
 		/**
 		 * Adds module.
 		 *
@@ -65,8 +71,9 @@ class DLLEXPORTIMPORT CSystemModule
 		 * Removes module with given ID.
 		 *
 		 * @param[in] iModuleId Module ID.
+		 * @return True, when module was successfully removed. False otherwise.
 		 */
-		void RemoveModule(unsigned int iModuleId);
+		bool RemoveModule(unsigned int iModuleId);
 
 		/**
 		 * Searches for module with given name.

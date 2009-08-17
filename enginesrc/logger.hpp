@@ -20,7 +20,7 @@ class DLLEXPORTIMPORT CLogger
 {
 	/** Allow CCore to create this class. */
 	friend class CCore;
-	friend void ::Create(CEngineMain &cEngineMain, int iArgc, char **pArgv);
+	friend void ::CreateEngine(CEngineMain &cEngineMain, int iArgc, char **pArgv);
 
 	public:
 		/**

@@ -19,6 +19,7 @@ class DLLEXPORTIMPORT CRenderersManager
 
 		struct SRendererDescription
 		{
+			unsigned int iModuleId;
 			CString cName;
 			TRendererCreateFunction pCreateRenderer;
 			TRendererDestroyFunction pDestroyRenderer;

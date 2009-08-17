@@ -5,7 +5,6 @@
 namespace engine
 {
 
-/* Main code. */
 CSystemModule::SModule::SModule(const CString &cName, void *pHandle)
 {
 	iReferences = 1;
@@ -16,33 +15,52 @@ CSystemModule::SModule::SModule(const CString &cName, void *pHandle)
 
 unsigned int CSystemModule::GetNextId()
 {
-	unsigned int iNextId = m_iNextId;
-	while (m_cModulesMap.find(iNextId) != m_cModulesMap.end()) /* Make sure this ID isn't in use. */
-		++iNextId;
-	m_iNextId = iNextId + 1;
-	return iNextId;
+	if (m_cRemovedModules.size() > 0)
+	{
+		unsigned int iNextId = m_cRemovedModules.front();
+		m_cRemovedModules.pop();
+		return iNextId;
+	}
+	return m_cLoadedModules.size();
+}
+
+CSystemModule::CSystemModule()
+{
+	m_cLoadedModules.resize(100, NULL);
 }
 
 unsigned int CSystemModule::AddModule(CSystemModule::SModule *pModule)
 {
-	unsigned int iNextId = GetNextId();
-	m_cModulesMap.insert(std::make_pair(iNextId, pModule));
-	return iNextId;
+	unsigned int iId = GetNextId();
+	if (m_cLoadedModules.size() <= iId)
+		m_cLoadedModules.resize(m_cLoadedModules.size() * 2, NULL);
+	m_cLoadedModules[iId] = pModule;
+	return iId;
 }
 
-void CSystemModule::RemoveModule(unsigned int iModuleId)
+bool CSystemModule::RemoveModule(unsigned int iModuleId)
 {
-	m_cModulesMap.erase(iModuleId);
+	if (iModuleId >= m_cLoadedModules.size() || m_cLoadedModules[iModuleId] == NULL)
+	{
+		Debug(Format("CSystemModule::RemoveModule - Module with ID %1% not found\n") % iModuleId);
+		return false;
+	}
+	m_cLoadedModules[iModuleId] = NULL;
+	m_cRemovedModules.push(iModuleId);
+	return true;
 }
 
 bool CSystemModule::FindModule(unsigned int &iModuleId, const CString &cName)
 {
-	for (std::map<unsigned int, SModule *>::iterator cModulesIterator = m_cModulesMap.begin(); cModulesIterator != m_cModulesMap.end(); ++cModulesIterator)
+	for (iModuleId = 0; iModuleId < m_cLoadedModules.size(); ++iModuleId)
 	{
-		if ((*cModulesIterator).second->cName == cName)
+		if (m_cLoadedModules[iModuleId] != NULL)
 		{
-			iModuleId = (*cModulesIterator).first;
-			return true;
+			if (m_cLoadedModules[iModuleId]->cName == cName)
+			{
+				iModuleId = iModuleId;
+				return true;
+			}
 		}
 	}
 	return false;
@@ -50,18 +68,17 @@ bool CSystemModule::FindModule(unsigned int &iModuleId, const CString &cName)
 
 CSystemModule::SModule *CSystemModule::GetModule(unsigned int iModuleId)
 {
-	std::map<unsigned int, SModule *>::iterator cFoundModule = m_cModulesMap.find(iModuleId);
-	if (cFoundModule == m_cModulesMap.end())
+	if (iModuleId >= m_cLoadedModules.size() || m_cLoadedModules[iModuleId] == NULL)
 		return NULL;
-	return (*cFoundModule).second;
+	return m_cLoadedModules[iModuleId];
 }
 
 CSystemModule::~CSystemModule()
 {
-	for (std::map<unsigned int, SModule *>::iterator cModulesIterator = m_cModulesMap.begin(); cModulesIterator != m_cModulesMap.end(); ++cModulesIterator)
+	for (unsigned int iModuleId = 0; iModuleId < m_cLoadedModules.size(); ++iModuleId)
 	{
-		while ((*cModulesIterator).second->iReferences)
-			Close((*cModulesIterator).first);
+		while (m_cLoadedModules[iModuleId] != NULL)
+			Close(iModuleId);
 	}
 }
 
@@ -69,7 +86,7 @@ void CSystemModule::MakeResident(const unsigned int iModuleId)
 {
 	SModule *pModule = GetModule(iModuleId);
 	if (!pModule)
-		/* ERROR */
+		;/* ERROR */
 	pModule->bResidential = true;
 }
 

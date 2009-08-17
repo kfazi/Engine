@@ -27,6 +27,7 @@ void CEngineMainImplementation::BasicLog(const engine::CString &cMessage, const 
 
 CEngineMainImplementation::~CEngineMainImplementation()
 {
+	m_cLogFile.close();
 }
 
 void CEngineMainImplementation::Create()
@@ -45,7 +46,7 @@ void CEngineMainImplementation::Create()
 
 void CEngineMainImplementation::Destroy()
 {
-	m_cLogFile.close();
+//	m_cLogFile.close();
 	FreeConsole();
 }
 

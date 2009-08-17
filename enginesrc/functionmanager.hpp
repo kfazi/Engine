@@ -2,7 +2,8 @@
 #define ENGINE_FUCTIONMANAGER_HPP
 
 #include "common.hpp"
-#include <map>
+#include <vector>
+#include <queue>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
@@ -20,43 +21,55 @@ class DLLEXPORTIMPORT CFunctionManager
 
 	private:
 		/**
-		 * Class with private functor data.
+		 * Struct with private functor data.
 		 */
-		class CFunctorData
+		struct SFunctorData
 		{
-			public:
-				/** How many frames the functor still has to wait before it's executed. */
-				unsigned int iFramesDelay;
+			/** How many frames the functor still has to wait before it's executed. */
+			unsigned int iFramesDelay;
 
-				/** Initial number of frames, the functor has to wait before it's executed. */
-				unsigned int iInitialFramesDelay;
+			/** Initial number of frames, the functor has to wait before it's executed. */
+			unsigned int iInitialFramesDelay;
 
-				/** User contribued data. */
-				void *pArgument;
+			/** User contributed data. */
+			void *pArgument;
 
-				/** The functor itself. */
-				boost::function<void (const unsigned int, void *)> pFunctor;
+			/** The functor itself. */
+			boost::function<void (const unsigned int, void *)> pFunctor;
 
-				/** Constructor.
-				 *
-				 * @param[in] pFunctor The functor.
-				 * @param[in] pArgument User contribued data.
-				 * @param[in] iFramesDelay How many frames the functor has to wait before it's executed.
-				 */
-				CFunctorData(boost::function<void (const unsigned int, void *)> pFunctor, void *pArgument, const unsigned int iFramesDelay)
-				{
-					this->iFramesDelay = iFramesDelay;
-					this->iInitialFramesDelay = iFramesDelay;
-					this->pArgument = pArgument;
-					this->pFunctor = pFunctor;
-				}
+			/** Flag indicating if functor has been removed. */
+			bool bRemoved;
+
+			/**
+			 * Constructor.
+			 *
+			 * @param[in] pFunctor The functor.
+			 * @param[in] pArgument User contributed data.
+			 * @param[in] iFramesDelay How many frames the functor has to wait before it's executed.
+			 */
+			SFunctorData(boost::function<void (const unsigned int, void *)> pFunctor, void *pArgument, const unsigned int iFramesDelay)
+			{
+				this->iFramesDelay = iFramesDelay;
+				this->iInitialFramesDelay = iFramesDelay;
+				this->pArgument = pArgument;
+				this->pFunctor = pFunctor;
+				bRemoved = false;
+			}
+
+			/**
+			 * Constructor.
+			 */
+			SFunctorData()
+			{
+				bRemoved = true;
+			}
 		};
 
-		/** Next ID to assign when new function is added. */
-		unsigned int m_iNextId;
+		/** Registered functors. */
+		std::vector<SFunctorData> m_cRegisteredFunctors;
 
-		/** Map of functors. */
-		std::map<unsigned int, CFunctorData> m_cFunctorMap;
+		/** Unregistered functors indices. */
+		std::queue<unsigned int> m_cUnregisteredFunctorsIndices;
 
 		/** Constructor. */
 		CFunctionManager();
@@ -78,35 +91,22 @@ class DLLEXPORTIMPORT CFunctionManager
 
 	public:
 		/**
-		 * Adds new function with explicitly given ID for delayed execution.
-		 * Functors have to remove themselves, or they will be executed again after their delay is reached again.
-		 *
-		 * @param[in] cClass A pointer to the class instance, containing the function.
-		 * @param[in] pFunction A pointer to the function, returning void and taking const unsigned int, void * arguments.
-		 * @param[in] pArgument User contribued data.
-		 * @param[in] iFramesDelay How many frames the function has to wait before it's executed.
-		 * @param[in] iId ID of the function.
-		 * @return ID of the function.
-		 */
-		template <class CClass> unsigned int Add(CClass *cClass, void (CClass::*pFunctor)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay, const unsigned int iId)
-		{
-			m_cFunctorMap.insert(std::make_pair(iId, CFunctorData(boost::bind(pFunctor, cClass, _1, _2), pArgument, iFramesDelay)));
-			return iId;
-		}
-
-		/**
 		 * Adds new function for delayed execution.
 		 * Functors have to remove themselves, or they will be executed again after their delay is reached again.
 		 *
 		 * @param[in] cClass A pointer to the class instance, containing the function.
 		 * @param[in] pFunction A pointer to the function, returning void and taking const unsigned int, void * arguments.
-		 * @param[in] pArgument User contribued data.
+		 * @param[in] pArgument User contributed data.
 		 * @param[in] iFramesDelay How many frames the function has to wait before it's executed.
 		 * @return ID of the function.
 		 */
 		template <class CClass> unsigned int Add(CClass *cClass, void (CClass::*pFunctor)(const unsigned int, void *), void *pArgument, const unsigned int iFramesDelay = 0)
 		{
-			return Add(cClass, pFunctor, pArgument, iFramesDelay, GetNextId());
+			unsigned int iId = GetNextId();
+			if (m_cRegisteredFunctors.size() <= iId)
+				m_cRegisteredFunctors.resize(m_cRegisteredFunctors.size() * 2, SFunctorData());
+			m_cRegisteredFunctors[iId] = SFunctorData(boost::bind(pFunctor, cClass, _1, _2), pArgument, iFramesDelay);
+			return iId;
 		}
 
 		/**
