@@ -13,7 +13,7 @@
 namespace engine
 {
 
-CWindowsSystemModule::CWindowsSystemModule()
+CWindowsSystemModule::CWindowsSystemModule(unsigned int iAllocationBase): CSystemModule(iAllocationBase)
 {
 }
 

@@ -57,7 +57,7 @@ class DLLEXPORTIMPORT CSystemModule
 		/**
 		 * Constructor
 		 */
-		CSystemModule();
+		CSystemModule(unsigned int iAllocationBase = 25);
 
 		/**
 		 * Adds module.

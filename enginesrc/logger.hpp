@@ -62,9 +62,9 @@ class DLLEXPORTIMPORT CLogger
 		boost::mutex cMutex;
 
 		/** Default constructor. */
-		CLogger()
+		CLogger(unsigned int iAllocationBase = 5)
 		{
-			m_cRegisteredFunctors.resize(100, SFunctorData());
+			m_cRegisteredFunctors.resize(iAllocationBase, SFunctorData());
 		}
 
 		/** Destructor. */
@@ -100,7 +100,7 @@ class DLLEXPORTIMPORT CLogger
 		{
 			unsigned int iId = GetNextId();
 			if (m_cRegisteredFunctors.size() <= iId)
-				m_cRegisteredFunctors.resize(m_cRegisteredFunctors.size() * 2, SFunctorData());
+				m_cRegisteredFunctors.resize(m_cRegisteredFunctors.size() * 2 + 1, SFunctorData());
 			m_cRegisteredFunctors[iId] = SFunctorData(boost::bind(pFunction, cClass, _1, _2));
 			return iId;
 		}

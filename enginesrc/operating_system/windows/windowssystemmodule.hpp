@@ -15,7 +15,7 @@ class CWindowsSystemModule: public CSystemModule
 	friend class CCore;
 
 	public:
-		CWindowsSystemModule();
+		CWindowsSystemModule(unsigned int iAllocationBase = 25);
 		virtual ~CWindowsSystemModule();
 		virtual CString GetSystemName(const CString &cDirectory, const CString &cFileName);
 		virtual unsigned int Load(const CString &cFileName);

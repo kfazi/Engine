@@ -24,16 +24,16 @@ unsigned int CSystemModule::GetNextId()
 	return m_cLoadedModules.size();
 }
 
-CSystemModule::CSystemModule()
+CSystemModule::CSystemModule(unsigned int iAllocationBase)
 {
-	m_cLoadedModules.resize(100, NULL);
+	m_cLoadedModules.resize(iAllocationBase, NULL);
 }
 
 unsigned int CSystemModule::AddModule(CSystemModule::SModule *pModule)
 {
 	unsigned int iId = GetNextId();
 	if (m_cLoadedModules.size() <= iId)
-		m_cLoadedModules.resize(m_cLoadedModules.size() * 2, NULL);
+		m_cLoadedModules.resize(m_cLoadedModules.size() * 2 + 1, NULL);
 	m_cLoadedModules[iId] = pModule;
 	return iId;
 }

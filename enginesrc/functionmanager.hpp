@@ -72,7 +72,7 @@ class DLLEXPORTIMPORT CFunctionManager
 		std::queue<unsigned int> m_cUnregisteredFunctorsIndices;
 
 		/** Constructor. */
-		CFunctionManager();
+		CFunctionManager(unsigned int iAllocationBase = 100);
 
 		/** Destructor. */
 		~CFunctionManager();
@@ -104,7 +104,7 @@ class DLLEXPORTIMPORT CFunctionManager
 		{
 			unsigned int iId = GetNextId();
 			if (m_cRegisteredFunctors.size() <= iId)
-				m_cRegisteredFunctors.resize(m_cRegisteredFunctors.size() * 2, SFunctorData());
+				m_cRegisteredFunctors.resize(m_cRegisteredFunctors.size() * 2 + 1, SFunctorData());
 			m_cRegisteredFunctors[iId] = SFunctorData(boost::bind(pFunctor, cClass, _1, _2), pArgument, iFramesDelay);
 			return iId;
 		}

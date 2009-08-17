@@ -4,9 +4,9 @@
 namespace engine
 {
 
-CFunctionManager::CFunctionManager()
+CFunctionManager::CFunctionManager(unsigned int iAllocationBase)
 {
-	m_cRegisteredFunctors.resize(100, SFunctorData());
+	m_cRegisteredFunctors.resize(iAllocationBase, SFunctorData());
 }
 
 CFunctionManager::~CFunctionManager()
