@@ -2,7 +2,8 @@
 #define ENGINE_LOGGER_HPP
 
 #include "common.hpp"
-#include <map>
+#include <vector>
+#include <queue>
 #include <boost/format.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -36,18 +37,34 @@ class DLLEXPORTIMPORT CLogger
 		};
 
 	private:
-		/** Map of functors called when new message arrives. */
-		std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> > m_cFunctorMap;
+		struct SFunctorData
+		{
+			boost::function<void (const CString &, const EMessageType)> pFunctor;
+			bool bRemoved;
+			SFunctorData(boost::function<void (const CString &, const EMessageType)> pFunctor)
+			{
+				this->pFunctor = pFunctor;
+				bRemoved = false;
+			}
+			SFunctorData()
+			{
+				bRemoved = true;
+			}
+		};
 
-		/** Next ID to assign when new logging function is registered. */
-		unsigned int m_iNextId;
+		/** Vector of registered functors called when new message arrives. */
+		std::vector<SFunctorData> m_cRegisteredFunctors;
 
+		/** Unregistered functors indices. */
+		std::queue<unsigned int> m_cUnregisteredFunctorsIndices;
+
+		/** Mutex for logging synchronization. */
 		boost::mutex cMutex;
 
 		/** Default constructor. */
 		CLogger()
 		{
-			m_iNextId = 0;
+			m_cRegisteredFunctors.resize(100, SFunctorData());
 		}
 
 		/** Destructor. */
@@ -62,11 +79,13 @@ class DLLEXPORTIMPORT CLogger
 		 */
 		unsigned int GetNextId()
 		{
-			unsigned int iNextId = m_iNextId;
-			while (m_cFunctorMap.find(iNextId) != m_cFunctorMap.end()) /* Make sure this ID isn't in use. */
-				++iNextId;
-			m_iNextId = iNextId + 1;
-			return iNextId;
+			if (m_cUnregisteredFunctorsIndices.size() > 0)
+			{
+				unsigned int iNextId = m_cUnregisteredFunctorsIndices.front();
+				m_cUnregisteredFunctorsIndices.pop();
+				return iNextId;
+			}
+			return m_cRegisteredFunctors.size();
 		}
 
 	public:
@@ -80,7 +99,9 @@ class DLLEXPORTIMPORT CLogger
 		template <class CClass> unsigned int Register(CClass *cClass, void (CClass::*pFunction)(const CString &, const EMessageType))
 		{
 			unsigned int iId = GetNextId();
-			m_cFunctorMap.insert(std::make_pair(iId, boost::bind(pFunction, cClass, _1, _2)));
+			if (m_cRegisteredFunctors.size() <= iId)
+				m_cRegisteredFunctors.resize(m_cRegisteredFunctors.size() * 2, SFunctorData());
+			m_cRegisteredFunctors[iId] = SFunctorData(boost::bind(pFunction, cClass, _1, _2));
 			return iId;
 		}
 
@@ -92,10 +113,10 @@ class DLLEXPORTIMPORT CLogger
 		 */
 		bool Unregister(const unsigned int iId)
 		{
-			std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> >::iterator cFoundFunctor = m_cFunctorMap.find(iId);
-			if (cFoundFunctor == m_cFunctorMap.end())
+			if (iId >= m_cRegisteredFunctors.size() || m_cRegisteredFunctors[iId].bRemoved)
 				return false;
-			m_cFunctorMap.erase(cFoundFunctor);
+			m_cRegisteredFunctors[iId].bRemoved = true;
+			m_cUnregisteredFunctorsIndices.push(iId);
 			return true;
 		}
 
@@ -109,8 +130,11 @@ class DLLEXPORTIMPORT CLogger
 		{
 			boost::mutex::scoped_lock mylock(cMutex, boost::defer_lock);
 			mylock.lock();
-			for (std::map<unsigned int, boost::function<void (const CString &, const EMessageType)> >::iterator cFunctorIterator = m_cFunctorMap.begin(); cFunctorIterator != m_cFunctorMap.end(); ++cFunctorIterator)
-				(*cFunctorIterator).second(cMessage, eMessageType);
+			for (std::vector<SFunctorData>::iterator cFunctorIterator = m_cRegisteredFunctors.begin(); cFunctorIterator != m_cRegisteredFunctors.end(); ++cFunctorIterator)
+			{
+				if (!(*cFunctorIterator).bRemoved)
+				(*cFunctorIterator).pFunctor(cMessage, eMessageType);
+			}
 			mylock.unlock();
 		}
 };
