@@ -77,8 +77,12 @@ CSystemModule::~CSystemModule()
 {
 	for (unsigned int iModuleId = 0; iModuleId < m_cLoadedModules.size(); ++iModuleId)
 	{
-		while (m_cLoadedModules[iModuleId] != NULL)
-			Close(iModuleId);
+		if (m_cLoadedModules[iModuleId] != NULL)
+		{
+			m_cLoadedModules[iModuleId]->bResidential = false;
+			while (m_cLoadedModules[iModuleId] != NULL)
+				Close(iModuleId);
+		}
 	}
 }
 
@@ -86,8 +90,23 @@ void CSystemModule::MakeResident(const unsigned int iModuleId)
 {
 	SModule *pModule = GetModule(iModuleId);
 	if (!pModule)
-		;/* ERROR */
+		Error(Format("CSystemModule::MakeResident - Module with ID %1% not found!") % iModuleId);/* ERROR */
 	pModule->bResidential = true;
+}
+
+void CSystemModule::Close(const unsigned int iModuleId)
+{
+	SModule *pModule = GetModule(iModuleId);
+	if (!pModule->bResidential)
+	{
+		pModule->iReferences--;
+		UnloadModule(pModule);
+		if (!pModule->iReferences)
+		{
+			RemoveModule(iModuleId);
+			delete pModule;
+		}
+	}
 }
 
 }

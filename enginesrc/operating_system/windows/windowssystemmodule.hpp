@@ -14,13 +14,15 @@ class CWindowsSystemModule: public CSystemModule
 {
 	friend class CCore;
 
+	protected:
+		virtual void UnloadModule(SModule *pModule);
+
 	public:
 		CWindowsSystemModule(unsigned int iAllocationBase = 25);
 		virtual ~CWindowsSystemModule();
 		virtual CString GetSystemName(const CString &cDirectory, const CString &cFileName);
 		virtual unsigned int Load(const CString &cFileName);
 		virtual void *GetSymbol(const unsigned int iModuleId, const CString &cSymbolName);
-		virtual void Close(const unsigned int iModuleId);
 };
 
 }

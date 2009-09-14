@@ -20,6 +20,8 @@ SET(ENGINE_CORE_SOURCES
 	${ENGINESRC_DIR}/errorstack.hpp
 	${ENGINESRC_DIR}/functionmanager.cpp
 	${ENGINESRC_DIR}/functionmanager.hpp
+	${ENGINESRC_DIR}/hardwarebuffer.cpp
+	${ENGINESRC_DIR}/hardwarebuffer.hpp
 	${ENGINESRC_DIR}/logger.hpp
 	${ENGINESRC_DIR}/sqliteconfig.cpp
 	${ENGINESRC_DIR}/sqliteconfig.hpp

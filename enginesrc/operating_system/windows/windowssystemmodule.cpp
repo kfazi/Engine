@@ -13,6 +13,12 @@
 namespace engine
 {
 
+void CWindowsSystemModule::UnloadModule(SModule *pModule)
+{
+	if (!FreeLibrary(static_cast<HMODULE>(pModule->pHandle)))
+		Error(Format("CWindowsSystemModule::Close - Can't close module %1% (%2%)") % pModule->cName % CWindowsSystemErrorMessages::GetError(GetLastError()));
+}
+
 CWindowsSystemModule::CWindowsSystemModule(unsigned int iAllocationBase): CSystemModule(iAllocationBase)
 {
 }
@@ -44,7 +50,7 @@ unsigned int CWindowsSystemModule::Load(const CString &cFileName)
 		return iResult;
 	HINSTANCE pHandle = LoadLibraryW(cFileName.ToWCHAR().c_str());
 	if (!pHandle)
-		;// CWindowsSystemErrorMessages::GetError(GetLastError()));
+		Error(Format("CWindowsSystemModule::Load - Can't load module %1% (%2%)") % cFileName % CWindowsSystemErrorMessages::GetError(GetLastError()));
 	SModule *pModule = new SModule(cFileName, pHandle);
 	iResult = AddModule(pModule);
 	return iResult;
@@ -55,21 +61,8 @@ void *CWindowsSystemModule::GetSymbol(const unsigned int iModuleId, const CStrin
 	SModule *pModule = GetModule(iModuleId);
 	void *pSymbol = GetProcAddress(static_cast<HMODULE>(pModule->pHandle), cSymbolName.ToUTF8().c_str());
 	if (!pSymbol)
-		Debug((Format("Symbol %1% not found in module %2%.") % cSymbolName % pModule->cName).str());
+		Debug((Format("CWindowsSystemModule::GetSymbol - Symbol %1% not found in module %2%.") % cSymbolName % pModule->cName).str());
 	return pSymbol;
-}
-
-void CWindowsSystemModule::Close(const unsigned int iModuleId)
-{
-	SModule *pModule = GetModule(iModuleId);
-	pModule->iReferences--;
-	if (!FreeLibrary(static_cast<HMODULE>(pModule->pHandle)))
-		;// CWindowsSystemErrorMessages::GetError(GetLastError()));
-	if (!pModule->iReferences)
-	{
-		RemoveModule(iModuleId);
-		delete pModule;
-	}
 }
 
 }

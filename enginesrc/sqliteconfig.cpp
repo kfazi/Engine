@@ -15,6 +15,7 @@ CSQLiteConfig::~CSQLiteConfig()
 {
 	if (IsModified())
 		Save();
+	Debug("SQLITE CLOSED");
 	sqlite3_close(m_pDataBase);
 }
 

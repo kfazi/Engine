@@ -92,6 +92,13 @@ class DLLEXPORTIMPORT CSystemModule
 		 */
 		SModule *GetModule(unsigned int iModuleId);
 
+		/**
+		 * Unloads given module.
+		 *
+		 * @param[in] pModule Module to unload.
+		 */
+		virtual void UnloadModule(SModule *pModule) = 0;
+
 	public:
 		/**
 		 * Virtual destructor.
@@ -119,7 +126,6 @@ class DLLEXPORTIMPORT CSystemModule
 		/**
 		 * Loads module.
 		 *
-		 * @throws CLoadException Module can't be loaded because of operating system error.
 		 * @param[in] cFileName File name of the module. Usage of GetSystemName() is suggested.
 		 * @return ID of loaded module.
 		 */
@@ -137,11 +143,11 @@ class DLLEXPORTIMPORT CSystemModule
 		/**
 		 * Closes module.
 		 * Module will be fully closed if all references to it will be closed and if this module isn't residential.
+		 * Otherwise it only decreases references.
 		 *
-		 * @throws CCloseException Module can't be closed because of operating system error.
 		 * @param[in] iModuleId ID of the module to close.
 		 */
-		virtual void Close(const unsigned int iModuleId) {}
+		void Close(const unsigned int iModuleId);
 };
 
 }

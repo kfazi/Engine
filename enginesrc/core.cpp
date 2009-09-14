@@ -85,6 +85,7 @@ CCore::~CCore()
 	delete m_pSceneManager;
 	delete m_pFunctionManager;
 	delete m_pSystemDirectories;
+	delete m_pSystemDisplayManager;
 	delete m_pSystemModule;
 	delete m_pSystemInfo;
 	/* Config system must be deleted just before logger system. */

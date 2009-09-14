@@ -13,16 +13,35 @@ class CSystemWindow;
 
 class DLLEXPORTIMPORT CRenderersManager
 {
+	public:
+		struct DLLEXPORTIMPORT SRendererVersion
+		{
+			unsigned int iMajor;
+			unsigned int iMinor;
+			unsigned int iBuild;
+
+			SRendererVersion(unsigned int iMajor, unsigned int iMinor, unsigned int iBuild);
+			SRendererVersion();
+		};
+
+		struct SRendererInfo
+		{
+			SRendererVersion sVersion;
+			CString cName;
+		};
+
 	private:
 		typedef CRenderer *(*TRendererCreateFunction)(const CSystemWindow &cWindow);
 		typedef void (*TRendererDestroyFunction)(CRenderer *pRenderer);
+		typedef SRendererInfo *(*TGetRendererInfoFunction)();
 
 		struct SRendererDescription
 		{
 			unsigned int iModuleId;
-			CString cName;
+			SRendererInfo sInfo;
 			TRendererCreateFunction pCreateRenderer;
 			TRendererDestroyFunction pDestroyRenderer;
+			TGetRendererInfoFunction pGetRendererInfo;
 		};
 
 		std::vector<SRendererDescription> m_cRendererDescriptions;
