@@ -5,11 +5,6 @@
 namespace engine
 {
 
-CHardwareBuffer::ELockOptions CHardwareBuffer::GetLockOption() const
-{
-	return m_eLockOption;
-}
-
 CHardwareBuffer::CHardwareBuffer(unsigned int iSize, bool bShadowed)
 {
 	m_iSize = iSize;
@@ -17,6 +12,11 @@ CHardwareBuffer::CHardwareBuffer(unsigned int iSize, bool bShadowed)
 		m_pShadowData = new char[iSize];
 	else
 		m_pShadowData = NULL;
+}
+
+CHardwareBuffer::ELockOptions CHardwareBuffer::GetLockOption() const
+{
+	return m_eLockOption;
 }
 
 CHardwareBuffer::~CHardwareBuffer()

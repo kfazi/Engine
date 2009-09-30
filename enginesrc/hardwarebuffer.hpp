@@ -22,6 +22,7 @@ class DLLEXPORTIMPORT CHardwareBuffer
 		ELockOptions m_eLockOption;
 
 	protected:
+		CHardwareBuffer(unsigned int iSize, bool bShadowed);
 		ELockOptions GetLockOption() const;
 		virtual void LockImplementation(unsigned int iOffset, unsigned int iLength, ELockOptions eOptions) = 0;
 		virtual void UnlockImplementation() = 0;
@@ -29,7 +30,6 @@ class DLLEXPORTIMPORT CHardwareBuffer
 		virtual void WriteImplementation(void *pSourceBuffer, unsigned int iOffset, unsigned int iSize) = 0;
 
 	public:
-		CHardwareBuffer(unsigned int iSize, bool bShadowed);
 		virtual ~CHardwareBuffer();
 
 		void Lock(unsigned int iOffset, unsigned int iLength, ELockOptions eOptions);

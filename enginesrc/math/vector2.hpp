@@ -58,7 +58,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Normalizes a vector.
 		 */
-		inline void Normalize()
+		void Normalize()
 		{
 			double fLength = GetLength();
 			if (fLength == 1.0 || fLength < std::numeric_limits<double>::epsilon())
@@ -70,7 +70,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Returns a length of a vector.
 		 */
-		inline double GetLength() const
+		double GetLength() const
 		{
 			return std::sqrt(X * X + Y * Y);
 		}
@@ -78,7 +78,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Tests two vectors for equality.
 		 */
-		inline bool operator == (const CVector2 &cVector) const
+		bool operator == (const CVector2 &cVector) const
 		{
 			return (X == cVector.X) && (Y == cVector.Y);
 		}
@@ -86,7 +86,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Tests two vectors for inequality.
 		 */
-		inline bool operator != (const CVector2 &cVector) const
+		bool operator != (const CVector2 &cVector) const
 		{
 			return !(*this == cVector);
 		}
@@ -94,7 +94,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Assignment operator.
 		 */
-		inline CVector2 &operator = (const CVector2 &cVector)
+		CVector2 &operator = (const CVector2 &cVector)
 		{
 			X = cVector.X;
 			Y = cVector.Y;
@@ -104,7 +104,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Vector negation.
 		 */
-		inline CVector2 &operator - ()
+		CVector2 &operator - ()
 		{
 			X = -X;
 			Y = -Y;
@@ -114,7 +114,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Vector addition with assignment.
 		 */
-		inline CVector2 &operator += (const CVector2 &cVector)
+		CVector2 &operator += (const CVector2 &cVector)
 		{
 			X += cVector.X;
 			Y += cVector.Y;
@@ -124,7 +124,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Vector subtraction with assignment.
 		 */
-		inline CVector2 &operator -= (const CVector2 &cVector)
+		CVector2 &operator -= (const CVector2 &cVector)
 		{
 			X -= cVector.X;
 			Y -= cVector.Y;
@@ -134,7 +134,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Vector multiplication with assignment.
 		 */
-		inline CVector2 &operator *= (const CVector2 &cVector)
+		CVector2 &operator *= (const CVector2 &cVector)
 		{
 			X *= cVector.X;
 			Y *= cVector.Y;
@@ -144,7 +144,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * Tests if vector is zero vector.
 		 */
-		inline operator bool ()
+		operator bool ()
 		{
 			return X != 0.0 || Y != 0.0;
 		}
@@ -204,7 +204,7 @@ class DLLEXPORTIMPORT CVector2
 		/**
 		 * A sum of two vectors.
 		 */
-		inline friend const CVector2 operator + (const CVector2 &cVector1, const CVector2 &cVector2)
+		friend const CVector2 operator + (const CVector2 &cVector1, const CVector2 &cVector2)
 		{
 			return CVector2(cVector1) += cVector2;
 		}
