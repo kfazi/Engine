@@ -1,12 +1,12 @@
 #include "../Internal.hpp"
 #include "CFormat.hpp"
+#include "CStringConvert.hpp"
 
 namespace Common
 {
 
-CFormat::CFormat(const CString &cString)
+CFormat::CFormat(const CString &cString): m_cUnformattedBuffer(cString)
 {
-	m_cUnformattedBuffer = cString;
 }
 
 const CString &CFormat::Get() const

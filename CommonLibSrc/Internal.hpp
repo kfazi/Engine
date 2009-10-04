@@ -1,6 +1,8 @@
 #ifndef COMMON_INTERNAL_HPP
 #define COMMON_INTERNAL_HPP
 
+#include "Errors/Assert.hpp"
+
 /* Check against stupidity. */
 #if (defined WINDOWS && defined UNIX) || (defined WINDOWS && defined OSX) || (defined UNIX && defined OSX)
 #error DEFINE ONLY ONE PLATFORM

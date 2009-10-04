@@ -16,7 +16,7 @@ class CFormat
 			unsigned int iIndex;
 			CString *pString;
 		};
-		CString m_cUnformattedBuffer;
+		const CString &m_cUnformattedBuffer;
 		CString *m_pBuffer;
 		CVector<SData> *m_pFormatData;
 		unsigned int m_iCurrentIndex;

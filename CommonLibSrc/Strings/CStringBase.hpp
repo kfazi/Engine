@@ -115,8 +115,6 @@ template<typename TCharType> class CStringBase: private CStringStatic
 
 		const TCharType &operator [] (unsigned int iIndex) const
 		{
-			if (m_bRecalcLength)
-				m_iLength = GetNewLength();
 			return m_pBuffer[iIndex];
 		}
 
@@ -201,6 +199,16 @@ template<typename TCharType> class CStringBase: private CStringStatic
 		const TCharType *GetRaw() const
 		{
 			return m_pBuffer;
+		}
+
+		void ToUpper()
+		{
+			/* TODO: */
+		}
+
+		void ToLower()
+		{
+			/* TODO: */
 		}
 };
 

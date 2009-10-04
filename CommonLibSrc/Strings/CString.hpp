@@ -2,20 +2,21 @@
 #define COMMON_STRING_HPP
 
 #include "../Internal.hpp"
-#include "CStringBase.hpp"
+#include "CStringUTF16.hpp"
+#include "CStringUTF32.hpp"
 
 namespace Common
 {
 
 #if COMMONLIB_STRING_CHAR == UTF32
-typedef unsigned int TChar;
+typedef TCharUTF32 TChar;
+typedef CStringUTF32 CString;
 #elif COMMONLIB_STRING_CHAR == UTF16
-typedef unsigned short TChar;
+typedef TCharUTF16 TChar;
+typedef CStringUTF16 CString;
 #else
 #error Wrong COMMONLIB_STRING_CHAR value.
 #endif /* COMMONLIB_STRING_CHAR */
-
-typedef CStringBase<TChar> CString;
 
 }
 
