@@ -15,6 +15,7 @@ class CUTFConvert
 	private:
 		CUTFConvert();
 		~CUTFConvert();
+		static bool IsLegalUTF8(const CStringUTF8 &cStringUTF8, unsigned int iIndex, unsigned int iBytesToRead);
 
 	public:
 		static void FromUTF16ToUTF8(CStringUTF8 &cStringUTF8, const CStringUTF16 &cStringUTF16);

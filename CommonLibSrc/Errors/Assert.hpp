@@ -2,16 +2,12 @@
 #define COMMON_ASSERT_HPP
 
 #include "../Internal.hpp"
-#include <cassert>
 
 namespace Common
 {
 
-#ifdef DEBUG
-void Assert(bool bExpression, char *pReason)
-{
-	::assert(bExpression);
-}
+#ifdef _DEBUG
+void Assert(bool bExpression, const char *pReason);
 #else
 #define Assert(bExpression, pReason) ((void)0)
 #endif /* DEBUG */

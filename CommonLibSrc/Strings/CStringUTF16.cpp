@@ -30,7 +30,7 @@ CStringUTF16::CStringUTF16(const CStringUTF8 &cStringUTF8): CStringBase<TCharUTF
 
 CStringUTF16::CStringUTF16(const TCharUTF32 *pString): CStringBase<TCharUTF16>()
 {
-	CUTFConvert::FromUTF32ToUTF16(*this, CStringUTF16(pString));
+	CUTFConvert::FromUTF32ToUTF16(*this, CStringUTF32(pString));
 }
 
 CStringUTF16::CStringUTF16(const TCharUTF16 *pString): CStringBase<TCharUTF16>(pString)
