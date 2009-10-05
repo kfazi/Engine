@@ -33,6 +33,10 @@ SET(COMMONLIB_CONTAINERS_SOURCES
 	${COMMONLIB_SRC_DIR}/Containers/CSet.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CSingleLinkedList.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CVector.hpp
+	${COMMONLIB_SRC_DIR}/Containers/IInputOutputStream.hpp
+	${COMMONLIB_SRC_DIR}/Containers/IInputStream.hpp
+	${COMMONLIB_SRC_DIR}/Containers/IOutputStream.hpp
+	${COMMONLIB_SRC_DIR}/Containers/ISerializable.hpp
 )
 LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_CONTAINERS_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\Containers" FILES ${COMMONLIB_CONTAINERS_SOURCES})
@@ -68,8 +72,8 @@ SET(COMMONLIB_STRINGS_SOURCES
 	${COMMONLIB_SRC_DIR}/Strings/CString.cpp
 	${COMMONLIB_SRC_DIR}/Strings/CString.hpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringBase.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringConvert.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringConvert.hpp
+	${COMMONLIB_SRC_DIR}/Strings/CStringBuffer.cpp
+	${COMMONLIB_SRC_DIR}/Strings/CStringBuffer.hpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringStatic.cpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringStatic.hpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringUTF8.cpp

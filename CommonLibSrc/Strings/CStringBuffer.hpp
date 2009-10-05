@@ -1,5 +1,5 @@
-#ifndef COMMON_STRING_CONVERT_HPP
-#define COMMON_STRING_CONVERT_HPP
+#ifndef COMMON_STRING_BUFFER_HPP
+#define COMMON_STRING_BUFFER_HPP
 
 #include "../Internal.hpp"
 #include "CString.hpp"
@@ -7,15 +7,15 @@
 namespace Common
 {
 
-class CStringConvert
+class CStringBuffer
 {
 	public:
 		enum EBase
 		{
-			BINARY,
-			DECIMAL,
-			HEXADECIMAL,
-			OCTAL
+			BINARY = 2,
+			OCTAL = 8,
+			DECIMAL = 10,
+			HEXADECIMAL = 16
 		};
 
 		enum ENotation
@@ -26,6 +26,9 @@ class CStringConvert
 		};
 
 	private:
+		CString m_cString;
+		unsigned int m_iReadIndex;
+		unsigned int m_iWriteIndex;
 		EBase m_eBase;
 		ENotation m_eNotation;
 		bool m_bBoolAlpha;
@@ -37,8 +40,8 @@ class CStringConvert
 		bool m_bShowPositiveSign;
 
 	public:
-		CStringConvert();
-		~CStringConvert();
+		CStringBuffer();
+		~CStringBuffer();
 
 		void ResetFlags();
 		void SetBase(EBase eBase);
@@ -60,6 +63,8 @@ class CStringConvert
 		void SetShowPositiveSign(bool bShowPositiveSign);
 		bool GetShowPositiveSign() const;
 
+		const CString &GetString() const;
+
 		CString ToString(bool bValue) const;
 		CString ToString(short iValue) const;
 		CString ToString(unsigned short iValue) const;
@@ -67,6 +72,8 @@ class CStringConvert
 		CString ToString(unsigned int iValue) const;
 		CString ToString(long iValue) const;
 		CString ToString(unsigned long iValue) const;
+		CString ToString(signed long long iValue) const;
+		CString ToString(unsigned long long iValue) const;
 		CString ToString(float fValue) const;
 		CString ToString(double fValue) const;
 		CString ToString(long double fValue) const;
@@ -79,6 +86,8 @@ class CStringConvert
 		void FromString(unsigned int &iTarget, const CString &cValue) const;
 		void FromString(long &iTarget, const CString &cValue) const;
 		void FromString(unsigned long &iTarget, const CString &cValue) const;
+		void FromString(signed long long &iValue);
+		void FromString(unsigned long long &iValue);
 		void FromString(float &fTarget, const CString &cValue) const;
 		void FromString(double &fTarget, const CString &cValue) const;
 		void FromString(long double &fTarget, const CString &cValue) const;
