@@ -64,6 +64,15 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			m_bRecalcLength = false;
 		}
 
+		CStringBase(const TCharType *pString, unsigned int iLength)
+		{
+			m_iCapacity = iLength + 1 + GetBaseCapacity();
+			m_iLength = iLength;
+			m_pBuffer = new TCharType[m_iCapacity];
+			Copy(pString, pString + GetLength() + 1, m_pBuffer);
+			m_bRecalcLength = false;
+		}
+
 		~CStringBase()
 		{
 			delete [] m_pBuffer;

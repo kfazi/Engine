@@ -1,6 +1,6 @@
 #include "../Internal.hpp"
 #include "CFormat.hpp"
-#include "CStringConvert.hpp"
+//#include "CStringConvert.hpp"
 
 namespace Common
 {

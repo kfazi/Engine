@@ -13,6 +13,9 @@ class CStringUTF32;
 
 class CStringUTF16: public CStringBase<TCharUTF16>
 {
+	private:
+		typedef CStringBase<TCharUTF16> MyType;
+
 	public:
 		CStringUTF16();
 		CStringUTF16(unsigned int iCapacity);
@@ -20,8 +23,21 @@ class CStringUTF16: public CStringBase<TCharUTF16>
 		CStringUTF16(const CStringUTF16 &cStringUTF16);
 		CStringUTF16(const CStringUTF8 &cStringUTF8);
 		CStringUTF16(const TCharUTF32 *pString);
+		CStringUTF16(const TCharUTF32 *pString, unsigned int iLength);
 		CStringUTF16(const TCharUTF16 *pString);
+		CStringUTF16(const TCharUTF16 *pString, unsigned int iLength);
 		CStringUTF16(const TCharUTF8 *pString);
+		CStringUTF16(const TCharUTF8 *pString, unsigned int iLength);
+
+		CStringUTF16 &operator += (const CStringUTF32 &cString);
+		CStringUTF16 &operator += (const CStringUTF16 &cString);
+		CStringUTF16 &operator += (const CStringUTF8 &cString);
+		CStringUTF16 &operator += (const TCharUTF32 *pString);
+		CStringUTF16 &operator += (const TCharUTF16 *pString);
+		CStringUTF16 &operator += (const TCharUTF8 *pString);
+		CStringUTF16 &operator += (TCharUTF32 iChar);
+		CStringUTF16 &operator += (TCharUTF16 iChar);
+		CStringUTF16 &operator += (TCharUTF8 iChar);
 };
 
 }
