@@ -57,17 +57,17 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		/**
 		 * Creates a copy of a matrix.
 		 */
-		CMatrix4x4(const CMatrix4x4 &cMatrix);
+		CMatrix4x4(const CMatrix4x4& cMatrix);
 
 		/**
 		 * Tests two matrices for equality.
 		 */
-		bool operator == (const CMatrix4x4 &cMatrix) const;
+		bool operator == (const CMatrix4x4& cMatrix) const;
 
 		/**
 		 * Tests two matrices for inequality.
 		 */
-		bool operator != (const CMatrix4x4 &cMatrix) const;
+		bool operator != (const CMatrix4x4& cMatrix) const;
 
 		/**
 		 * Returns a cell data.
@@ -107,7 +107,7 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		/**
 		 * Sets the translation transformation part of the matrix.
 		 */
-		void Translate(const CVector3D &cVector);
+		void Translate(const CVector3D& cVector);
 
 		/**
 		 * Sets the scale part of the matrix.
@@ -117,7 +117,7 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		/**
 		 * Sets the scale part of the matrix.
 		 */
-		void Scale(const CVector3D &cVector);
+		void Scale(const CVector3D& cVector);
 
 		/**
 		 * Sets the rotation part about x axis of the matrix.
@@ -146,7 +146,7 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		 * @param[in] v The axis of rotation vector.
 		 * @param[in] theta The angle in radians.
 		 */
-		void Rotate(const CVector3D &cVector, const double fTheta);
+		void Rotate(const CVector3D& cVector, const double fTheta);
 
 		/**
 		 * Sets the rotation part of the matrix.
@@ -171,87 +171,87 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		/**
 		 * Assignment from 4x4 matrix.
 		 */
-		CMatrix4x4 &operator = (const CMatrix4x4 &cMatrix);
+		CMatrix4x4& operator = (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix negation.
 		 */
-		CMatrix4x4 &operator - ();
+		CMatrix4x4& operator - ();
 
 		/**
 		 * Matrix addition with assignment.
 		 */
-		CMatrix4x4 &operator += (const CMatrix4x4 &cMatrix);
+		CMatrix4x4& operator += (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix subtraction with assignment.
 		 */
-		CMatrix4x4 &operator -= (const CMatrix4x4 &cMatrix);
+		CMatrix4x4& operator -= (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with assignment.
 		 */
-		CMatrix4x4 &operator *= (const CMatrix4x4 &cMatrix);
+		CMatrix4x4& operator *= (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with an integer.
 		 */
-		friend const CMatrix4x4 operator * (const int iC, const CMatrix4x4 &cMatrix);
+		friend const CMatrix4x4 operator * (const int iC, const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with a double number.
 		 */
-		friend const CMatrix4x4 operator * (const double fC, const CMatrix4x4 &cMatrix);
+		friend const CMatrix4x4 operator * (const double fC, const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with an integer.
 		 */
-		friend const CMatrix4x4 operator * (const CMatrix4x4 &cMatrix, const int iC);
+		friend const CMatrix4x4 operator * (const CMatrix4x4& cMatrix, const int iC);
 
 		/**
 		 * Matrix multiplication with a double number.
 		 */
-		friend const CMatrix4x4 operator * (const CMatrix4x4 &cMatrix, const double fC);
+		friend const CMatrix4x4 operator * (const CMatrix4x4& cMatrix, const double fC);
 
 		/**
 		 * Matrix division by an integer.
 		 */
-		friend const CMatrix4x4 operator / (const CMatrix4x4 &cMatrix, const int iC);
+		friend const CMatrix4x4 operator / (const CMatrix4x4& cMatrix, const int iC);
 
 		/**
 		 * Matrix division by a double number.
 		 */
-		friend const CMatrix4x4 operator / (const CMatrix4x4 &cMatrix, const double fC);
+		friend const CMatrix4x4 operator / (const CMatrix4x4& cMatrix, const double fC);
 
 		/**
 		 * Vector transformation.
 		 */
-		friend const CVector3D operator * (const CMatrix4x4 &cMatrix, const CVector3D &cVector);
+		friend const CVector3D operator * (const CMatrix4x4& cMatrix, const CVector3D& cVector);
 
 		/**
 		 * Vector transformation.
 		 */
-		friend const CVector4D operator * (const CMatrix4x4 &cMatrix, const CVector4D &cVector);
+		friend const CVector4D operator * (const CMatrix4x4& cMatrix, const CVector4D& cVector);
 
 		/**
 		 * A sum of two 4x4 matrices.
 		 */
-		friend const CMatrix4x4 operator + (const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2);
+		friend const CMatrix4x4 operator + (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
 
 		/**
 		 * A subtraction of two 4x4 matrices.
 		 */
-		friend const CMatrix4x4 operator - (const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2);
+		friend const CMatrix4x4 operator - (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
 
 		/**
 		 * A multiplication of two 4x4 matrices.
 		 */
-		friend const CMatrix4x4 operator * (const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2);
+		friend const CMatrix4x4 operator * (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
 
 		/**
 		 * A scalar multiplication of two 4x4 matrices.
 		 */
-		friend const CMatrix4x4 ScalarMultiply(const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2);
+		friend const CMatrix4x4 ScalarMultiply(const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
 };
 
 }

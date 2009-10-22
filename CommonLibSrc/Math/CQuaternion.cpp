@@ -30,7 +30,7 @@ CQuaternion::CQuaternion(const double fW, const double fX, const double fY, cons
 	Z = fZ;
 }
 
-CQuaternion::CQuaternion(const double fReal, const CVector3D &cVector)
+CQuaternion::CQuaternion(const double fReal, const CVector3D& cVector)
 {
 	W = fReal;
 	X = cVector.X;
@@ -43,12 +43,12 @@ CQuaternion::CQuaternion(const double fThetaZ, const double fThetaY, const doubl
 	FromEulerAngles(fThetaZ, fThetaY, fThetaX);
 }
 
-CQuaternion::CQuaternion(const CVector3D &cAngles)
+CQuaternion::CQuaternion(const CVector3D& cAngles)
 {
 	FromEulerAngles(cAngles);
 } 
 
-CQuaternion::CQuaternion(const CVector3D &cAxis, double fAngle)
+CQuaternion::CQuaternion(const CVector3D& cAxis, double fAngle)
 {
 	double fSinAngle = sin(fAngle / 2.0);
 	W = cos(fAngle / 2.0);
@@ -57,7 +57,7 @@ CQuaternion::CQuaternion(const CVector3D &cAxis, double fAngle)
 	Z = cAxis.Z * fSinAngle;
 }
 
-CQuaternion &CQuaternion::operator = (const CQuaternion &cQuaternion)		
+CQuaternion& CQuaternion::operator = (const CQuaternion& cQuaternion)		
 {
 	W = cQuaternion.W;
 	X = cQuaternion.X;
@@ -71,7 +71,7 @@ CQuaternion CQuaternion::operator - () const
 	return CQuaternion(-W, -X, -Y, -Z);
 }
 
-const CQuaternion &CQuaternion::operator += (const CQuaternion &cQuaternion)		
+const CQuaternion& CQuaternion::operator += (const CQuaternion& cQuaternion)		
 {
 	W += cQuaternion.W;
 	X += cQuaternion.X;
@@ -80,7 +80,7 @@ const CQuaternion &CQuaternion::operator += (const CQuaternion &cQuaternion)
 	return *this;
 }
 
-const CQuaternion &CQuaternion::operator -= (const CQuaternion &cQuaternion)		
+const CQuaternion& CQuaternion::operator -= (const CQuaternion& cQuaternion)		
 {
 	W -= cQuaternion.W;
 	X -= cQuaternion.X;
@@ -89,7 +89,7 @@ const CQuaternion &CQuaternion::operator -= (const CQuaternion &cQuaternion)
 	return *this;
 }
 
-const CQuaternion &CQuaternion::operator *= (const CQuaternion &cQuaternion)		
+const CQuaternion& CQuaternion::operator *= (const CQuaternion& cQuaternion)		
 {
 	double newW = W * cQuaternion.W - X * cQuaternion.X - Y * cQuaternion.Y - Z * cQuaternion.Z;
 	double newX = W * cQuaternion.X + X * cQuaternion.W + Y * cQuaternion.Z - Z * cQuaternion.Y;
@@ -102,17 +102,17 @@ const CQuaternion &CQuaternion::operator *= (const CQuaternion &cQuaternion)
 	return *this;
 }
 
-const CQuaternion operator + (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2)
+const CQuaternion operator + (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
 {
 	return CQuaternion(cQuaternion1) += cQuaternion2;
 }
 
-const CQuaternion operator - (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2)
+const CQuaternion operator - (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
 {
 	return CQuaternion(cQuaternion1) -= cQuaternion2;
 }
 
-const CQuaternion operator * (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2)
+const CQuaternion operator * (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
 {
 	return CQuaternion(cQuaternion1) *= cQuaternion2;
 }
@@ -162,7 +162,7 @@ void CQuaternion::FromEulerAngles(const double fThetaZ, const double fThetaY, co
 	Z = fSinZ2 * fCosY2 * fCosX2 - fCosZ2 * fSinY2 * fSinX2;
 }
 
-void CQuaternion::FromEulerAngles(const CVector3D &cAngles)
+void CQuaternion::FromEulerAngles(const CVector3D& cAngles)
 {
 	FromEulerAngles(cAngles.Z, cAngles.Y, cAngles.X);
 }
@@ -233,7 +233,7 @@ CMatrix4x4 CQuaternion::ToMatrix4() const
 										Z, -Y, X, W);
 }
 
-void CQuaternion::ToAxisAngle(CVector3D &cAxis, double &fAngle) const
+void CQuaternion::ToAxisAngle(CVector3D& cAxis, double& fAngle) const
 {
 	fAngle = acos(W);
 

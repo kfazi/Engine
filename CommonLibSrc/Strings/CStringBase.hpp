@@ -8,6 +8,8 @@
 namespace Common
 {
 
+template<typename TCharType> class CStringIterator;
+
 template<typename TCharType> class CStringBase: private CStringStatic
 {
 	private:
@@ -15,23 +17,16 @@ template<typename TCharType> class CStringBase: private CStringStatic
 		unsigned int m_iLength;
 		unsigned int m_iCapacity;
 		TCharType *m_pBuffer;
-		bool m_bRecalcLength;
-
-		unsigned int GetNewLength() const
-		{
-			unsigned int iLength = 0;
-			for (unsigned int i = 0; i < m_iCapacity && m_pBuffer[iLength]; ++i)
-				iLength++;
-			return iLength;
-		}
 
 	public:
+		typedef CStringIterator<TCharType> TIterator;
+		typedef CStringIterator<const TCharType> TConstIterator;
+
 		CStringBase()
 		{
 			m_pBuffer = 0;
 			m_iCapacity = 0;
 			m_iLength = 0;
-			m_bRecalcLength = false;
 		}
 
 		CStringBase(unsigned int iCapacity)
@@ -40,19 +35,17 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			m_pBuffer = new TCharType[m_iCapacity];
 			m_pBuffer[0] = 0;
 			m_iLength = 0;
-			m_bRecalcLength = false;
 		}
 
-		CStringBase(const TMyType &cStringBase)
+		CStringBase(const TMyType& cStringBase)
 		{
 			m_iCapacity = cStringBase.m_iCapacity;
 			m_iLength = cStringBase.GetLength();
 			m_pBuffer = new TCharType[m_iCapacity];
 			Copy(cStringBase.m_pBuffer, cStringBase.m_pBuffer + GetLength() + 1, m_pBuffer);
-			m_bRecalcLength = false;
 		}
 
-		CStringBase(const TCharType *pString)
+		CStringBase(const TCharType* pString)
 		{
 			unsigned int iLength = 0;
 			while (pString[iLength])
@@ -61,16 +54,14 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			m_iLength = iLength;
 			m_pBuffer = new TCharType[m_iCapacity];
 			Copy(pString, pString + GetLength() + 1, m_pBuffer);
-			m_bRecalcLength = false;
 		}
 
-		CStringBase(const TCharType *pString, unsigned int iLength)
+		CStringBase(const TCharType* pString, unsigned int iLength)
 		{
 			m_iCapacity = iLength + 1 + GetBaseCapacity();
 			m_iLength = iLength;
 			m_pBuffer = new TCharType[m_iCapacity];
 			Copy(pString, pString + GetLength() + 1, m_pBuffer);
-			m_bRecalcLength = false;
 		}
 
 		~CStringBase()
@@ -83,7 +74,7 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			if (m_iCapacity >= iNewCapacity)
 				return;
 			iNewCapacity += GetBaseCapacity();
-			TCharType *pBuffer = new TCharType[iNewCapacity];
+			TCharType* pBuffer = new TCharType[iNewCapacity];
 			Copy(m_pBuffer, m_pBuffer + GetLength() + 1, pBuffer);
 			delete [] m_pBuffer;
 			m_pBuffer = pBuffer;
@@ -92,8 +83,6 @@ template<typename TCharType> class CStringBase: private CStringStatic
 
 		unsigned int GetLength() const
 		{
-			if (m_bRecalcLength)
-				return GetNewLength();
 			return m_iLength;
 		}
 
@@ -106,46 +95,39 @@ template<typename TCharType> class CStringBase: private CStringStatic
 		{
 			m_pBuffer[0] = 0;
 			m_iLength = 0;
-			m_bRecalcLength = false;
 		}
 
 		bool IsEmpty() const
 		{
-			if (m_bRecalcLength)
-				m_iLength = GetNewLength();
 			return m_iLength == 0;
 		}
 
-		TCharType &operator [] (unsigned int iIndex)
+		TCharType& operator [] (unsigned int iIndex)
 		{
-			m_bRecalcLength = true;
 			return m_pBuffer[iIndex];
 		}
 
-		const TCharType &operator [] (unsigned int iIndex) const
+		const TCharType& operator [] (unsigned int iIndex) const
 		{
 			return m_pBuffer[iIndex];
 		}
 
 		TCharType At(unsigned int iIndex) const
 		{
-			if (m_bRecalcLength)
-				m_iLength = GetNewLength();
 			return m_pBuffer[iIndex];
 		}
 
-		TMyType &operator += (const TMyType &cStringBase)
+		TMyType& operator += (const TMyType& cStringBase)
 		{
 			unsigned int iNewCapacity = GetLength() + cStringBase.GetLength() + 1;
 			if (iNewCapacity > m_iCapacity)
 				Allocate(iNewCapacity + GetBaseCapacity());
 			Copy(cStringBase.m_pBuffer, cStringBase.m_pBuffer + cStringBase.GetLength() + 1, m_pBuffer + GetLength());
-			m_bRecalcLength = false;
-			m_iLength = GetNewLength();
+			m_iLength = GetLength() + cStringBase.GetLength();
 			return *this;
 		}
 
-		TMyType &operator += (const TCharType *pString)
+		TMyType& operator += (const TCharType* pString)
 		{
 			unsigned int iLength = 0;
 			while (pString[iLength])
@@ -154,35 +136,32 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			if (iNewCapacity > m_iCapacity)
 				Allocate(iNewCapacity + GetBaseCapacity());
 			Copy(pString, pString + iLength + 1, m_pBuffer + GetLength());
-			m_bRecalcLength = false;
 			m_iLength = GetNewLength();
 			return *this;
 		}
 
-		TMyType &operator += (TCharType tChar)
+		TMyType& operator += (TCharType tChar)
 		{
 			unsigned int iNewCapacity = GetLength() + 2;
 			if (iNewCapacity > m_iCapacity)
 				Allocate(iNewCapacity + GetBaseCapacity());
 			m_pBuffer[GetLength()] = tChar;
 			m_pBuffer[GetLength() + 1] = 0;
-			m_bRecalcLength = false;
 			m_iLength = GetNewLength();
 			return *this;
 		}
 
-		TMyType &operator = (const TMyType &cStringBase)
+		TMyType& operator = (const TMyType& cStringBase)
 		{
 			unsigned int iNewCapacity = cStringBase.m_iCapacity;
 			if (iNewCapacity > m_iCapacity)
 				Allocate(iNewCapacity);
 			Copy(cStringBase.m_pBuffer, cStringBase.m_pBuffer + cStringBase.GetLength() + 1, m_pBuffer);
 			m_iLength = cStringBase.GetLength();
-			m_bRecalcLength = false;
 			return *this;
 		}
 
-		TMyType &operator = (const TCharType *pString)
+		TMyType& operator = (const TCharType* pString)
 		{
 			unsigned int iLength = 0;
 			while (pString[iLength])
@@ -192,16 +171,14 @@ template<typename TCharType> class CStringBase: private CStringStatic
 				Allocate(iNewCapacity);
 			Copy(pString, pString + iLength + 1, m_pBuffer);
 			m_iLength = iLength;
-			m_bRecalcLength = false;
 			return *this;
 		}
 
-		TMyType &operator = (TCharType tChar)
+		TMyType& operator = (TCharType tChar)
 		{
 			m_pBuffer[0] = tChar;
 			m_pBuffer[1] = 0;
 			m_iLength = 1;
-			m_bRecalcLength = false;
 			return *this;
 		}
 

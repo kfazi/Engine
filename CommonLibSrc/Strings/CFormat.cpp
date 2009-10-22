@@ -5,11 +5,11 @@
 namespace Common
 {
 
-CFormat::CFormat(const CString &cString): m_cUnformattedBuffer(cString)
+CFormat::CFormat(const CString& cString): m_cUnformattedBuffer(cString)
 {
 }
 
-const CString &CFormat::Get() const
+const CString& CFormat::Get() const
 {
 	if (!m_pBuffer)
 		;

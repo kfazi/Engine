@@ -6,7 +6,7 @@
 namespace Common
 {
 
-template<class CType> void Swap(CType &cFirst, CType &cSecond)
+template<class CType> void Swap(CType& cFirst, CType& cSecond)
 {
 	CType cTemp = cFirst;
 	cFirst = cSecond;

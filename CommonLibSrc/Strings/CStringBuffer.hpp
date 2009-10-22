@@ -63,7 +63,7 @@ class CStringBuffer
 		void SetShowPositiveSign(bool bShowPositiveSign);
 		bool GetShowPositiveSign() const;
 
-		const CString &GetString() const;
+		const CString& GetString() const;
 
 		CString ToString(bool bValue) const;
 		CString ToString(short iValue) const;
@@ -77,21 +77,21 @@ class CStringBuffer
 		CString ToString(float fValue) const;
 		CString ToString(double fValue) const;
 		CString ToString(long double fValue) const;
-		CString ToString(const void *pValue) const;
+		CString ToString(const void* pValue) const;
 
-		void FromString(bool &bTarget, const CString &cValue) const;
-		void FromString(short &iTarget, const CString &cValue) const;
-		void FromString(unsigned short &iTarget, const CString &cValue) const;
-		void FromString(int &iTarget, const CString &cValue) const;
-		void FromString(unsigned int &iTarget, const CString &cValue) const;
-		void FromString(long &iTarget, const CString &cValue) const;
-		void FromString(unsigned long &iTarget, const CString &cValue) const;
-		void FromString(signed long long &iValue);
-		void FromString(unsigned long long &iValue);
-		void FromString(float &fTarget, const CString &cValue) const;
-		void FromString(double &fTarget, const CString &cValue) const;
-		void FromString(long double &fTarget, const CString &cValue) const;
-		void FromString(const void *&pTarget, const CString &cValue) const;
+		void FromString(bool& bTarget, const CString& cValue) const;
+		void FromString(short& iTarget, const CString& cValue) const;
+		void FromString(unsigned short& iTarget, const CString& cValue) const;
+		void FromString(int& iTarget, const CString& cValue) const;
+		void FromString(unsigned int& iTarget, const CString& cValue) const;
+		void FromString(long& iTarget, const CString& cValue) const;
+		void FromString(unsigned long& iTarget, const CString& cValue) const;
+		void FromString(signed long long& iValue);
+		void FromString(unsigned long long& iValue);
+		void FromString(float& fTarget, const CString& cValue) const;
+		void FromString(double& fTarget, const CString& cValue) const;
+		void FromString(long double& fTarget, const CString& cValue) const;
+		void FromString(const void *&pTarget, const CString& cValue) const;
 };
 
 }

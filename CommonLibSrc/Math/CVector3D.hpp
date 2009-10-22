@@ -39,7 +39,7 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Creates a copy of a vector.
 		 */
-		CVector3D(const CVector3D &cVector);
+		CVector3D(const CVector3D& cVector);
 
 		/**
 		 * Normalizes a vector.
@@ -54,37 +54,37 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Tests two vectors for equality.
 		 */
-		bool operator == (const CVector3D &cVector) const;
+		bool operator == (const CVector3D& cVector) const;
 
 		/**
 		 * Tests two vectors for inequality.
 		 */
-		bool operator != (const CVector3D &cVector) const;
+		bool operator != (const CVector3D& cVector) const;
 
 		/**
 		 * Assignment operator.
 		 */
-		CVector3D &operator = (const CVector3D &cVector);
+		CVector3D& operator = (const CVector3D& cVector);
 
 		/**
 		 * Vector negation.
 		 */
-		CVector3D &operator - ();
+		CVector3D& operator - ();
 
 		/**
 		 * Vector addition with assignment.
 		 */
-		CVector3D &operator += (const CVector3D &cVector);
+		CVector3D& operator += (const CVector3D& cVector);
 
 		/**
 		 * Vector subtraction with assignment.
 		 */
-		CVector3D &operator -= (const CVector3D &cVector);
+		CVector3D& operator -= (const CVector3D& cVector);
 
 		/**
 		 * Vector multiplication with assignment.
 		 */
-		CVector3D &operator *= (const CVector3D &cVector);
+		CVector3D& operator *= (const CVector3D& cVector);
 
 		/**
 		 * Tests if vector is zero vector.
@@ -94,7 +94,7 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Vector multiplication by a number with assignment.
 		 */
-		template<typename TType> CVector3D &operator *= (TType tValue)
+		template<typename TType> CVector3D& operator *= (TType tValue)
 		{
 			X *= tValue;
 			Y *= tValue;
@@ -105,7 +105,7 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Vector division by a number with assignment.
 		 */
-		template<typename TType> CVector3D &operator /= (TType tValue)
+		template<typename TType> CVector3D& operator /= (TType tValue)
 		{
 			X /= tValue;
 			Y /= tValue;
@@ -116,7 +116,7 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Vector multiplication by a number.
 		 */
-		template<typename TType> friend CVector3D operator * (TType tValue, const CVector3D &cVector)
+		template<typename TType> friend CVector3D operator * (TType tValue, const CVector3D& cVector)
 		{
 			return CVector3D(cVector) * tValue;
 		}
@@ -124,7 +124,7 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Vector multiplication by a number.
 		 */
-		template<typename TType> friend CVector3D operator * (const CVector3D &cVector, TType tValue)
+		template<typename TType> friend CVector3D operator * (const CVector3D& cVector, TType tValue)
 		{
 			return CVector3D(cVector) * tValue;
 		}
@@ -132,7 +132,7 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Vector division by a number.
 		 */
-		template<typename TType> friend CVector3D operator / (TType tValue, const CVector3D &cVector)
+		template<typename TType> friend CVector3D operator / (TType tValue, const CVector3D& cVector)
 		{
 			return CVector3D(cVector) / tValue;
 		}
@@ -140,7 +140,7 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * Vector division by a number.
 		 */
-		template<typename TType> friend CVector3D operator / (const CVector3D &cVector, TType tValue)
+		template<typename TType> friend CVector3D operator / (const CVector3D& cVector, TType tValue)
 		{
 			return CVector3D(cVector) / tValue;
 		}
@@ -148,17 +148,17 @@ class COMMONDLLIMPORTEXPORT CVector3D
 		/**
 		 * A sum of two vectors.
 		 */
-		friend const CVector3D operator + (const CVector3D &cVector1, const CVector3D &cVector2);
+		friend const CVector3D operator + (const CVector3D& cVector1, const CVector3D& cVector2);
 
 		/**
 		 * A subtraction of two vectors.
 		 */
-		friend const CVector3D operator - (const CVector3D &cVector1, const CVector3D &cVector2);
+		friend const CVector3D operator - (const CVector3D& cVector1, const CVector3D& cVector2);
 
 		/**
 		 * A multiplication of two vectors.
 		 */
-		friend const CVector3D operator * (const CVector3D &cVector1, const CVector3D &cVector2);
+		friend const CVector3D operator * (const CVector3D& cVector1, const CVector3D& cVector2);
 };
 
 }

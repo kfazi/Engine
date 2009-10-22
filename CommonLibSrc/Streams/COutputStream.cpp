@@ -4,15 +4,15 @@
 namespace Common
 {
 
-void COutputStream::NumberToString(unsigned long long iValue)
+void COutputStream::IntegerToString(unsigned long long iValue)
 {
 	static const char aDigitsUpperCase[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 	static const char aDigitsLowerCase[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-	CString &cResult = GetWriteBuffer();
+	CString& cResult = GetWriteBuffer();
 	int iStartIndex = cResult.GetLength();
 	int iBase = GetBase();
-	const char *pDigits;
+	const char* pDigits;
 	if (GetNumberUpperCase())
 		pDigits = aDigitsUpperCase;
 	else
@@ -49,9 +49,9 @@ void COutputStream::NumberToString(unsigned long long iValue)
 	SwapRange(&cResult[0] + iStartIndex, &cResult[0] + cResult.GetLength());
 }
 
-COutputStream &COutputStream::operator << (bool bValue)
+COutputStream& COutputStream::operator << (bool bValue)
 {
-	CString &cResult = GetWriteBuffer();
+	CString& cResult = GetWriteBuffer();
 	if (GetBoolAlpha())
 	{
 		CString cTemp = (bValue) ? "true" : "false";
@@ -64,62 +64,62 @@ COutputStream &COutputStream::operator << (bool bValue)
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (short iValue)
+COutputStream& COutputStream::operator << (short iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (unsigned short iValue)
+COutputStream& COutputStream::operator << (unsigned short iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (int iValue)
+COutputStream& COutputStream::operator << (int iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (unsigned int iValue)
+COutputStream& COutputStream::operator << (unsigned int iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (long iValue)
+COutputStream& COutputStream::operator << (long iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (unsigned long iValue)
+COutputStream& COutputStream::operator << (unsigned long iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (long long iValue)
+COutputStream& COutputStream::operator << (long long iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (unsigned long long iValue)
+COutputStream& COutputStream::operator << (unsigned long long iValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (float fValue)
+COutputStream& COutputStream::operator << (float fValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (double fValue)
+COutputStream& COutputStream::operator << (double fValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (long double fValue)
+COutputStream& COutputStream::operator << (long double fValue)
 {
 	return *this;
 }
 
-COutputStream &COutputStream::operator << (const void *pValue)
+COutputStream& COutputStream::operator << (const void* pValue)
 {
 	return *this;
 }

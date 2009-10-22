@@ -14,19 +14,19 @@ class CFormat
 		struct SData
 		{
 			unsigned int iIndex;
-			CString *pString;
+			CString* pString;
 		};
-		const CString &m_cUnformattedBuffer;
+		const CString& m_cUnformattedBuffer;
 		CString *m_pBuffer;
 		CVector<SData> *m_pFormatData;
 		unsigned int m_iCurrentIndex;
 		unsigned int m_iMaxIndex;
 
 	public:
-		CFormat(const CString &cString);
-		const CString &Get() const;
+		CFormat(const CString& cString);
+		const CString& Get() const;
 		const TChar *GetRaw() const;
-		CFormat &operator % (const int &iValue)
+		CFormat& operator % (const int& iValue)
 		{
 			delete m_pBuffer;
 			m_pBuffer = 0;

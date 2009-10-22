@@ -43,17 +43,17 @@ CMatrix4x4::CMatrix4x4(const double fCell00, const double fCell01, const double 
 	m_aCell[3][3] = fCell33;
 }
 
-CMatrix4x4::CMatrix4x4(const CMatrix4x4 &cMatrix)
+CMatrix4x4::CMatrix4x4(const CMatrix4x4& cMatrix)
 {
 	*this = cMatrix;
 }
 
-bool CMatrix4x4::operator == (const CMatrix4x4 &cMatrix) const
+bool CMatrix4x4::operator == (const CMatrix4x4& cMatrix) const
 {
 	return !std::memcmp(m_aData, cMatrix.m_aData, 16 * sizeof(double));
 }
 
-bool CMatrix4x4::operator != (const CMatrix4x4 &cMatrix) const
+bool CMatrix4x4::operator != (const CMatrix4x4& cMatrix) const
 {
 	return !(*this == cMatrix);
 }
@@ -151,7 +151,7 @@ void CMatrix4x4::Translate(const double fX, const double fY, const double fZ)
 	*this *= cMatrix;
 }
 
-void CMatrix4x4::Translate(const CVector3D &cVector)
+void CMatrix4x4::Translate(const CVector3D& cVector)
 {
 	Translate(cVector.X, cVector.Y, cVector.Z);
 }
@@ -165,7 +165,7 @@ void CMatrix4x4::Scale(const double fX, const double fY, const double fZ)
 	*this *= cMatrix;
 }
 
-void CMatrix4x4::Scale(const CVector3D &cVector)
+void CMatrix4x4::Scale(const CVector3D& cVector)
 {
 	Scale(cVector.X, cVector.Y, cVector.Z);
 }
@@ -200,7 +200,7 @@ void CMatrix4x4::RotateZ(const double fTheta)
 	*this *= cMatrix;
 }
 
-void CMatrix4x4::Rotate(const CVector3D &cVector, const double fTheta)
+void CMatrix4x4::Rotate(const CVector3D& cVector, const double fTheta)
 {
 	Rotate(cVector.X, cVector.Y, cVector.Z, fTheta);
 }
@@ -247,35 +247,35 @@ void CMatrix4x4::ShearYZ(const double fY, const double fZ)
 	*this *= cMatrix;
 }
 
-CMatrix4x4 &CMatrix4x4::operator = (const CMatrix4x4 &cMatrix)
+CMatrix4x4& CMatrix4x4::operator = (const CMatrix4x4& cMatrix)
 {
 	for (int i = 0; i < 16; ++i)
 		m_aData[i] = cMatrix.m_aData[i];
 	return *this;
 }
 
-CMatrix4x4 &CMatrix4x4::operator - ()
+CMatrix4x4& CMatrix4x4::operator - ()
 {
 	for (int i = 0; i < 16; ++i)
 		m_aData[i] = -m_aData[i];
 	return *this;
 }
 
-CMatrix4x4 &CMatrix4x4::operator += (const CMatrix4x4 &cMatrix)
+CMatrix4x4& CMatrix4x4::operator += (const CMatrix4x4& cMatrix)
 {
 	for (int i = 0; i < 16; ++i)
 		m_aData[i] += cMatrix.m_aData[i];
 	return *this;
 }
 
-CMatrix4x4 &CMatrix4x4::operator -= (const CMatrix4x4 &cMatrix)
+CMatrix4x4& CMatrix4x4::operator -= (const CMatrix4x4& cMatrix)
 {
 	for (int i = 0; i < 16; ++i)
 		m_aData[i] -= cMatrix.m_aData[i];
 	return *this;
 }
 
-CMatrix4x4 &CMatrix4x4::operator *= (const CMatrix4x4 &cMatrix)
+CMatrix4x4& CMatrix4x4::operator *= (const CMatrix4x4& cMatrix)
 {
 	CMatrix4x4 cResult;
 	for (int iRow = 0; iRow < 4; ++iRow)
@@ -291,7 +291,7 @@ CMatrix4x4 &CMatrix4x4::operator *= (const CMatrix4x4 &cMatrix)
 	return *this;
 }
 
-const CMatrix4x4 operator * (const int iC, const CMatrix4x4 &cMatrix)
+const CMatrix4x4 operator * (const int iC, const CMatrix4x4& cMatrix)
 {
 	CMatrix4x4 cResult(cMatrix);
 	for (int i = 0; i < 16; ++i)
@@ -299,7 +299,7 @@ const CMatrix4x4 operator * (const int iC, const CMatrix4x4 &cMatrix)
 	return cResult;
 }
 
-const CMatrix4x4 operator * (const double fC, const CMatrix4x4 &cMatrix)
+const CMatrix4x4 operator * (const double fC, const CMatrix4x4& cMatrix)
 {
 	CMatrix4x4 cResult(cMatrix);
 	for (int i = 0; i < 16; ++i)
@@ -307,17 +307,17 @@ const CMatrix4x4 operator * (const double fC, const CMatrix4x4 &cMatrix)
 	return cResult;
 }
 
-const CMatrix4x4 operator * (const CMatrix4x4 &cMatrix, const int iC)
+const CMatrix4x4 operator * (const CMatrix4x4& cMatrix, const int iC)
 {
 	return iC * cMatrix;
 }
 
-const CMatrix4x4 operator * (const CMatrix4x4 &cMatrix, const double fC)
+const CMatrix4x4 operator * (const CMatrix4x4& cMatrix, const double fC)
 {
 	return fC * cMatrix;
 }
 
-const CMatrix4x4 operator / (const CMatrix4x4 &cMatrix, const int iC)
+const CMatrix4x4 operator / (const CMatrix4x4& cMatrix, const int iC)
 {
 	CMatrix4x4 cResult(cMatrix);
 	for (int i = 0; i < 16; ++i)
@@ -325,7 +325,7 @@ const CMatrix4x4 operator / (const CMatrix4x4 &cMatrix, const int iC)
 	return cResult;
 }
 
-const CMatrix4x4 operator / (const CMatrix4x4 &cMatrix, const double fC)
+const CMatrix4x4 operator / (const CMatrix4x4& cMatrix, const double fC)
 {
 	CMatrix4x4 cResult(cMatrix);
 	for (int i = 0; i < 16; ++i)
@@ -333,7 +333,7 @@ const CMatrix4x4 operator / (const CMatrix4x4 &cMatrix, const double fC)
 	return cResult;
 }
 
-const CVector3D operator * (const CMatrix4x4 &cMatrix, const CVector3D &cVector)
+const CVector3D operator * (const CMatrix4x4& cMatrix, const CVector3D& cVector)
 {
 	double fX = cVector.X * cMatrix.m_aCell[0][0] + cVector.Y * cMatrix.m_aCell[1][0] + cVector.Z * cMatrix.m_aCell[2][0] + cMatrix.m_aCell[3][0];
 	double fY = cVector.X * cMatrix.m_aCell[0][1] + cVector.Y * cMatrix.m_aCell[1][1] + cVector.Z * cMatrix.m_aCell[2][1] + cMatrix.m_aCell[3][1];
@@ -341,7 +341,7 @@ const CVector3D operator * (const CMatrix4x4 &cMatrix, const CVector3D &cVector)
 	return CVector3D(fX, fY, fZ);
 }
 
-const CVector4D operator * (const CMatrix4x4 &cMatrix, const CVector4D &cVector)
+const CVector4D operator * (const CMatrix4x4& cMatrix, const CVector4D& cVector)
 {
 	double fX = cVector.X * cMatrix.m_aCell[0][0] + cVector.Y * cMatrix.m_aCell[1][0] + cVector.Z * cMatrix.m_aCell[2][0] + cVector.W * cMatrix.m_aCell[3][0];
 	double fY = cVector.X * cMatrix.m_aCell[0][1] + cVector.Y * cMatrix.m_aCell[1][1] + cVector.Z * cMatrix.m_aCell[2][1] + cVector.W * cMatrix.m_aCell[3][1];
@@ -350,22 +350,22 @@ const CVector4D operator * (const CMatrix4x4 &cMatrix, const CVector4D &cVector)
 	return CVector4D(fX, fY, fZ, fW);
 }
 
-const CMatrix4x4 operator + (const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2)
+const CMatrix4x4 operator + (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2)
 {
 	return CMatrix4x4(cMatrix1) += cMatrix2;
 }
 
-const CMatrix4x4 operator - (const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2)
+const CMatrix4x4 operator - (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2)
 {
 	return CMatrix4x4(cMatrix1) -= cMatrix2;
 }
 
-const CMatrix4x4 operator * (const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2)
+const CMatrix4x4 operator * (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2)
 {
 	return CMatrix4x4(cMatrix1) *= cMatrix2;
 }
 
-const CMatrix4x4 ScalarMultiply(const CMatrix4x4 &cMatrix1, const CMatrix4x4 &cMatrix2)
+const CMatrix4x4 ScalarMultiply(const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2)
 {
 	CMatrix4x4 cResult;
 	for (int i = 0; i < 16; ++i)

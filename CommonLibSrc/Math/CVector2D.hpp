@@ -38,7 +38,7 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Creates a copy of a vector.
 		 */
-		CVector2D(const CVector2D &cVector);
+		CVector2D(const CVector2D& cVector);
 
 		/**
 		 * Normalizes a vector.
@@ -53,37 +53,37 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Tests two vectors for equality.
 		 */
-		bool operator == (const CVector2D &cVector) const;
+		bool operator == (const CVector2D& cVector) const;
 
 		/**
 		 * Tests two vectors for inequality.
 		 */
-		bool operator != (const CVector2D &cVector) const;
+		bool operator != (const CVector2D& cVector) const;
 
 		/**
 		 * Assignment operator.
 		 */
-		CVector2D &operator = (const CVector2D &cVector);
+		CVector2D& operator = (const CVector2D& cVector);
 
 		/**
 		 * Vector negation.
 		 */
-		CVector2D &operator - ();
+		CVector2D& operator - ();
 
 		/**
 		 * Vector addition with assignment.
 		 */
-		CVector2D &operator += (const CVector2D &cVector);
+		CVector2D& operator += (const CVector2D& cVector);
 
 		/**
 		 * Vector subtraction with assignment.
 		 */
-		CVector2D &operator -= (const CVector2D &cVector);
+		CVector2D& operator -= (const CVector2D& cVector);
 
 		/**
 		 * Vector multiplication with assignment.
 		 */
-		CVector2D &operator *= (const CVector2D &cVector);
+		CVector2D& operator *= (const CVector2D& cVector);
 
 		/**
 		 * Tests if vector is zero vector.
@@ -93,7 +93,7 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Vector multiplication by a number with assignment.
 		 */
-		template<typename TType> CVector2D &operator *= (TType tValue)
+		template<typename TType> CVector2D& operator *= (TType tValue)
 		{
 			X *= tValue;
 			Y *= tValue;
@@ -103,7 +103,7 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Vector division by a number with assignment.
 		 */
-		template<typename TType> CVector2D &operator /= (TType tValue)
+		template<typename TType> CVector2D& operator /= (TType tValue)
 		{
 			X /= tValue;
 			Y /= tValue;
@@ -113,7 +113,7 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Vector multiplication by a number.
 		 */
-		template<typename TType> friend CVector2D operator * (TType tValue, const CVector2D &cVector)
+		template<typename TType> friend CVector2D operator * (TType tValue, const CVector2D& cVector)
 		{
 			return operator * (cVector, tValue);
 		}
@@ -121,7 +121,7 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Vector multiplication by a number.
 		 */
-		template<typename TType> friend CVector2D operator * (const CVector2D &cVector, TType tValue)
+		template<typename TType> friend CVector2D operator * (const CVector2D& cVector, TType tValue)
 		{
 			CVector2D cResult(cVector);
 			cResult *= tValue;
@@ -131,7 +131,7 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Vector division by a number.
 		 */
-		template<typename TType> friend CVector2D operator / (TType tValue, const CVector2D &cVector)
+		template<typename TType> friend CVector2D operator / (TType tValue, const CVector2D& cVector)
 		{
 			return operator / (cVector, tValue);
 		}
@@ -139,7 +139,7 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Vector division by a number.
 		 */
-		template<typename TType> friend CVector2D operator / (const CVector2D &cVector, TType tValue)
+		template<typename TType> friend CVector2D operator / (const CVector2D& cVector, TType tValue)
 		{
 			CVector2D cResult(cVector);
 			cResult /= tValue;
@@ -149,17 +149,17 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * A sum of two vectors.
 		 */
-		friend const CVector2D operator + (const CVector2D &cVector1, const CVector2D &cVector2);
+		friend const CVector2D operator + (const CVector2D& cVector1, const CVector2D& cVector2);
 
 		/**
 		 * A subtraction of two vectors.
 		 */
-		friend const CVector2D operator - (const CVector2D &cVector1, const CVector2D &cVector2);
+		friend const CVector2D operator - (const CVector2D& cVector1, const CVector2D& cVector2);
 
 		/**
 		 * A multiplication of two vectors.
 		 */
-		friend const CVector2D operator * (const CVector2D &cVector1, const CVector2D &cVector2);
+		friend const CVector2D operator * (const CVector2D& cVector1, const CVector2D& cVector2);
 };
 
 }

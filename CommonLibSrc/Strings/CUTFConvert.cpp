@@ -44,7 +44,7 @@ CUTFConvert::~CUTFConvert()
 {
 }
 
-bool CUTFConvert::IsLegalUTF8(const CStringUTF8 &cStringUTF8, unsigned int iIndex, unsigned int iBytesToRead)
+bool CUTFConvert::IsLegalUTF8(const CStringUTF8& cStringUTF8, unsigned int iIndex, unsigned int iBytesToRead)
 {
 	TCharUTF8 iChar;
 	switch (iBytesToRead)
@@ -91,7 +91,7 @@ bool CUTFConvert::IsLegalUTF8(const CStringUTF8 &cStringUTF8, unsigned int iInde
 	return true;
 }
 
-void CUTFConvert::FromUTF16ToUTF8(CStringUTF8 &cStringUTF8, const CStringUTF16 &cStringUTF16)
+void CUTFConvert::FromUTF16ToUTF8(CStringUTF8& cStringUTF8, const CStringUTF16& cStringUTF16)
 {
 	unsigned int iSourceIndex = 0;
 	unsigned int iBytesToWrite = 0;
@@ -132,7 +132,7 @@ void CUTFConvert::FromUTF16ToUTF8(CStringUTF8 &cStringUTF8, const CStringUTF16 &
 	}
 }
 
-void CUTFConvert::FromUTF32ToUTF8(CStringUTF8 &cStringUTF8, const CStringUTF32 &cStringUTF32)
+void CUTFConvert::FromUTF32ToUTF8(CStringUTF8& cStringUTF8, const CStringUTF32& cStringUTF32)
 {
 	unsigned int iSourceIndex = 0;
 	unsigned int iBytesToWrite = 0;
@@ -165,7 +165,7 @@ void CUTFConvert::FromUTF32ToUTF8(CStringUTF8 &cStringUTF8, const CStringUTF32 &
 	}
 }
 
-void CUTFConvert::FromUTF8ToUTF16(CStringUTF16 &cStringUTF16, const CStringUTF8 &cStringUTF8)
+void CUTFConvert::FromUTF8ToUTF16(CStringUTF16& cStringUTF16, const CStringUTF8& cStringUTF8)
 {
 	unsigned int iSourceIndex = 0;
 	unsigned int iBytesToRead = 0;
@@ -201,7 +201,7 @@ void CUTFConvert::FromUTF8ToUTF16(CStringUTF16 &cStringUTF16, const CStringUTF8 
 	}
 }
 
-void CUTFConvert::FromUTF32ToUTF16(CStringUTF16 &cStringUTF16, const CStringUTF32 &cStringUTF32)
+void CUTFConvert::FromUTF32ToUTF16(CStringUTF16& cStringUTF16, const CStringUTF32& cStringUTF32)
 {
 	unsigned int iSourceIndex = 0;
 	TCharUTF32 iChar;
@@ -224,7 +224,7 @@ void CUTFConvert::FromUTF32ToUTF16(CStringUTF16 &cStringUTF16, const CStringUTF3
 	}
 }
 
-void CUTFConvert::FromUTF8ToUTF32(CStringUTF32 &cStringUTF32, const CStringUTF8 &cStringUTF8)
+void CUTFConvert::FromUTF8ToUTF32(CStringUTF32& cStringUTF32, const CStringUTF8& cStringUTF8)
 {
 	unsigned int iSourceIndex = 0;
 	unsigned int iBytesToRead = 0;
@@ -251,7 +251,7 @@ void CUTFConvert::FromUTF8ToUTF32(CStringUTF32 &cStringUTF32, const CStringUTF8 
 	}
 }
 
-void CUTFConvert::FromUTF16ToUTF32(CStringUTF32 &cStringUTF32, const CStringUTF16 &cStringUTF16)
+void CUTFConvert::FromUTF16ToUTF32(CStringUTF32& cStringUTF32, const CStringUTF16& cStringUTF16)
 {
 	unsigned int iSourceIndex = 0;
 	unsigned int iBytesToWrite = 0;

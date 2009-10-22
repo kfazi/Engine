@@ -35,32 +35,32 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 	
 		CQuaternion(const double fW, const double fX, const double fY, const double fZ);
 
-		CQuaternion(const double fReal, const CVector3D &cVector);
+		CQuaternion(const double fReal, const CVector3D& cVector);
 
 		//! from 3 euler angles
 		CQuaternion(const double fThetaZ, const double fThetaY, const double fThetaX);
 		
 		//! from 3 euler angles 
-		CQuaternion(const CVector3D &cAngles);
+		CQuaternion(const CVector3D& cAngles);
 
 		//! from a normalized axis - angle pair rotation
-		CQuaternion(const CVector3D &cAxis, double fAngle);
+		CQuaternion(const CVector3D& cAxis, double fAngle);
 
 		//! basic operations
-		CQuaternion &operator = (const CQuaternion &cQuaternion);	
+		CQuaternion& operator = (const CQuaternion& cQuaternion);	
 
 		/**
 		 * Quaternion negation.
 		 */
 		CQuaternion operator - () const;
 
-		const CQuaternion &operator += (const CQuaternion &cQuaternion);	
+		const CQuaternion& operator += (const CQuaternion& cQuaternion);	
 
-		const CQuaternion &operator -= (const CQuaternion &cQuaternion);	
+		const CQuaternion& operator -= (const CQuaternion& cQuaternion);	
 
-		const CQuaternion &operator *= (const CQuaternion &cQuaternion);	
+		const CQuaternion& operator *= (const CQuaternion& cQuaternion);	
 		
-		template<typename TType> CQuaternion &operator *= (TType tScalar)
+		template<typename TType> CQuaternion& operator *= (TType tScalar)
 		{
 			W *= tScalar;
 			X *= tScalar;
@@ -69,7 +69,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 			return *this;
 		}
 
-		template<typename TType> CQuaternion &operator /= (TType tScalar)
+		template<typename TType> CQuaternion& operator /= (TType tScalar)
 		{
 			W /= tScalar;
 			X /= tScalar;
@@ -78,16 +78,16 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 			return *this;
 		}
 
-		friend const CQuaternion operator + (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2);
+		friend const CQuaternion operator + (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
 
-		friend const CQuaternion operator - (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2);
+		friend const CQuaternion operator - (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
 
-		friend const CQuaternion operator * (const CQuaternion &cQuaternion1, const CQuaternion &cQuaternion2);
+		friend const CQuaternion operator * (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
 
 		/**
 		 * Quaternion multiplication by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator * (TType tScalar, const CQuaternion &cQuaternion)
+		template<typename TType> friend CQuaternion operator * (TType tScalar, const CQuaternion& cQuaternion)
 		{
 			return CQuaternion(cQuaternion) *= tScalar;
 		}
@@ -95,7 +95,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		/**
 		 * Quaternion multiplication by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator * (const CQuaternion &cQuaternion, TType tScalar)
+		template<typename TType> friend CQuaternion operator * (const CQuaternion& cQuaternion, TType tScalar)
 		{
 			return CQuaternion(cQuaternion) *= tScalar;
 		}
@@ -103,7 +103,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		/**
 		 * Quaternion division by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator / (TType tScalar, const CQuaternion &cQuaternion)
+		template<typename TType> friend CQuaternion operator / (TType tScalar, const CQuaternion& cQuaternion)
 		{
 			return CQuaternion(cQuaternion) /= tScalar;
 		}
@@ -111,7 +111,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		/**
 		 * Quaternion division by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator / (const CQuaternion &cQuaternion, TType tScalar)
+		template<typename TType> friend CQuaternion operator / (const CQuaternion& cQuaternion, TType tScalar)
 		{
 			return CQuaternion(cQuaternion) /= tScalar;
 		}
@@ -135,7 +135,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 
 		void FromEulerAngles(const double fThetaZ, const double fThetaY, const double fThetaX);
 
-		void FromEulerAngles(const CVector3D &cAngles);
+		void FromEulerAngles(const CVector3D& cAngles);
 
 		//! computes the conjugate of this quaternion
 		void Conjugate();
@@ -192,7 +192,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		CMatrix4x4 ToMatrix4() const;
 		
 		//! returns the axis and angle of this unit quaternion
-		void ToAxisAngle(CVector3D &cAxis, double &fAngle) const;
+		void ToAxisAngle(CVector3D& cAxis, double& fAngle) const;
 
 		//! returns the euler angles from a rotation quaternion
 		CVector3D GetEulerAngles() const;

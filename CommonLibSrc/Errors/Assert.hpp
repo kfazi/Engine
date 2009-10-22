@@ -7,9 +7,11 @@ namespace Common
 {
 
 #ifdef _DEBUG
-void Assert(bool bExpression, const char *pReason);
+void Assert(bool bExpression, const char* pReason);
+void AssertAlwaysExecute(bool bExpression, const char* pReason);
 #else
 #define Assert(bExpression, pReason) ((void)0)
+#define AssertAlwaysExecute(bExpression, pReason) (bExpression)
 #endif /* DEBUG */
 
 }

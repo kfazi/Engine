@@ -10,7 +10,7 @@ template<class CType> class CVector
 		typedef CVector<CType> TMyType;
 		unsigned int m_iLength;
 		unsigned int m_iCapacity;
-		CType *m_pBuffer;
+		CType* m_pBuffer;
 
 	public:
 		CVector()
@@ -36,7 +36,7 @@ template<class CType> class CVector
 		{
 			if (m_iCapacity >= iNewCapacity)
 				return;
-			CType *pBuffer = new CType[iNewCapacity];
+			CType* pBuffer = new CType[iNewCapacity];
 			Copy(m_pBuffer, m_pBuffer + m_iLength, pBuffer);
 			delete [] m_pBuffer;
 			m_pBuffer = pBuffer;
@@ -65,12 +65,12 @@ template<class CType> class CVector
 			return m_iLength == 0;
 		}
 
-		CType &operator [] (unsigned int iIndex)
+		CType& operator [] (unsigned int iIndex)
 		{
 			return m_pBuffer[iIndex];
 		}
 
-		const CType &operator [] (unsigned int iIndex) const
+		const CType& operator [] (unsigned int iIndex) const
 		{
 			return m_pBuffer[iIndex];
 		}
@@ -80,17 +80,17 @@ template<class CType> class CVector
 			return m_pBuffer[iIndex];
 		}
 
-		CType &Front()
+		CType& Front()
 		{
 			return m_pBuffer[0];
 		}
 
-		CType &Back()
+		CType& Back()
 		{
 			return m_pBuffer[GetLength() - 1];
 		}
 
-		TMyType &operator = (const TMyType &cVector)
+		TMyType& operator = (const TMyType& cVector)
 		{
 			unsigned int iNewCapacity = cVector.m_iCapacity;
 			if (iNewCapacity > m_iCapacity)
@@ -100,7 +100,7 @@ template<class CType> class CVector
 			return *this;
 		}
 
-		void PushBack(const CType &cType)
+		void PushBack(const CType& cType)
 		{
 			if (m_iLength >= m_iCapacity)
 				Allocate(m_iLength + 1024);
@@ -129,7 +129,7 @@ template<class CType> class CVector
 			m_iLength--;
 		}
 
-		void Insert(unsigned int iIndex, const CType &cType)
+		void Insert(unsigned int iIndex, const CType& cType)
 		{
 			if (m_iLength >= m_iCapacity)
 				Allocate(m_iLength + 1024);

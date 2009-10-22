@@ -141,7 +141,7 @@ CString CStringConvert::NumberToString(unsigned long long iValue) const
 {
 	CString cResult;
 	int iBase = m_eBase;
-	const char *pDigits;
+	const char* pDigits;
 	if (m_bNumberUpperCase)
 		pDigits = aDigitsUpperCase;
 	else
@@ -221,7 +221,7 @@ CString CStringConvert::ToString(double fValue) const;
 CString CStringConvert::ToString(long double fValue) const;
 */
 
-CString CStringBuffer::ToString(const void *pValue) const
+CString CStringBuffer::ToString(const void* pValue) const
 {
 	char aBuffer[sizeof(void *) * 2 + 2];
 	::_snprintf(aBuffer, sizeof(void *) * 2 + 2, "%p", pValue);

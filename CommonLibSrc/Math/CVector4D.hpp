@@ -41,7 +41,7 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Creates a copy of a vector.
 		 */
-		CVector4D(const CVector4D &cVector);
+		CVector4D(const CVector4D& cVector);
 
 		/**
 		 * Normalizes a vector.
@@ -56,17 +56,17 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Tests two vectors for equality.
 		 */
-		bool operator == (const CVector4D &cVector) const;
+		bool operator == (const CVector4D& cVector) const;
 
 		/**
 		 * Tests two vectors for inequality.
 		 */
-		bool operator != (const CVector4D &cVector) const;
+		bool operator != (const CVector4D& cVector) const;
 
 		/**
 		 * Assignment operator.
 		 */
-		CVector4D &operator = (const CVector4D &cVector);
+		CVector4D& operator = (const CVector4D& cVector);
 
 		/**
 		 * Vector negation.
@@ -76,17 +76,17 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector addition with assignment.
 		 */
-		CVector4D &operator += (const CVector4D &cVector);
+		CVector4D& operator += (const CVector4D& cVector);
 
 		/**
 		 * Vector subtraction with assignment.
 		 */
-		CVector4D &operator -= (const CVector4D &cVector);
+		CVector4D& operator -= (const CVector4D& cVector);
 
 		/**
 		 * Vector multiplication with assignment.
 		 */
-		CVector4D &operator *= (const CVector4D &cVector);
+		CVector4D& operator *= (const CVector4D& cVector);
 
 		/**
 		 * Tests if vector is zero vector.
@@ -96,7 +96,7 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector multiplication by a scalar with assignment.
 		 */
-		template<typename TType> CVector4D &operator *= (TType tScalar)
+		template<typename TType> CVector4D& operator *= (TType tScalar)
 		{
 			X *= tScalar;
 			Y *= tScalar;
@@ -108,7 +108,7 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector division by a scalar with assignment.
 		 */
-		template<typename TType> CVector4D &operator /= (TType tScalar)
+		template<typename TType> CVector4D& operator /= (TType tScalar)
 		{
 			X /= tScalar;
 			Y /= tScalar;
@@ -120,7 +120,7 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector multiplication by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator * (TType tScalar, const CVector4D &cVector)
+		template<typename TType> friend CVector4D operator * (TType tScalar, const CVector4D& cVector)
 		{
 			return CVector4D(cVector) * tScalar;
 		}
@@ -128,7 +128,7 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector multiplication by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator * (const CVector4D &cVector, TType tScalar)
+		template<typename TType> friend CVector4D operator * (const CVector4D& cVector, TType tScalar)
 		{
 			return CVector4D(cVector) * tScalar;
 		}
@@ -136,7 +136,7 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector division by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator / (TType tScalar, const CVector4D &cVector)
+		template<typename TType> friend CVector4D operator / (TType tScalar, const CVector4D& cVector)
 		{
 			return CVector4D(cVector) / tScalar;
 		}
@@ -144,7 +144,7 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector division by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator / (const CVector4D &cVector, TType tScalar)
+		template<typename TType> friend CVector4D operator / (const CVector4D& cVector, TType tScalar)
 		{
 			return CVector4D(cVector) / tScalar;
 		}
@@ -152,17 +152,17 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * A sum of two vectors.
 		 */
-		friend const CVector4D operator + (const CVector4D &cVector1, const CVector4D &cVector2);
+		friend const CVector4D operator + (const CVector4D& cVector1, const CVector4D& cVector2);
 
 		/**
 		 * A subtraction of two vectors.
 		 */
-		friend const CVector4D operator - (const CVector4D &cVector1, const CVector4D &cVector2);
+		friend const CVector4D operator - (const CVector4D& cVector1, const CVector4D& cVector2);
 
 		/**
 		 * A multiplication of two vectors.
 		 */
-		friend const CVector4D operator * (const CVector4D &cVector1, const CVector4D &cVector2);
+		friend const CVector4D operator * (const CVector4D& cVector1, const CVector4D& cVector2);
 };
 
 }

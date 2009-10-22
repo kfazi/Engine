@@ -59,7 +59,7 @@ class CStreamBase
 		void SetShowPositiveSign(bool bShowPositiveSign);
 		bool GetShowPositiveSign() const;
 
-		virtual const CString &GetString() = 0;
+		virtual const CString& GetString() = 0;
 };
 
 }

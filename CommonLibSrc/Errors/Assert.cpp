@@ -7,10 +7,16 @@
 namespace Common
 {
 
-void Assert(bool bExpression, const char *pReason)
+void Assert(bool bExpression, const char* pReason)
 {
 	assert(bExpression);
 }
+
+void AssertAlwaysExecute(bool bExpression, const char* pReason)
+{
+	assert(bExpression);
+}
+
 
 }
 

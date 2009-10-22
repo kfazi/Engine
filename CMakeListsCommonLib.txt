@@ -28,16 +28,10 @@ SOURCE_GROUP("CommonLibSrc\\Algorithms" FILES ${COMMONLIB_ALGORITHMS_SOURCES})
 SET(COMMONLIB_CONTAINERS_SOURCES
 	${COMMONLIB_SRC_DIR}/Containers/CBinaryMap.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CHashMap.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CInputOutputStream.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CInputStream.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CLinkedList.hpp
-	${COMMONLIB_SRC_DIR}/Containers/COutputStream.cpp
-	${COMMONLIB_SRC_DIR}/Containers/COutputStream.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CQueue.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CSet.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CSingleLinkedList.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CStreamBase.cpp
-	${COMMONLIB_SRC_DIR}/Containers/CStreamBase.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CVector.hpp
 	${COMMONLIB_SRC_DIR}/Containers/ISerializable.hpp
 )
@@ -69,6 +63,23 @@ SET(COMMONLIB_MATH_SOURCES
 LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_MATH_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\Math" FILES ${COMMONLIB_MATH_SOURCES})
 
+SET(COMMONLIB_RANGES_SOURCES
+	${COMMONLIB_SRC_DIR}/Ranges/RangeTemplate.hpp
+)
+LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_RANGES_SOURCES})
+SOURCE_GROUP("CommonLibSrc\\Ranges" FILES ${COMMONLIB_RANGES_SOURCES})
+
+SET(COMMONLIB_STREAMS_SOURCES
+	${COMMONLIB_SRC_DIR}/Streams/CInputOutputStream.hpp
+	${COMMONLIB_SRC_DIR}/Streams/CInputStream.hpp
+	${COMMONLIB_SRC_DIR}/Streams/COutputStream.cpp
+	${COMMONLIB_SRC_DIR}/Streams/COutputStream.hpp
+	${COMMONLIB_SRC_DIR}/Streams/CStreamBase.cpp
+	${COMMONLIB_SRC_DIR}/Streams/CStreamBase.hpp
+)
+LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_STREAMS_SOURCES})
+SOURCE_GROUP("CommonLibSrc\\Streams" FILES ${COMMONLIB_STREAMS_SOURCES})
+
 SET(COMMONLIB_STRINGS_SOURCES
 	${COMMONLIB_SRC_DIR}/Strings/CFormat.cpp
 	${COMMONLIB_SRC_DIR}/Strings/CFormat.hpp
@@ -77,6 +88,8 @@ SET(COMMONLIB_STRINGS_SOURCES
 	${COMMONLIB_SRC_DIR}/Strings/CStringBase.hpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringBuffer.cpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringBuffer.hpp
+	${COMMONLIB_SRC_DIR}/Strings/CStringIterator.cpp
+	${COMMONLIB_SRC_DIR}/Strings/CStringIterator.hpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringStatic.cpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringStatic.hpp
 	${COMMONLIB_SRC_DIR}/Strings/CStringUTF8.cpp
