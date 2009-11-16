@@ -5,6 +5,8 @@
 #include <cstring>
 #include <cmath>
 
+#include "../Ranges/CMemoryRange.hpp"
+
 namespace Common
 {
 
@@ -21,6 +23,7 @@ const CMatrix4x4 CMatrix4x4::IDENTITY(1.0, 0.0, 0.0, 0.0,
 CMatrix4x4::CMatrix4x4()
 {
 	*this = IDENTITY;
+	CreateRange(m_aData);
 }
 
 CMatrix4x4::CMatrix4x4(const double fCell00, const double fCell01, const double fCell02, const double fCell03, const double fCell10, const double fCell11, const double fCell12, const double fCell13, const double fCell20, const double fCell21, const double fCell22, const double fCell23, const double fCell30, const double fCell31, const double fCell32, const double fCell33)

@@ -17,15 +17,15 @@ class CFormat
 			CString* pString;
 		};
 		const CString& m_cUnformattedBuffer;
-		CString *m_pBuffer;
-		CVector<SData> *m_pFormatData;
+		CString* m_pBuffer;
+		CVector<SData>* m_pFormatData;
 		unsigned int m_iCurrentIndex;
 		unsigned int m_iMaxIndex;
 
 	public:
 		CFormat(const CString& cString);
 		const CString& Get() const;
-		const TChar *GetRaw() const;
+		const TChar* GetRaw() const;
 		CFormat& operator % (const int& iValue)
 		{
 			delete m_pBuffer;
