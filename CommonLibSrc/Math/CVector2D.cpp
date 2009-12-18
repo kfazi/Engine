@@ -40,45 +40,45 @@ double CVector2D::GetLength() const
 	return std::sqrt(X * X + Y * Y);
 }
 
-bool CVector2D::operator == (const CVector2D& cVector) const
+bool CVector2D::operator== (const CVector2D& cVector) const
 {
 	return (X == cVector.X) && (Y == cVector.Y);
 }
 
-bool CVector2D::operator != (const CVector2D& cVector) const
+bool CVector2D::operator!= (const CVector2D& cVector) const
 {
 	return !(*this == cVector);
 }
 
-CVector2D& CVector2D::operator = (const CVector2D& cVector)
+CVector2D& CVector2D::operator= (const CVector2D& cVector)
 {
 	X = cVector.X;
 	Y = cVector.Y;
 	return *this;
 }
 
-CVector2D& CVector2D::operator - ()
+CVector2D& CVector2D::operator- ()
 {
 	X = -X;
 	Y = -Y;
 	return *this;
 }
 
-CVector2D& CVector2D::operator += (const CVector2D& cVector)
+CVector2D& CVector2D::operator+= (const CVector2D& cVector)
 {
 	X += cVector.X;
 	Y += cVector.Y;
 	return *this;
 }
 
-CVector2D& CVector2D::operator -= (const CVector2D& cVector)
+CVector2D& CVector2D::operator-= (const CVector2D& cVector)
 {
 	X -= cVector.X;
 	Y -= cVector.Y;
 	return *this;
 }
 
-CVector2D& CVector2D::operator *= (const CVector2D& cVector)
+CVector2D& CVector2D::operator*= (const CVector2D& cVector)
 {
 	X *= cVector.X;
 	Y *= cVector.Y;
@@ -90,17 +90,17 @@ CVector2D::operator bool ()
 	return X != 0.0 || Y != 0.0;
 }
 
-const CVector2D operator + (const CVector2D& cVector1, const CVector2D& cVector2)
+const CVector2D operator+ (const CVector2D& cVector1, const CVector2D& cVector2)
 {
 	return CVector2D(cVector1) += cVector2;
 }
 
-const CVector2D operator - (const CVector2D& cVector1, const CVector2D& cVector2)
+const CVector2D operator- (const CVector2D& cVector1, const CVector2D& cVector2)
 {
 	return CVector2D(cVector1) -= cVector2;
 }
 
-const CVector2D operator * (const CVector2D& cVector1, const CVector2D& cVector2)
+const CVector2D operator* (const CVector2D& cVector1, const CVector2D& cVector2)
 {
 	return CVector2D(cVector1) *= cVector2;
 }

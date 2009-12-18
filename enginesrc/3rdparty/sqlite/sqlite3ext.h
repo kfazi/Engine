@@ -331,7 +331,7 @@ struct sqlite3_api_routines {
 #define sqlite3_value_text16           sqlite3_api->value_text16
 #define sqlite3_value_text16be         sqlite3_api->value_text16be
 #define sqlite3_value_text16le         sqlite3_api->value_text16le
-#define sqlite3_value_type             sqlite3_api->value_type
+#define sqlite3_value_type             sqlite3_api->tValue
 #define sqlite3_vmprintf               sqlite3_api->vmprintf
 #define sqlite3_overload_function      sqlite3_api->overload_function
 #define sqlite3_prepare_v2             sqlite3_api->prepare_v2

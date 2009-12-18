@@ -62,12 +62,12 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		/**
 		 * Tests two matrices for equality.
 		 */
-		bool operator == (const CMatrix4x4& cMatrix) const;
+		bool operator== (const CMatrix4x4& cMatrix) const;
 
 		/**
 		 * Tests two matrices for inequality.
 		 */
-		bool operator != (const CMatrix4x4& cMatrix) const;
+		bool operator!= (const CMatrix4x4& cMatrix) const;
 
 		/**
 		 * Returns a cell data.
@@ -171,82 +171,82 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		/**
 		 * Assignment from 4x4 matrix.
 		 */
-		CMatrix4x4& operator = (const CMatrix4x4& cMatrix);
+		CMatrix4x4& operator= (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix negation.
 		 */
-		CMatrix4x4& operator - ();
+		CMatrix4x4& operator- ();
 
 		/**
 		 * Matrix addition with assignment.
 		 */
-		CMatrix4x4& operator += (const CMatrix4x4& cMatrix);
+		CMatrix4x4& operator+= (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix subtraction with assignment.
 		 */
-		CMatrix4x4& operator -= (const CMatrix4x4& cMatrix);
+		CMatrix4x4& operator-= (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with assignment.
 		 */
-		CMatrix4x4& operator *= (const CMatrix4x4& cMatrix);
+		CMatrix4x4& operator*= (const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with an integer.
 		 */
-		friend const CMatrix4x4 operator * (const int iC, const CMatrix4x4& cMatrix);
+		friend const CMatrix4x4 operator* (const int iC, const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with a double number.
 		 */
-		friend const CMatrix4x4 operator * (const double fC, const CMatrix4x4& cMatrix);
+		friend const CMatrix4x4 operator* (const double fC, const CMatrix4x4& cMatrix);
 
 		/**
 		 * Matrix multiplication with an integer.
 		 */
-		friend const CMatrix4x4 operator * (const CMatrix4x4& cMatrix, const int iC);
+		friend const CMatrix4x4 operator* (const CMatrix4x4& cMatrix, const int iC);
 
 		/**
 		 * Matrix multiplication with a double number.
 		 */
-		friend const CMatrix4x4 operator * (const CMatrix4x4& cMatrix, const double fC);
+		friend const CMatrix4x4 operator* (const CMatrix4x4& cMatrix, const double fC);
 
 		/**
 		 * Matrix division by an integer.
 		 */
-		friend const CMatrix4x4 operator / (const CMatrix4x4& cMatrix, const int iC);
+		friend const CMatrix4x4 operator/ (const CMatrix4x4& cMatrix, const int iC);
 
 		/**
 		 * Matrix division by a double number.
 		 */
-		friend const CMatrix4x4 operator / (const CMatrix4x4& cMatrix, const double fC);
+		friend const CMatrix4x4 operator/ (const CMatrix4x4& cMatrix, const double fC);
 
 		/**
 		 * Vector transformation.
 		 */
-		friend const CVector3D operator * (const CMatrix4x4& cMatrix, const CVector3D& cVector);
+		friend const CVector3D operator* (const CMatrix4x4& cMatrix, const CVector3D& cVector);
 
 		/**
 		 * Vector transformation.
 		 */
-		friend const CVector4D operator * (const CMatrix4x4& cMatrix, const CVector4D& cVector);
+		friend const CVector4D operator* (const CMatrix4x4& cMatrix, const CVector4D& cVector);
 
 		/**
 		 * A sum of two 4x4 matrices.
 		 */
-		friend const CMatrix4x4 operator + (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
+		friend const CMatrix4x4 operator+ (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
 
 		/**
 		 * A subtraction of two 4x4 matrices.
 		 */
-		friend const CMatrix4x4 operator - (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
+		friend const CMatrix4x4 operator- (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
 
 		/**
 		 * A multiplication of two 4x4 matrices.
 		 */
-		friend const CMatrix4x4 operator * (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
+		friend const CMatrix4x4 operator* (const CMatrix4x4& cMatrix1, const CMatrix4x4& cMatrix2);
 
 		/**
 		 * A scalar multiplication of two 4x4 matrices.

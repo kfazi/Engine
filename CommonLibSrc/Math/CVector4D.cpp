@@ -46,17 +46,17 @@ double CVector4D::GetLength() const
 	return std::sqrt(X * X + Y * Y + Z * Z + W * W);
 }
 
-bool CVector4D::operator == (const CVector4D& cVector) const
+bool CVector4D::operator== (const CVector4D& cVector) const
 {
 	return (X == cVector.X) && (Y == cVector.Y) && (Z == cVector.Z) && (W == cVector.W);
 }
 
-bool CVector4D::operator != (const CVector4D& cVector) const
+bool CVector4D::operator!= (const CVector4D& cVector) const
 {
 	return !(*this == cVector);
 }
 
-CVector4D& CVector4D::operator = (const CVector4D& cVector)
+CVector4D& CVector4D::operator= (const CVector4D& cVector)
 {
 	X = cVector.X;
 	Y = cVector.Y;
@@ -65,12 +65,12 @@ CVector4D& CVector4D::operator = (const CVector4D& cVector)
 	return *this;
 }
 
-CVector4D CVector4D::operator - ()
+CVector4D CVector4D::operator- ()
 {
 	return CVector4D(-X, -Y, -Z, -W);
 }
 
-CVector4D& CVector4D::operator += (const CVector4D& cVector)
+CVector4D& CVector4D::operator+= (const CVector4D& cVector)
 {
 	X += cVector.X;
 	Y += cVector.Y;
@@ -79,7 +79,7 @@ CVector4D& CVector4D::operator += (const CVector4D& cVector)
 	return *this;
 }
 
-CVector4D& CVector4D::operator -= (const CVector4D& cVector)
+CVector4D& CVector4D::operator-= (const CVector4D& cVector)
 {
 	X -= cVector.X;
 	Y -= cVector.Y;
@@ -88,7 +88,7 @@ CVector4D& CVector4D::operator -= (const CVector4D& cVector)
 	return *this;
 }
 
-CVector4D& CVector4D::operator *= (const CVector4D& cVector)
+CVector4D& CVector4D::operator*= (const CVector4D& cVector)
 {
 	X *= cVector.X;
 	Y *= cVector.Y;
@@ -102,17 +102,17 @@ CVector4D::operator bool ()
 	return X != 0.0 || Y != 0.0 || Z != 0.0 || W != 0.0;
 }
 
-const CVector4D operator + (const CVector4D& cVector1, const CVector4D& cVector2)
+const CVector4D operator+ (const CVector4D& cVector1, const CVector4D& cVector2)
 {
 	return CVector4D(cVector1) += cVector2;
 }
 
-const CVector4D operator - (const CVector4D& cVector1, const CVector4D& cVector2)
+const CVector4D operator- (const CVector4D& cVector1, const CVector4D& cVector2)
 {
 	return CVector4D(cVector1) -= cVector2;
 }
 
-const CVector4D operator * (const CVector4D& cVector1, const CVector4D& cVector2)
+const CVector4D operator* (const CVector4D& cVector1, const CVector4D& cVector2)
 {
 	return CVector4D(cVector1) *= cVector2;
 }

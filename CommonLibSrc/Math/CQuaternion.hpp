@@ -47,20 +47,20 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		CQuaternion(const CVector3D& cAxis, double fAngle);
 
 		//! basic operations
-		CQuaternion& operator = (const CQuaternion& cQuaternion);	
+		CQuaternion& operator= (const CQuaternion& cQuaternion);	
 
 		/**
 		 * Quaternion negation.
 		 */
-		CQuaternion operator - () const;
+		CQuaternion operator- () const;
 
-		const CQuaternion& operator += (const CQuaternion& cQuaternion);	
+		const CQuaternion& operator+= (const CQuaternion& cQuaternion);	
 
-		const CQuaternion& operator -= (const CQuaternion& cQuaternion);	
+		const CQuaternion& operator-= (const CQuaternion& cQuaternion);	
 
-		const CQuaternion& operator *= (const CQuaternion& cQuaternion);	
+		const CQuaternion& operator*= (const CQuaternion& cQuaternion);	
 		
-		template<typename TType> CQuaternion& operator *= (TType tScalar)
+		template<typename TType> CQuaternion& operator*= (TType tScalar)
 		{
 			W *= tScalar;
 			X *= tScalar;
@@ -69,7 +69,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 			return *this;
 		}
 
-		template<typename TType> CQuaternion& operator /= (TType tScalar)
+		template<typename TType> CQuaternion& operator/= (TType tScalar)
 		{
 			W /= tScalar;
 			X /= tScalar;
@@ -78,16 +78,16 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 			return *this;
 		}
 
-		friend const CQuaternion operator + (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
+		friend const CQuaternion operator+ (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
 
-		friend const CQuaternion operator - (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
+		friend const CQuaternion operator- (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
 
-		friend const CQuaternion operator * (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
+		friend const CQuaternion operator* (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2);
 
 		/**
 		 * Quaternion multiplication by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator * (TType tScalar, const CQuaternion& cQuaternion)
+		template<typename TType> friend CQuaternion operator* (TType tScalar, const CQuaternion& cQuaternion)
 		{
 			return CQuaternion(cQuaternion) *= tScalar;
 		}
@@ -95,7 +95,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		/**
 		 * Quaternion multiplication by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator * (const CQuaternion& cQuaternion, TType tScalar)
+		template<typename TType> friend CQuaternion operator* (const CQuaternion& cQuaternion, TType tScalar)
 		{
 			return CQuaternion(cQuaternion) *= tScalar;
 		}
@@ -103,7 +103,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		/**
 		 * Quaternion division by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator / (TType tScalar, const CQuaternion& cQuaternion)
+		template<typename TType> friend CQuaternion operator/ (TType tScalar, const CQuaternion& cQuaternion)
 		{
 			return CQuaternion(cQuaternion) /= tScalar;
 		}
@@ -111,7 +111,7 @@ class COMMONDLLIMPORTEXPORT CQuaternion
 		/**
 		 * Quaternion division by a scalar.
 		 */
-		template<typename TType> friend CQuaternion operator / (const CQuaternion& cQuaternion, TType tScalar)
+		template<typename TType> friend CQuaternion operator/ (const CQuaternion& cQuaternion, TType tScalar)
 		{
 			return CQuaternion(cQuaternion) /= tScalar;
 		}

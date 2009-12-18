@@ -1,8 +1,6 @@
 #ifndef COMMON_INTERNAL_HPP
 #define COMMON_INTERNAL_HPP
 
-#include "Errors/Assert.hpp"
-
 /* Check against stupidity. */
 #if (defined WINDOWS && defined UNIX) || (defined WINDOWS && defined OSX) || (defined UNIX && defined OSX)
 #error DEFINE ONLY ONE PLATFORM
@@ -23,6 +21,9 @@
 #endif /* common_EXPORTS */
 #endif /* __MINGW32__ */
 #endif /* WINDOWS */
+
+#include "Memory/new.hpp"
+#include "Errors/Assert.hpp"
 
 #endif /* COMMON_INTERNAL_HPP */
 

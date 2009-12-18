@@ -26,14 +26,14 @@ class CFormat
 		CFormat(const CString& cString);
 		const CString& Get() const;
 		const TChar* GetRaw() const;
-		CFormat& operator % (const int& iValue)
+		CFormat& operator% (const int& iValue)
 		{
 			delete m_pBuffer;
 			m_pBuffer = 0;
 			SData sData;
 			sData.iIndex = m_iCurrentIndex;
 			sData.pString = new CString(1);
-			m_pFormatData->PushBack(sData);
+//			m_pFormatData->PushBack(sData);
 			m_iCurrentIndex++;
 		}
 };

@@ -56,52 +56,52 @@ CStringUTF16::CStringUTF16(const TCharUTF8* pString, unsigned int iLength): MyTy
 	CUTFConvert::FromUTF8ToUTF16(*this, CStringUTF8(pString, iLength));
 }
 
-CStringUTF16& CStringUTF16::operator += (const CStringUTF32& cString)
+CStringUTF16& CStringUTF16::operator+= (const CStringUTF32& cString)
 {
 	CStringUTF16 cStringUTF16;
 	CUTFConvert::FromUTF32ToUTF16(cStringUTF16, cString);	
 	return *this += cStringUTF16;
 }
 
-CStringUTF16& CStringUTF16::operator += (const CStringUTF16& cString)
+CStringUTF16& CStringUTF16::operator+= (const CStringUTF16& cString)
 {
 	static_cast<MyType>(*this) += static_cast<MyType>(cString);
 	return *this;
 }
 
-CStringUTF16& CStringUTF16::operator += (const CStringUTF8& cString)
+CStringUTF16& CStringUTF16::operator+= (const CStringUTF8& cString)
 {
 	CStringUTF16 cStringUTF16;
 	CUTFConvert::FromUTF8ToUTF16(cStringUTF16, cString);	
 	return *this += cStringUTF16;
 }
 
-CStringUTF16& CStringUTF16::operator += (const TCharUTF32* pString)
+CStringUTF16& CStringUTF16::operator+= (const TCharUTF32* pString)
 {
 	return *this += CStringUTF32(pString);
 }
 
-CStringUTF16& CStringUTF16::operator += (const TCharUTF16* pString)
+CStringUTF16& CStringUTF16::operator+= (const TCharUTF16* pString)
 {
 	return *this += CStringUTF16(pString);
 }
 
-CStringUTF16& CStringUTF16::operator += (const TCharUTF8* pString)
+CStringUTF16& CStringUTF16::operator+= (const TCharUTF8* pString)
 {
 	return *this += CStringUTF8(pString);
 }
 
-CStringUTF16& CStringUTF16::operator += (TCharUTF32 iChar)
+CStringUTF16& CStringUTF16::operator+= (TCharUTF32 iChar)
 {
 	return *this += CStringUTF32(&iChar, 1);
 }
 
-CStringUTF16& CStringUTF16::operator += (TCharUTF16 iChar)
+CStringUTF16& CStringUTF16::operator+= (TCharUTF16 iChar)
 {
 	return *this += CStringUTF16(&iChar, 1);
 }
 
-CStringUTF16& CStringUTF16::operator += (TCharUTF8 iChar)
+CStringUTF16& CStringUTF16::operator+= (TCharUTF8 iChar)
 {
 	return *this += CStringUTF8(&iChar, 1);
 }

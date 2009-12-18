@@ -102,12 +102,12 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			return m_iLength == 0;
 		}
 
-		TCharType& operator [] (unsigned int iIndex)
+		TCharType& operator[] (unsigned int iIndex)
 		{
 			return m_pBuffer[iIndex];
 		}
 
-		const TCharType& operator [] (unsigned int iIndex) const
+		const TCharType& operator[] (unsigned int iIndex) const
 		{
 			return m_pBuffer[iIndex];
 		}
@@ -117,7 +117,7 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			return m_pBuffer[iIndex];
 		}
 
-		TMyType& operator += (const TMyType& cStringBase)
+		TMyType& operator+= (const TMyType& cStringBase)
 		{
 			unsigned int iNewCapacity = GetLength() + cStringBase.GetLength() + 1;
 			if (iNewCapacity > m_iCapacity)
@@ -127,7 +127,7 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			return *this;
 		}
 
-		TMyType& operator += (const TCharType* pString)
+		TMyType& operator+= (const TCharType* pString)
 		{
 			unsigned int iLength = 0;
 			while (pString[iLength])
@@ -140,7 +140,7 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			return *this;
 		}
 
-		TMyType& operator += (TCharType tChar)
+		TMyType& operator+= (TCharType tChar)
 		{
 			unsigned int iNewCapacity = GetLength() + 2;
 			if (iNewCapacity > m_iCapacity)
@@ -151,7 +151,7 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			return *this;
 		}
 
-		TMyType& operator = (const TMyType& cStringBase)
+		TMyType& operator= (const TMyType& cStringBase)
 		{
 			unsigned int iNewCapacity = cStringBase.m_iCapacity;
 			if (iNewCapacity > m_iCapacity)
@@ -161,7 +161,7 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			return *this;
 		}
 
-		TMyType& operator = (const TCharType* pString)
+		TMyType& operator= (const TCharType* pString)
 		{
 			unsigned int iLength = 0;
 			while (pString[iLength])
@@ -174,7 +174,7 @@ template<typename TCharType> class CStringBase: private CStringStatic
 			return *this;
 		}
 
-		TMyType& operator = (TCharType tChar)
+		TMyType& operator= (TCharType tChar)
 		{
 			m_pBuffer[0] = tChar;
 			m_pBuffer[1] = 0;

@@ -43,17 +43,17 @@ double CVector3D::GetLength() const
 	return std::sqrt(X * X + Y * Y + Z * Z);
 }
 
-bool CVector3D::operator == (const CVector3D& cVector) const
+bool CVector3D::operator== (const CVector3D& cVector) const
 {
 	return (X == cVector.X) && (Y == cVector.Y) && (Z == cVector.Z);
 }
 
-bool CVector3D::operator != (const CVector3D& cVector) const
+bool CVector3D::operator!= (const CVector3D& cVector) const
 {
 	return !(*this == cVector);
 }
 
-CVector3D& CVector3D::operator = (const CVector3D& cVector)
+CVector3D& CVector3D::operator= (const CVector3D& cVector)
 {
 	X = cVector.X;
 	Y = cVector.Y;
@@ -61,7 +61,7 @@ CVector3D& CVector3D::operator = (const CVector3D& cVector)
 	return *this;
 }
 
-CVector3D& CVector3D::operator - ()
+CVector3D& CVector3D::operator- ()
 {
 	X = -X;
 	Y = -Y;
@@ -69,7 +69,7 @@ CVector3D& CVector3D::operator - ()
 	return *this;
 }
 
-CVector3D& CVector3D::operator += (const CVector3D& cVector)
+CVector3D& CVector3D::operator+= (const CVector3D& cVector)
 {
 	X += cVector.X;
 	Y += cVector.Y;
@@ -77,7 +77,7 @@ CVector3D& CVector3D::operator += (const CVector3D& cVector)
 	return *this;
 }
 
-CVector3D& CVector3D::operator -= (const CVector3D& cVector)
+CVector3D& CVector3D::operator-= (const CVector3D& cVector)
 {
 	X -= cVector.X;
 	Y -= cVector.Y;
@@ -85,7 +85,7 @@ CVector3D& CVector3D::operator -= (const CVector3D& cVector)
 	return *this;
 }
 
-CVector3D& CVector3D::operator *= (const CVector3D& cVector)
+CVector3D& CVector3D::operator*= (const CVector3D& cVector)
 {
 	X *= cVector.X;
 	Y *= cVector.Y;
@@ -98,17 +98,17 @@ CVector3D::operator bool ()
 	return X != 0.0 || Y != 0.0 || Z != 0.0;
 }
 
-const CVector3D operator + (const CVector3D& cVector1, const CVector3D& cVector2)
+const CVector3D operator+ (const CVector3D& cVector1, const CVector3D& cVector2)
 {
 	return CVector3D(cVector1) += cVector2;
 }
 
-const CVector3D operator - (const CVector3D& cVector1, const CVector3D& cVector2)
+const CVector3D operator- (const CVector3D& cVector1, const CVector3D& cVector2)
 {
 	return CVector3D(cVector1) -= cVector2;
 }
 
-const CVector3D operator * (const CVector3D& cVector1, const CVector3D& cVector2)
+const CVector3D operator* (const CVector3D& cVector1, const CVector3D& cVector2)
 {
 	return CVector3D(cVector1) *= cVector2;
 }

@@ -169,7 +169,7 @@ void CUTFConvert::FromUTF8ToUTF16(CStringUTF16& cStringUTF16, const CStringUTF8&
 {
 	unsigned int iSourceIndex = 0;
 	unsigned int iBytesToRead = 0;
-	TCharUTF32 iChar;
+	TCharUTF32 iChar = 0;
 	cStringUTF16.Allocate(cStringUTF16.GetLength() + cStringUTF8.GetLength());
 	while (iSourceIndex < cStringUTF8.GetLength())
 	{
@@ -228,7 +228,7 @@ void CUTFConvert::FromUTF8ToUTF32(CStringUTF32& cStringUTF32, const CStringUTF8&
 {
 	unsigned int iSourceIndex = 0;
 	unsigned int iBytesToRead = 0;
-	TCharUTF32 iChar;
+	TCharUTF32 iChar = 0;
 	cStringUTF32.Allocate(cStringUTF32.GetLength() + cStringUTF8.GetLength());
 	while (iSourceIndex < cStringUTF8.GetLength())
 	{
@@ -254,7 +254,7 @@ void CUTFConvert::FromUTF8ToUTF32(CStringUTF32& cStringUTF32, const CStringUTF8&
 void CUTFConvert::FromUTF16ToUTF32(CStringUTF32& cStringUTF32, const CStringUTF16& cStringUTF16)
 {
 	unsigned int iSourceIndex = 0;
-	unsigned int iBytesToWrite = 0;
+//	unsigned int iBytesToWrite = 0;
 	TCharUTF32 iChar;
 	cStringUTF32.Allocate(cStringUTF32.GetLength() + cStringUTF16.GetLength());
 	while (iSourceIndex < cStringUTF16.GetLength())

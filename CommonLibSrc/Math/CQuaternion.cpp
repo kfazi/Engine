@@ -57,7 +57,7 @@ CQuaternion::CQuaternion(const CVector3D& cAxis, double fAngle)
 	Z = cAxis.Z * fSinAngle;
 }
 
-CQuaternion& CQuaternion::operator = (const CQuaternion& cQuaternion)		
+CQuaternion& CQuaternion::operator= (const CQuaternion& cQuaternion)		
 {
 	W = cQuaternion.W;
 	X = cQuaternion.X;
@@ -66,12 +66,12 @@ CQuaternion& CQuaternion::operator = (const CQuaternion& cQuaternion)
 	return *this;
 }
 
-CQuaternion CQuaternion::operator - () const
+CQuaternion CQuaternion::operator- () const
 {
 	return CQuaternion(-W, -X, -Y, -Z);
 }
 
-const CQuaternion& CQuaternion::operator += (const CQuaternion& cQuaternion)		
+const CQuaternion& CQuaternion::operator+= (const CQuaternion& cQuaternion)		
 {
 	W += cQuaternion.W;
 	X += cQuaternion.X;
@@ -80,7 +80,7 @@ const CQuaternion& CQuaternion::operator += (const CQuaternion& cQuaternion)
 	return *this;
 }
 
-const CQuaternion& CQuaternion::operator -= (const CQuaternion& cQuaternion)		
+const CQuaternion& CQuaternion::operator-= (const CQuaternion& cQuaternion)		
 {
 	W -= cQuaternion.W;
 	X -= cQuaternion.X;
@@ -89,7 +89,7 @@ const CQuaternion& CQuaternion::operator -= (const CQuaternion& cQuaternion)
 	return *this;
 }
 
-const CQuaternion& CQuaternion::operator *= (const CQuaternion& cQuaternion)		
+const CQuaternion& CQuaternion::operator*= (const CQuaternion& cQuaternion)		
 {
 	double newW = W * cQuaternion.W - X * cQuaternion.X - Y * cQuaternion.Y - Z * cQuaternion.Z;
 	double newX = W * cQuaternion.X + X * cQuaternion.W + Y * cQuaternion.Z - Z * cQuaternion.Y;
@@ -102,17 +102,17 @@ const CQuaternion& CQuaternion::operator *= (const CQuaternion& cQuaternion)
 	return *this;
 }
 
-const CQuaternion operator + (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
+const CQuaternion operator+ (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
 {
 	return CQuaternion(cQuaternion1) += cQuaternion2;
 }
 
-const CQuaternion operator - (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
+const CQuaternion operator- (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
 {
 	return CQuaternion(cQuaternion1) -= cQuaternion2;
 }
 
-const CQuaternion operator * (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
+const CQuaternion operator* (const CQuaternion& cQuaternion1, const CQuaternion& cQuaternion2)
 {
 	return CQuaternion(cQuaternion1) *= cQuaternion2;
 }

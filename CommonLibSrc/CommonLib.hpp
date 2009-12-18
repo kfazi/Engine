@@ -1,10 +1,13 @@
-#ifndef COMMON_COMMONLIB_HPP
-#define COMMON_COMMONLIB_HPP
+#ifndef COMMONLIB_HPP
+#define COMMONLIB_HPP
 
 #include "Internal.hpp"
+#include "3rdParty/FastDelegate/FastDelegate.h"
+#include "Algorithms/Copy.hpp"
 #include "Algorithms/QuickSort.hpp"
 #include "Algorithms/Swap.hpp"
-//#include "Containers/"
+#include "Containers/CVector.hpp"
+#include "Errors/Assert.hpp"
 #include "Errors/CErrorStack.hpp"
 #include "Math/CMathOperations.hpp"
 #include "Math/CMatrix4x4.hpp"
@@ -14,7 +17,7 @@
 #include "Math/CVector4D.hpp"
 #include "Strings/CString.hpp"
 
-#endif /* COMMON_COMMONLIB_HPP */
+#endif /* COMMONLIB_HPP */
 
 /* EOF */
 

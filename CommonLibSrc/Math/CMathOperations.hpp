@@ -4,6 +4,7 @@
 #include "../Internal.hpp"
 #include "CVector3D.hpp"
 #include "CQuaternion.hpp"
+#include "cmath"
 
 namespace Common
 {

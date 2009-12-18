@@ -49,7 +49,7 @@ void COutputStream::IntegerToString(unsigned long long iValue)
 	SwapRange(&cResult[0] + iStartIndex, &cResult[0] + cResult.GetLength());
 }
 
-COutputStream& COutputStream::operator << (bool bValue)
+COutputStream& COutputStream::operator<< (bool bValue)
 {
 	CString& cResult = GetWriteBuffer();
 	if (GetBoolAlpha())
@@ -64,62 +64,62 @@ COutputStream& COutputStream::operator << (bool bValue)
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (short iValue)
+COutputStream& COutputStream::operator<< (short iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (unsigned short iValue)
+COutputStream& COutputStream::operator<< (unsigned short iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (int iValue)
+COutputStream& COutputStream::operator<< (int iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (unsigned int iValue)
+COutputStream& COutputStream::operator<< (unsigned int iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (long iValue)
+COutputStream& COutputStream::operator<< (long iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (unsigned long iValue)
+COutputStream& COutputStream::operator<< (unsigned long iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (long long iValue)
+COutputStream& COutputStream::operator<< (long long iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (unsigned long long iValue)
+COutputStream& COutputStream::operator<< (unsigned long long iValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (float fValue)
+COutputStream& COutputStream::operator<< (float fValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (double fValue)
+COutputStream& COutputStream::operator<< (double fValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (long double fValue)
+COutputStream& COutputStream::operator<< (long double fValue)
 {
 	return *this;
 }
 
-COutputStream& COutputStream::operator << (const void* pValue)
+COutputStream& COutputStream::operator<< (const void* pValue)
 {
 	return *this;
 }
