@@ -25,6 +25,7 @@ SOURCE_GROUP("CommonLibSrc\\3rdParty" FILES ${COMMONLIB_THIRDPARTY_SOURCES})
 
 SET(COMMONLIB_ALGORITHMS_SOURCES
 	${COMMONLIB_SRC_DIR}/Algorithms/Copy.hpp
+	${COMMONLIB_SRC_DIR}/Algorithms/Find.hpp
 	${COMMONLIB_SRC_DIR}/Algorithms/QuickSort.hpp
 	${COMMONLIB_SRC_DIR}/Algorithms/Swap.hpp
 )

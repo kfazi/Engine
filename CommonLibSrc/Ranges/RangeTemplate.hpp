@@ -10,7 +10,7 @@ class RangeTemplate
 		bool IsEmpty() const;
 
 		/* Finite ranges: */
-		unsigned int GetLength() const;
+		size_t GetLength() const;
 
 		/* Input/forward ranges: */
 		TType& Front();
@@ -24,8 +24,8 @@ class RangeTemplate
 		void Put(TType& tValue);
 
 		/* Random access ranges: */
-		TType& At(unsigned int iIndex);
-		TType& operator[] (unsigned int iIndex);
+		TType& At(size_t iIndex);
+		TType& operator[] (size_t iIndex);
 };
 
 /* EOF */

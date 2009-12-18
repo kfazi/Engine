@@ -4,6 +4,7 @@
 #include "Internal.hpp"
 #include "3rdParty/FastDelegate/FastDelegate.h"
 #include "Algorithms/Copy.hpp"
+#include "Algorithms/Find.hpp"
 #include "Algorithms/QuickSort.hpp"
 #include "Algorithms/Swap.hpp"
 #include "Containers/CVector.hpp"

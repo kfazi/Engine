@@ -3,7 +3,6 @@
 
 #include "../Internal.hpp"
 #include "../Algorithms/Copy.hpp"
-#include "../SmartPointers/CSharedPtr.hpp"
 
 namespace Common
 {
@@ -11,140 +10,211 @@ namespace Common
 template<class CType> class CVector
 {
 	private:
-		struct SData
-		{
-			size_t iCapacity;
-			CType* pBuffer;
-		};
-
 		typedef CVector<CType> TMyType;
-		CSharedPtr<SData> m_pData;
-		size_t m_iRangeStart;
-		size_t m_iRangeLength;
+		CType* m_pBuffer;
+		size_t m_iLength;
+		size_t m_iCapacity;
 
 	public:
-		CVector(): m_pData(new SData())
+		class CRange
 		{
-			m_pData->pBuffer = 0;
-			m_pData->iCapacity = 0;
-			m_iRangeStart = 0;
-			m_iRangeLength = 0;
+			private:
+				size_t m_iRangeStart;
+				size_t m_iRangeLength;
+				CVector& m_cVector;
+
+			public:
+				CRange(CVector& cVector): m_cVector(cVector)
+				{
+					m_iRangeStart = 0;
+					m_iRangeLength = cVector.GetLength();
+				}
+
+				bool IsEmpty() const
+				{
+					return m_iRangeLength == 0;
+				}
+
+				size_t GetLength() const
+				{
+					return m_iRangeLength;
+				}
+
+				CType& Front()
+				{
+					return m_cVector[m_iRangeStart];
+				}
+
+				CType& PopFront()
+				{
+					m_iRangeStart++;
+					m_iRangeLength--;
+					return m_cVector[m_iRangeStart - 1];
+				}
+
+				CType& Back()
+				{
+					return m_cVector[m_iRangeStart + m_iRangeLength - 1];
+				}
+
+				CType& PopBack()
+				{
+					m_iRangeLength--;
+					return m_cVector[m_iRangeStart + m_iRangeLength];
+				}
+
+				CType& At(size_t iIndex)
+				{
+					return m_cVector[m_iRangeStart + iIndex];
+				}
+
+				CType& operator[] (size_t iIndex)
+				{
+					return m_cVector[m_iRangeStart + iIndex];
+				}
+		};
+
+		CVector()
+		{
+			m_pBuffer = NULL;
+			m_iCapacity = 0;
+			m_iLength = 0;
 		}
 
-		CVector(size_t iCapacity): m_pData(new SData())
+		CVector(size_t iCapacity)
 		{
-			m_pData->pBuffer = new CType[iCapacity];
-			m_pData->iCapacity = iCapacity;
-			m_iRangeStart = 0;
-			m_iRangeLength = 0;
+			m_pBuffer = new CType[iCapacity];
+			m_iCapacity = iCapacity;
+			m_iLength = 0;
+		}
+
+		CVector(const CVector& cVector)
+		{
+			m_pBuffer = NULL;
+			m_iCapacity = 0;
+			m_iLength = 0;
+			*this = cVector;
+		}
+
+		template<class CRange> CVector(CRange& cRange)
+		{
+			size_t iCapacity = cRange.GetLength();
+			m_pBuffer = new CType[iCapacity];
+			m_iCapacity = iCapacity;
+			m_iLength = 0;
+			while (!cRange.IsEmpty())
+				PushBack(cRange.PopFront());
 		}
 
 		~CVector()
 		{
-			if (m_pData.Unique())
-				delete [] m_pData->pBuffer;
+			delete [] m_pBuffer;
+		}
+
+		CRange GetRange()
+		{
+			return CRange(*this);
 		}
 
 		void Allocate(size_t iNewCapacity)
 		{
-			if (m_pData->iCapacity >= iNewCapacity)
+			if (m_iCapacity >= iNewCapacity)
 				return;
 			CType* pBuffer = new CType[iNewCapacity];
-			Copy(m_pData->pBuffer, m_pData->pBuffer + m_pData->iCapacity, pBuffer);
-			delete [] m_pData->pBuffer;
-			m_pData->pBuffer = pBuffer;
-			m_pData->iCapacity = iNewCapacity;
+			Copy(m_pBuffer, m_pBuffer + m_iCapacity, pBuffer);
+			delete [] m_pBuffer;
+			m_pBuffer = pBuffer;
+			m_iCapacity = iNewCapacity;
 		}
 
 		size_t GetLength() const
 		{
-			return m_iRangeLength;
+			return m_iLength;
 		}
 
 		size_t GetCapacity() const
 		{
-			Assert(m_pData->iCapacity >= m_iRangeStart, "Negative capacity");
-			return m_pData->iCapacity - m_iRangeStart;
+			return m_iCapacity;
 		}
 
 		void Clear()
 		{
-			m_iRangeLength = 0;
+			m_iLength = 0;
 		}
 
 		bool IsEmpty() const
 		{
-			return m_iRangeLength == 0;
+			return m_iLength == 0;
 		}
 
 		CType& operator[] (size_t iIndex)
 		{
-			Assert(m_iRangeLength > iIndex, "Index out of bounds");
-			return m_pData->pBuffer[m_iRangeStart + iIndex];
+			Assert(m_iLength > iIndex, "Index out of bounds");
+			return m_pBuffer[iIndex];
 		}
 
 		const CType& operator[] (size_t iIndex) const
 		{
-			Assert(m_iRangeLength > iIndex, "Index out of bounds");
-			return m_pData->pBuffer[m_iRangeStart + iIndex];
+			Assert(m_iLength > iIndex, "Index out of bounds");
+			return m_pBuffer[iIndex];
 		}
 
 		CType At(size_t iIndex) const
 		{
-			Assert(m_iRangeLength > iIndex, "Index out of bounds");
-			return m_pData->pBuffer[m_iRangeStart + iIndex];
+			Assert(m_iLength > iIndex, "Index out of bounds");
+			return m_pBuffer[iIndex];
 		}
 
 		CType& Front()
 		{
-			Assert(m_iRangeLength > 0, "Empty range");
-			return m_pData->pBuffer[m_iRangeStart];
+			Assert(m_iLength > 0, "Empty vector");
+			return m_pBuffer[0];
 		}
 
 		CType& Back()
 		{
-			Assert(m_iRangeLength > 0, "Empty range");
-			return m_pData->pBuffer[m_iRangeLength - 1];
+			Assert(m_iLength > 0, "Empty vector");
+			return m_pBuffer[m_iLength - 1];
 		}
 
 		TMyType& operator= (const TMyType& cVector)
 		{
-			size_t iNewCapacity = cVector.m_pData->iCapacity;
-			if (iNewCapacity > m_pData->iCapacity)
+			size_t iNewCapacity = cVector.m_iCapacity;
+			if (iNewCapacity > m_iCapacity)
 				Allocate(iNewCapacity);
-			Copy(cVector.m_pData->pBuffer, cVector.m_pData->pBuffer + cVector.m_iRangeLength, m_pData->pBuffer);
-			m_iRangeStart = cVector.m_iRangeStart;
-			m_iRangeLength = cVector.m_iRangeLength;
+			Copy(cVector.m_pBuffer, cVector.m_pBuffer + cVector.m_iLength, m_pBuffer);
+			m_iLength = cVector.m_iLength;
 			return *this;
 		}
 
-		void Put(const CType& cType)
+		void PushBack(const CType& cType)
 		{
-			if (m_iRangeStart + m_iRangeLength >= m_pData->iCapacity)
-				Allocate(m_iRangeStart + m_iRangeLength + 1024);
-			m_pData->pBuffer[m_iRangeStart + m_iRangeLength] = cType;
-			m_iRangeLength++;
+			if (m_iLength >= m_iCapacity)
+				Allocate(m_iLength + m_iCapacity / 2 + 1);
+			m_pBuffer[m_iLength] = cType;
+			m_iLength++;
 		}
 
-		void PopBack()
+		CType& PopBack()
 		{
-			Assert(m_iRangeLength > 0, "Empty range");
-			m_iRangeLength--;
+			Assert(m_iLength > 0, "Empty vector");
+			m_iLength--;
+			return m_pBuffer[m_iLength];
 		}
 
 		void Erase(size_t iIndex)
 		{
-			Assert(m_iRangeLength > iIndex, "Index out of bounds");
-			m_pData->pBuffer[m_iRangeStart + iIndex] = m_pData->pBuffer[m_iRangeStart + m_iRangeLength - 1];
-			m_iRangeLength--;
+			Assert(m_iLength > iIndex, "Index out of bounds");
+			m_pBuffer[iIndex] = m_pBuffer[m_iLength - 1];
+			m_iLength--;
 		}
 
 		void ErasePreserveOrder(size_t iIndex)
 		{
-			Assert(m_iRangeLength > iIndex, "Index out of bounds");
-			for (size_t i = m_iRangeStart + iIndex; i < m_iRangeStart + m_iRangeLength - 1; ++i)
-				m_pData->pBuffer[i] = m_pData->pBuffer[i + 1];
-			m_iRangeLength--;
+			Assert(m_iLength > iIndex, "Index out of bounds");
+			for (size_t i = iIndex; i < m_iLength - 1; ++i)
+				m_pBuffer[i] = m_pBuffer[i + 1];
+			m_iLength--;
 		}
 };
 
