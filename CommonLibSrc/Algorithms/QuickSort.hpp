@@ -7,56 +7,70 @@
 namespace Common
 {
 
-template<class CType> void QuickSort(CType cFirst, CType cLast)
+template<class CRange> void QuickSortInternal(CRange cRange, size_t iStart, size_t iEnd)
 {
-	CType cLeft = cFirst;
-	CType cRight = cLast;
-	CType cPivot = (cLeft + cRight) / 2;
+	size_t iLeft = iStart;
+	size_t iRight = iEnd;
+	size_t iPivot = (iLeft + iRight) / 2;
 	/* Partition */
-	while (cLeft <= cRight)
+	while (iLeft <= iRight)
 	{
-		while (*cLeft < *cPivot)
-			cLeft++;
-		while (*cRight > *cPivot)
-			cRight--;
-		if (cLeft <= cRight)
+		while (cRange[iLeft] < cRange[iPivot] && iLeft < iEnd)
+			iLeft++;
+		while (cRange[iRight] > cRange[iPivot] && iRight > iStart)
+			iRight--;
+		if (iLeft <= iRight)
 		{
-			Swap(*cLeft, *cRight);
-			cLeft++;
-			cRight--;
+			Swap(cRange[iLeft], cRange[iRight]);
+			if (iLeft < iEnd)
+				iLeft++;
+			if (iRight > iStart)
+				iRight--;
 		}
 	}
-	/* recursion */
-	if (cFirst < cRight)
-		QuickSort(cFirst, cRight);
-	if (cLeft < cLast)
-		QuickSort(cLeft, cLast);
+	/* Recursion */
+	if (iStart < iRight)
+		QuickSortInternal(cRange, iStart, iRight);
+	if (iLeft < iEnd)
+		QuickSortInternal(cRange, iLeft, iEnd);
 }
 
-template<class CType, class CPredicate> void QuickSort(CType cFirst, CType cLast, CPredicate cPredicate)
+template<class CRange, class CPredicate> void QuickSortInternal(CRange cRange, size_t iStart, size_t iEnd, CPredicate cPredicate)
 {
-	CType cLeft = cFirst;
-	CType cRight = cLast;
-	CType cPivot = (cLeft + cRight) / 2;
+	size_t iLeft = iStart;
+	size_t iRight = iEnd;
+	size_t iPivot = (iLeft + iRight) / 2;
 	/* Partition */
-	while (cLeft <= cRight)
+	while (iLeft <= iRight)
 	{
-		while (cPredicate(*cLeft, *cPivot))
-			cLeft++;
-		while (cPredicate(*cPivot, *cRight))
-			cRight--;
-		if (cLeft <= cRight)
+		while (cRange[iLeft] < cRange[iPivot] && iLeft < iEnd)
+			iLeft++;
+		while (cRange[iRight] > cRange[iPivot] && iRight > iStart)
+			iRight--;
+		if (cPredicate(iLeft, iRight))
 		{
-			Swap(*cLeft, *cRight);
-			cLeft++;
-			cRight--;
+			Swap(cRange[iLeft], cRange[iRight]);
+			if (iLeft < iEnd)
+				iLeft++;
+			if (iRight > iStart)
+				iRight--;
 		}
 	}
-	/* recursion */
-	if (cFirst < cRight)
-		QuickSort(cFirst, cRight);
-	if (cLeft < cLast)
-		QuickSort(cLeft, cLast);
+	/* Recursion */
+	if (iStart < iRight)
+		QuickSortInternal(cRange, iStart, iRight, cPredicate);
+	if (iLeft < iEnd)
+		QuickSortInternal(cRange, iLeft, iEnd, cPredicate);
+}
+
+template<class CRange> void QuickSort(CRange cRange)
+{
+	QuickSortInternal(cRange, 0, cRange.GetLength() - 1);
+}
+
+template<class CRange, class CPredicate> void QuickSort(CRange cRange)
+{
+	QuickSortInternal(cRange, 0, cRange.GetLength() - 1, CPredicate);
 }
 
 }

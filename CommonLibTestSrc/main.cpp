@@ -23,15 +23,22 @@ int main(int argc, char **argv)
 	CVector<int> cVector2;
 
 	cVector1.PushBack(0);
-	cVector1.PushBack(1);
-	cVector1.PushBack(2);
+	cVector1.PushBack(10);
+	cVector1.PushBack(12);
 	cVector1.PushBack(3);
-	cVector1.PushBack(4);
+	cVector1.PushBack(45);
 	cVector1.PushBack(5);
+	QuickSort(cVector1.GetRange());
+	PrintVector("VEC1", cVector1);
 
 	size_t iIndex;
 	if (Find(cVector1.GetRange(), 5, iIndex))
 		cout << "Index: " << iIndex << "\n";
+
+	CVector<int>::CRange bla = cVector1.GetAppendRange();
+	bla.Put(10);
+	bla.Put(11);
+	bla.Put(12);
 
 	cVector2 = cVector1;
 	CVector<int> cVector3(cVector1.GetRange());

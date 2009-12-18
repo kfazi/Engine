@@ -21,7 +21,7 @@ class RangeTemplate
 		TType& PopBack();
 
 		/* Output ranges: */
-		void Put(TType& tValue);
+		void Put(const TType& tValue);
 
 		/* Random access ranges: */
 		TType& At(size_t iIndex);

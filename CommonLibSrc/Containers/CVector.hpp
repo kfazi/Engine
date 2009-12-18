@@ -18,17 +18,21 @@ template<class CType> class CVector
 	public:
 		class CRange
 		{
+			friend class CVector;
+
 			private:
 				size_t m_iRangeStart;
 				size_t m_iRangeLength;
 				CVector& m_cVector;
 
-			public:
-				CRange(CVector& cVector): m_cVector(cVector)
+				CRange(CVector& cVector, size_t iRangeStart, size_t iRangeLength): m_cVector(cVector)
 				{
-					m_iRangeStart = 0;
-					m_iRangeLength = cVector.GetLength();
+					m_iRangeStart = iRangeStart;
+					m_iRangeLength = iRangeLength;
 				}
+
+			public:
+				typedef CType tDataType;
 
 				bool IsEmpty() const
 				{
@@ -42,11 +46,19 @@ template<class CType> class CVector
 
 				CType& Front()
 				{
+					Assert(m_iRangeLength > 0, "Empty vector");
+					return m_cVector[m_iRangeStart];
+				}
+
+				const CType& Front() const
+				{
+					Assert(m_iRangeLength > 0, "Empty vector");
 					return m_cVector[m_iRangeStart];
 				}
 
 				CType& PopFront()
 				{
+					Assert(m_iRangeLength > 0, "Empty vector");
 					m_iRangeStart++;
 					m_iRangeLength--;
 					return m_cVector[m_iRangeStart - 1];
@@ -54,22 +66,49 @@ template<class CType> class CVector
 
 				CType& Back()
 				{
+					Assert(m_iRangeLength > 0, "Empty vector");
+					return m_cVector[m_iRangeStart + m_iRangeLength - 1];
+				}
+
+				const CType& Back() const
+				{
+					Assert(m_iRangeLength > 0, "Empty vector");
 					return m_cVector[m_iRangeStart + m_iRangeLength - 1];
 				}
 
 				CType& PopBack()
 				{
+					Assert(m_iRangeLength > 0, "Empty vector");
 					m_iRangeLength--;
 					return m_cVector[m_iRangeStart + m_iRangeLength];
 				}
 
+				void Put(const CType& tValue)
+				{
+					if (m_iRangeStart < m_cVector.GetLength())
+						m_cVector[m_iRangeStart] = tValue;
+					else
+						m_cVector.PushBack(tValue);
+					if (m_iRangeLength > 0)
+						m_iRangeLength--;
+					m_iRangeStart++;
+				}
+
 				CType& At(size_t iIndex)
 				{
+					Assert(m_iRangeStart + iIndex < m_cVector.GetLength(), "Index out of bounds");
 					return m_cVector[m_iRangeStart + iIndex];
 				}
 
 				CType& operator[] (size_t iIndex)
 				{
+					Assert(m_iRangeStart + iIndex < m_cVector.GetLength(), "Index out of bounds");
+					return m_cVector[m_iRangeStart + iIndex];
+				}
+
+				const CType& operator[] (size_t iIndex) const
+				{
+					Assert(m_iRangeStart + iIndex < m_cVector.GetLength(), "Index out of bounds");
 					return m_cVector[m_iRangeStart + iIndex];
 				}
 		};
@@ -113,7 +152,17 @@ template<class CType> class CVector
 
 		CRange GetRange()
 		{
-			return CRange(*this);
+			return CRange(*this, 0, m_iLength);
+		}
+
+		CRange GetRange(size_t iStart, size_t iLength)
+		{
+			return CRange(*this, iStart, iLength);
+		}
+
+		CRange GetAppendRange()
+		{
+			return CRange(*this, m_iLength, 0);
 		}
 
 		void Allocate(size_t iNewCapacity)
