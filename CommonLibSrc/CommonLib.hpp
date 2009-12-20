@@ -7,6 +7,8 @@
 #include "Algorithms/Find.hpp"
 #include "Algorithms/QuickSort.hpp"
 #include "Algorithms/Swap.hpp"
+#include "Containers/CSinglyLinkedList.hpp"
+#include "Containers/CHashMap.hpp"
 #include "Containers/CVector.hpp"
 #include "Errors/Assert.hpp"
 #include "Errors/CErrorStack.hpp"

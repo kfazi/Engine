@@ -4,6 +4,14 @@
 using namespace Common;
 using namespace std;
 
+void PrintList(string name, CSinglyLinkedList<int>& list)
+{
+	cout << name.c_str() << ": ";
+	for (int i = 0; i < list.GetLength(); ++i)
+		cout << list[i] << " ";
+	cout << "\n";
+}
+
 void PrintVector(string name, CVector<int>& vec)
 {
 	cout << name.c_str() << ": ";
@@ -19,8 +27,14 @@ void Modify(CVector<int>& vec)
 
 int main(int argc, char **argv)
 {
+	CSinglyLinkedList<int> cList1;
 	CVector<int> cVector1;
 	CVector<int> cVector2;
+
+	cList1.PushBack(0);
+	cList1.PushFront(1);
+	cList1.PushFront(2);
+	PrintList("LIST1", cList1);
 
 	cVector1.PushBack(0);
 	cVector1.PushBack(10);
@@ -51,6 +65,9 @@ int main(int argc, char **argv)
 	PrintVector("VEC1", cVector1);
 	PrintVector("VEC2", cVector2);
 	PrintVector("VEC3", cVector3);
+
+	CSinglyLinkedList<int> cList2(cVector3.GetRange());
+	PrintList("LIST2", cList2);
 
 	Modify(cVector2);
 	cVector1[0] = 9;

@@ -189,12 +189,12 @@ template<typename TCharType> class CStringBase: private CStringStatic
 
 		void ToUpper()
 		{
-			/* TODO: */
+			/* TODO: UnicodeData.txt */
 		}
 
 		void ToLower()
 		{
-			/* TODO: */
+			/* TODO: UnicodeData.txt (http://www.unicode.org/Public/5.2.0/)*/
 		}
 };
 

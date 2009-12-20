@@ -38,7 +38,7 @@ SET(COMMONLIB_CONTAINERS_SOURCES
 	${COMMONLIB_SRC_DIR}/Containers/CLinkedList.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CQueue.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CSet.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CSingleLinkedList.hpp
+	${COMMONLIB_SRC_DIR}/Containers/CSinglyLinkedList.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CVector.hpp
 	${COMMONLIB_SRC_DIR}/Containers/ISerializable.hpp
 )
