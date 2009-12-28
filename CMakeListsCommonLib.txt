@@ -35,11 +35,11 @@ SOURCE_GROUP("CommonLibSrc\\Algorithms" FILES ${COMMONLIB_ALGORITHMS_SOURCES})
 SET(COMMONLIB_CONTAINERS_SOURCES
 	${COMMONLIB_SRC_DIR}/Containers/CBinaryMap.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CHashMap.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CLinkedList.hpp
+	${COMMONLIB_SRC_DIR}/Containers/LinkedList.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CQueue.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CSet.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CSinglyLinkedList.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CVector.hpp
+	${COMMONLIB_SRC_DIR}/Containers/SinglyLinkedList.hpp
+	${COMMONLIB_SRC_DIR}/Containers/Vector.hpp
 	${COMMONLIB_SRC_DIR}/Containers/ISerializable.hpp
 )
 LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_CONTAINERS_SOURCES})

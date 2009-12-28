@@ -2,7 +2,7 @@
 #define COMMON_FORMAT_HPP
 
 #include "../Internal.hpp"
-#include "../Containers/CVector.hpp"
+#include "../Containers/Vector.hpp"
 #include "CString.hpp"
 
 namespace Common
