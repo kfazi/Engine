@@ -138,7 +138,11 @@ template<class Type> class SinglyLinkedList
 		void Clear()
 		{
 			while (!IsEmpty())
-				PopFront();
+			{
+				Node* node = mRoot;
+				mRoot = mRoot->next;
+				delete node;
+			}
 		}
 
 		bool IsEmpty() const

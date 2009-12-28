@@ -4,6 +4,28 @@
 using namespace Common;
 using namespace std;
 
+class Test
+{
+	public:
+		Test()
+		{
+			cout << "Constructor\n";
+		}
+		~Test()
+		{
+			cout << "Destructor\n";
+		}
+		Test(const Test&)
+		{
+			cout << "Copy constructor\n";
+		}
+		Test& operator= (const Test&)
+		{
+			cout << "Assignment operator\n";
+			return *this;
+		}
+};
+
 void PrintVector(string name, const Vector<int>& vec)
 {
 	cout << name.c_str() << ": ";
@@ -20,30 +42,28 @@ void PrintList(string name, const SinglyLinkedList<int>& list)
 	cout << "\n";
 }
 
+void Do()
+{
+	cout << "Creating vector\n";
+	Vector<Test> cVector1;
+	cout << "Creating list\n";
+	SinglyLinkedList<Test> list1;
+
+	cout << "Vector PushBack\n";
+	cVector1.PushBack(Test());
+	cout << "Vector PushBack\n";
+	cVector1.PushBack(Test());
+
+	cout << "List PushFront\n";
+	list1.PushFront(Test());
+	cout << "List PushFront\n";
+	list1.PushFront(Test());
+	cout << "Do finished\n";
+}
+
 int main(int argc, char **argv)
 {
-	Vector<int> cVector1;
-	SinglyLinkedList<int> list1;
-
-	cVector1.PushBack(0);
-	cVector1.PushBack(10);
-	cVector1.PushBack(12);
-	cVector1.PushBack(3);
-	cVector1.PushBack(45);
-	cVector1.PushBack(5);
-
-	list1.PushFront(0);
-	list1.PushFront(1);
-	list1.PushFront(2);
-	list1.PushFront(3);
-	list1.PushFront(4);
-	list1.PushFront(5);
-	list1.PushFront(6);
-
-	SinglyLinkedList<int> list2(list1);
-	PrintVector("VEC1", cVector1);
-	PrintList("LIST1", list1);
-	PrintList("LIST2", list2);
+	Do();
 
 	int dummy;
 	cin >> dummy;

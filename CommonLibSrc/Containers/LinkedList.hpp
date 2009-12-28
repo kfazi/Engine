@@ -15,9 +15,11 @@ template<class Type> class LinkedList
 			Node(const Type& data): data(data)
 			{
 				next = NULL;
+				previous = NULL;
 			}
 
 			Type data;
+			Node* previous;
 			Node* next;
 		};
 
@@ -48,6 +50,18 @@ template<class Type> class LinkedList
 				IteratorBase& operator++ (int)
 				{
 					mNode = mNode->next;
+					return *this;
+				}
+
+				IteratorBase& operator-- ()
+				{
+					mNode = mNode->previous;
+					return *this;
+				}
+
+				IteratorBase& operator-- (int)
+				{
+					mNode = mNode->previous;
 					return *this;
 				}
 

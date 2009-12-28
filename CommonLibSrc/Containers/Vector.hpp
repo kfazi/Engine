@@ -7,7 +7,7 @@
  * This is equivalent of std::vector.
  * Two main differences are:
  * - Erase() doesn't preserve order, if you want to preserve order use ErasePreserveOrder().
- * - For most algorithms one should use ranges (through GetRange()) instead of iterators.
+ * - For most algorithms you should use ranges (through GetRange()) instead of iterators.
  */
 
 #ifndef COMMON_VECTOR_HPP
@@ -40,7 +40,8 @@ template<class Type> class Vector
 
 		Vector(size_t capacity)
 		{
-			mBegin = new Type[capacity];
+			mBegin = reinterpret_cast<Type *>(new char[capacity * sizeof(Type)]);
+			Assert(mBegin != NULL, "Allocation failed");
 			mEnd = mBegin;
 			mCapacity = capacity;
 		}
@@ -55,7 +56,8 @@ template<class Type> class Vector
 
 		~Vector()
 		{
-			delete [] mBegin;
+			Clear();
+			delete [] reinterpret_cast<char *>(mBegin);
 		}
 
 		MyType& operator= (const MyType& vector)
@@ -104,9 +106,10 @@ template<class Type> class Vector
 		{
 			if (mCapacity >= capacity)
 				return;
-			Type* pBuffer = new Type[capacity];
-			Copy(mBegin, mBegin + mCapacity, pBuffer);
-			delete [] mBegin;
+			Type* pBuffer = reinterpret_cast<Type *>(new char[capacity * sizeof(Type)]);
+			Assert(pBuffer != NULL, "Allocation failed");
+			Copy(reinterpret_cast<char *>(mBegin), reinterpret_cast<char *>(mBegin) + mCapacity * sizeof(Type), reinterpret_cast<char *>(pBuffer));
+			delete [] reinterpret_cast<char *>(mBegin);
 			mEnd = pBuffer + (mEnd - mBegin);
 			mBegin = pBuffer;
 			mCapacity = capacity;
@@ -124,6 +127,8 @@ template<class Type> class Vector
 
 		void Clear()
 		{
+			for (ConstIterator i = Begin(); i != End(); ++i)
+				(*i).~Type();
 			mEnd = mBegin;
 		}
 
@@ -154,20 +159,23 @@ template<class Type> class Vector
 		{
 			if (mEnd >= mCapacity + mBegin)
 				Allocate(mEnd - mBegin + mCapacity / 2 + 1);
-			*mEnd = data;
+			new(mEnd) Type(data);
 			mEnd++;
 		}
 
-		Reference PopBack()
+		Type PopBack()
 		{
 			Assert(mEnd > mBegin, "Empty vector");
 			mEnd--;
-			return *mEnd;
+			Type result(*mEnd);
+			(*mEnd).~Type();
+			return result;
 		}
 
 		void Erase(size_t index)
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
+			mBegin[index].~Type();
 			mBegin[index] = *(mEnd - 1);
 			mEnd--;
 		}
@@ -175,6 +183,7 @@ template<class Type> class Vector
 		void ErasePreserveOrder(size_t index)
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
+			mBegin[index].~Type();
 			for (Iterator i = mBegin + index; i != mEnd - 1; ++i)
 				*i = *(i + 1);
 			mEnd--;
