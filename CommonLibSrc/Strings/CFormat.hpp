@@ -18,7 +18,7 @@ class CFormat
 		};
 		const CString& m_cUnformattedBuffer;
 		CString* m_pBuffer;
-		CVector<SData>* m_pFormatData;
+		Vector<SData>* m_pFormatData;
 		unsigned int m_iCurrentIndex;
 		unsigned int m_iMaxIndex;
 

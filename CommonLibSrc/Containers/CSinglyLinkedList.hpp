@@ -7,95 +7,132 @@
 namespace Common
 {
 
-template<class CType> class CSinglyLinkedList
+template<class Type> class SinglyLinkedList
 {
 	private:
-		typedef CSinglyLinkedList<CType> TMyType;
-		struct SNode
+		struct Node
 		{
-			CType cData;
-			SNode* pNext;
-
-			SNode(const CType& cData): cData(cData)
+			Node(const Type& data): data(data)
 			{
-				pNext = NULL;
+				next = NULL;
 			}
+
+			Type data;
+			Node* next;
 		};
-		SNode* m_pRoot;
-		SNode* m_pTail;
-		size_t m_iLength;
 
-	public:
-		class CRange
+		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase
 		{
-			friend class CSinglyLinkedList;
-
-			private:
-				CSinglyLinkedList& m_cList;
-
-				CRange(CSinglyLinkedList& cList, size_t iRangeStart, size_t iRangeLength): m_cList(cList)
-				{
-				}
+			friend class IteratorBase<NonConstType, NonConstType, ConstType>;
+			friend class IteratorBase<ConstType, NonConstType, ConstType>;
 
 			public:
-				CType& PopFront()
+				explicit IteratorBase(Node* node) : mNode(node)
 				{
-					return m_cList[0];
 				}
 
-				bool IsEmpty() const
+				IteratorBase() : mNode(NULL)
 				{
-					return true;
 				}
+
+				IteratorBase(const IteratorBase<NonConstType, NonConstType, ConstType>& iterator) : mNode(iterator.mNode)
+				{
+				}
+
+				IteratorBase& operator++ ()
+				{
+					mNode = mNode->next;
+					return *this;
+				}
+
+				IteratorBase& operator++ (int)
+				{
+					mNode = mNode->next;
+					return *this;
+				}
+
+				bool operator== (const IteratorBase<ConstType, NonConstType, ConstType>& iterator) const
+				{
+					return mNode == iterator.mNode;
+				}
+
+				bool operator!= (const IteratorBase<ConstType, NonConstType, ConstType>& iterator) const
+				{
+					return mNode != iterator.mNode;
+				}
+
+				Type& operator* () const
+				{
+					return mNode->data;
+				}
+
+			private:
+				Node* mNode;
 		};
 
-		CSinglyLinkedList()
+	public:
+		typedef SinglyLinkedList<Type> MyType;
+		typedef const Type& ConstReference;
+		typedef Type& Reference;
+		typedef const Type* ConstPointer;
+		typedef Type* Pointer;
+		typedef IteratorBase<const Type, Type, const Type> ConstIterator;
+		typedef IteratorBase<Type, Type, const Type> Iterator;
+
+		SinglyLinkedList()
 		{
-			m_pRoot = NULL;
-			m_pTail = NULL;
-			m_iLength = 0;
+			mRoot = NULL;
 		}
 
-		CSinglyLinkedList(const CSinglyLinkedList& cList)
+		SinglyLinkedList(const SinglyLinkedList& list)
 		{
-			m_pRoot = NULL;
-			m_pTail = NULL;
-			m_iLength = 0;
-			*this = cList;
+			mRoot = NULL;
+			*this = list;
 		}
 
-		template<class CRange2> CSinglyLinkedList(CRange2& cRange)
-		{
-			m_pRoot = NULL;
-			m_pTail = NULL;
-			m_iLength = 0;
-			while (!cRange.IsEmpty())
-				PushBack(cRange.PopFront());
-		}
-
-		~CSinglyLinkedList()
+		~SinglyLinkedList()
 		{
 			Clear();
 		}
 
-		CRange GetRange()
+		MyType& operator= (const MyType& list)
 		{
-			return CRange(*this, 0, m_iLength);
+			Clear();
+			Node* node = NULL;
+			for (ConstIterator i = list.Begin(); i != list.End(); ++i)
+			{
+				if (node == NULL)
+				{
+					mRoot = new Node(*i);
+					node = mRoot;
+				}
+				else
+				{
+					node->next = new Node(*i);
+					node = node->next;
+				}
+			}
+			return *this;
 		}
 
-		CRange GetRange(size_t iStart, size_t iLength)
+		Iterator Begin()
 		{
-			return CRange(*this, iStart, iLength);
+			return Iterator(mRoot);
 		}
 
-		CRange GetAppendRange()
+		ConstIterator Begin() const
 		{
-			return CRange(*this, m_iLength, 0);
+			return ConstIterator(mRoot);
 		}
 
-		size_t GetLength() const
+		Iterator End()
 		{
-			return m_iLength;
+			return Iterator();
+		}
+
+		ConstIterator End() const
+		{
+			return ConstIterator();
 		}
 
 		void Clear()
@@ -106,139 +143,39 @@ template<class CType> class CSinglyLinkedList
 
 		bool IsEmpty() const
 		{
-			return m_iLength == 0;
+			return mRoot == NULL;
 		}
 
-		CType& Front()
+		Type& Front()
 		{
 			Assert(!IsEmpty(), "Empty list");
-			return m_pRoot->cData;
+			return mRoot->data;
 		}
 
-		template<class CRange2> TMyType& operator= (CRange2& cRange)
+		void PushFront(const Type& data)
 		{
-			Assert(false, "NO KURWA JAK :?");
-			Clear();
-			while (!cRange.IsEmpty())
-				PushBack(cRange.PopFront());
-			return *this;
-		}
-
-//		TMyType& operator= (const TMyType& cList)
-//		{
-//			Clear();
-//			CRange cRange = cList.GetRange(0, m_iLength);
-//			while (!cRange.IsEmpty())
-//				PushBack(cRange.PopFront());
-//			return *this;
-//		}
-
-		CType& operator[] (size_t iIndex)
-		{
-			Assert(m_iLength > iIndex, "Index out of bounds");
-			SNode* pNode = m_pRoot;
-			for (int i = 0; i < iIndex; ++i)
-				pNode = pNode->pNext;
-			return pNode->cData;
-		}
-
-		const CType& operator[] (size_t iIndex) const
-		{
-			Assert(m_iLength > iIndex, "Index out of bounds");
-			SNode* pNode = m_pRoot;
-			for (int i = 0; i < iIndex; ++i)
-				pNode = pNode->pNext;
-			return pNode->cData;
-		}
-
-		CType& At(size_t iIndex) const
-		{
-			Assert(m_iLength > iIndex, "Index out of bounds");
-			SNode* pNode = m_pRoot;
-			for (int i = 0; i < iIndex; ++i)
-				pNode = pNode->pNext;
-			return pNode->cData;
-		}
-
-		void PushBack(const CType& cType)
-		{
-			if (m_pTail == NULL)
-			{
-				m_pTail = new SNode(cType);
-				m_pRoot = m_pTail;
-			}
+			if (mRoot == NULL)
+				mRoot = new Node(data);
 			else
 			{
-				m_pTail->pNext = new SNode(cType);
-				m_pTail = m_pTail->pNext;
+				Node* new_root = new Node(data);
+				new_root->next = mRoot;
+				mRoot = new_root;
 			}
-			m_iLength++;
 		}
 
-		void PushFront(const CType& cType)
-		{
-			if (m_pRoot == NULL)
-			{
-				m_pRoot = new SNode(cType);
-				m_pTail = m_pRoot;
-			}
-			else
-			{
-				SNode* pNewRoot = new SNode(cType);
-				pNewRoot->pNext = m_pRoot;
-				m_pRoot = pNewRoot;
-			}
-			m_iLength++;
-		}
-
-		CType PopFront()
+		Type PopFront()
 		{
 			Assert(!IsEmpty(), "Empty list");
-			SNode* pNode = m_pRoot;
-			CType cResult = m_pRoot->cData;
-			if (m_pRoot == m_pTail)
-				m_pTail = m_pRoot->pNext;
-			m_pRoot = m_pRoot->pNext;
-			m_iLength--;
-			delete pNode;
-			return cResult;
+			Node* node = mRoot;
+			Type result = mRoot->data;
+			mRoot = mRoot->next;
+			delete node;
+			return result;
 		}
 
-		CType PopBack()
-		{
-			Assert(!IsEmpty(), "Empty list");
-			m_iLength--;
-			switch (m_iLength)
-			{
-				case 0:
-					{
-						CType cResult = m_pRoot->cData;
-						delete m_pRoot;
-						m_pRoot = NULL;
-						m_pTail = NULL;
-						return cResult;
-					}
-				case 1:
-					{
-						CType cResult = m_pRoot->pNext->cData;
-						delete m_pRoot->pNext;
-						m_pRoot->pNext = NULL;
-						m_pTail = m_pRoot;
-						return cResult;
-					}
-				default:
-					{
-						SNode* pNode = m_pRoot;
-						for (int i = 0; i < m_iLength - 1; ++i)
-							pNode = pNode->pNext;
-						CType cResult = pNode->pNext->cData;
-						delete pNode->pNext;
-						pNode->pNext = NULL;
-						m_pTail = pNode;
-						return cResult;
-					}
-			}
-		}
+	private:
+		Node* mRoot;
 };
 
 }
