@@ -24,7 +24,7 @@
 
 #include "Memory/new.hpp"
 #include "Errors/Assert.hpp"
-#include "Memory/CDefaultAllocator.hpp"
+#include "Memory/DefaultAllocator.hpp"
 
 #endif /* COMMON_INTERNAL_HPP */
 

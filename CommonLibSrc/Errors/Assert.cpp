@@ -3,18 +3,23 @@
 #include "Assert.hpp"
 #undef NDEBUG
 #include <cassert>
+#include <cstdio>
 
 namespace Common
 {
 
-void Assert(bool bExpression, const char*)
+void Assert(bool expression, const char* reason)
 {
-	assert(bExpression);
+	if (!expression)
+		printf("%s\n", reason);
+	assert(expression);
 }
 
-void AssertAlwaysExecute(bool bExpression, const char*)
+void AssertAlwaysExecute(bool expression, const char* reason)
 {
-	assert(bExpression);
+	if (!expression)
+		printf("%s\n", reason);
+	assert(expression);
 }
 
 

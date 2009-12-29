@@ -4,6 +4,9 @@
 #include "../Internal.hpp"
 #include "new.hpp"
 
+namespace Common
+{
+
 template<typename Type> class DefaultAllocator
 {
 	public:
@@ -12,26 +15,33 @@ template<typename Type> class DefaultAllocator
 		typedef Type& Reference;
 		typedef const Type& ConstReference;
 
-		Pointer Allocate(size_t amount)
+		template<typename NewType> struct Rebind
 		{
-			return ::operator new(amount * sizeof(Type));
+			typedef DefaultAllocator<NewType> Other;
+		};
+
+		static Pointer Allocate(size_t amount)
+		{
+			return static_cast<Pointer>(::operator new(amount * sizeof(Type)));
 		}
 
-		void Deallocate(Pointer address)
+		static void Deallocate(Pointer address)
 		{
-			::operator delete address;
+			::operator delete(address);
 		}
 
-		void Construct(Pointer address, ConstReference data)
+		static void Construct(Pointer address, ConstReference data)
 		{ 
 			new(address) Type(data); 
 		}
 
-		void Destroy(Pointer address)
+		static void Destroy(ConstPointer address)
 		{
 			address->~Type();
 		}
 };
+
+}
 
 #endif /* COMMON_DEFAULT_ALLOCATOR_HPP */
 

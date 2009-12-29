@@ -49,6 +49,7 @@ void PrintList(string name, const SinglyLinkedList<int>& list)
 
 void Do()
 {
+	cout << "Sizeof(DefaultAllocator<Test>) = " << sizeof(DefaultAllocator<Test>) << "\n";
 	cout << "Creating vector\n";
 	Vector<Test> cVector1;
 	cout << "Creating list\n";

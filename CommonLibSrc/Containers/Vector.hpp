@@ -15,11 +15,12 @@
 
 #include "../Internal.hpp"
 #include "../Algorithms/Copy.hpp"
+#include "../Iterators/IteratorTags.hpp"
 
 namespace Common
 {
 
-template<class Type> class Vector
+template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 {
 	public:
 		/* Typedefs. */
@@ -31,33 +32,25 @@ template<class Type> class Vector
 		typedef const Type* ConstPointer;
 		typedef Type* Pointer;
 
-		Vector()
+		Vector(): mBegin(NULL), mEnd(NULL), mCapacity(0)
 		{
-			mBegin = NULL;
-			mEnd = NULL;
-			mCapacity = 0;
 		}
 
-		Vector(size_t capacity)
+		Vector(size_t capacity): mBegin(mAllocator.Allocate(capacity)), mCapacity(capacity)
 		{
-			mBegin = reinterpret_cast<Type *>(new char[capacity * sizeof(Type)]);
 			Assert(mBegin != NULL, "Allocation failed");
 			mEnd = mBegin;
-			mCapacity = capacity;
 		}
 
-		Vector(const Vector& vector)
+		Vector(const Vector& vector): mBegin(NULL), mEnd(NULL), mCapacity(0)
 		{
-			mBegin = NULL;
-			mEnd = NULL;
-			mCapacity = 0;
 			*this = vector;
 		}
 
 		~Vector()
 		{
 			Clear();
-			delete [] reinterpret_cast<char *>(mBegin);
+			mAllocator.Deallocate(mBegin);
 		}
 
 		MyType& operator= (const MyType& vector)
@@ -106,10 +99,10 @@ template<class Type> class Vector
 		{
 			if (mCapacity >= capacity)
 				return;
-			Type* pBuffer = reinterpret_cast<Type *>(new char[capacity * sizeof(Type)]);
+			Type* pBuffer = mAllocator.Allocate(capacity);
 			Assert(pBuffer != NULL, "Allocation failed");
 			Copy(reinterpret_cast<char *>(mBegin), reinterpret_cast<char *>(mBegin) + mCapacity * sizeof(Type), reinterpret_cast<char *>(pBuffer));
-			delete [] reinterpret_cast<char *>(mBegin);
+			mAllocator.Deallocate(mBegin);
 			mEnd = pBuffer + (mEnd - mBegin);
 			mBegin = pBuffer;
 			mCapacity = capacity;
@@ -128,7 +121,7 @@ template<class Type> class Vector
 		void Clear()
 		{
 			for (ConstIterator i = Begin(); i != End(); ++i)
-				(*i).~Type();
+				mAllocator.Destroy(&(*i));
 			mEnd = mBegin;
 		}
 
@@ -159,7 +152,7 @@ template<class Type> class Vector
 		{
 			if (mEnd >= mCapacity + mBegin)
 				Allocate(mEnd - mBegin + mCapacity / 2 + 1);
-			AssertAlwaysExecute(new(mEnd) Type(data) != NULL, "Allocation failed");
+			mAllocator.Construct(mEnd, data);
 			mEnd++;
 		}
 
@@ -168,14 +161,14 @@ template<class Type> class Vector
 			Assert(mEnd > mBegin, "Empty vector");
 			mEnd--;
 			Type result(*mEnd);
-			(*mEnd).~Type();
+			mAllocator.Destroy(mEnd);
 			return result;
 		}
 
 		void Erase(size_t index)
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
-			mBegin[index].~Type();
+			mAllocator.Destroy(mBegin + index);
 			mBegin[index] = *(mEnd - 1);
 			mEnd--;
 		}
@@ -183,7 +176,7 @@ template<class Type> class Vector
 		void ErasePreserveOrder(size_t index)
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
-			mBegin[index].~Type();
+			mAllocator.Destroy(mBegin + index);
 			for (Iterator i = mBegin + index; i != mEnd - 1; ++i)
 				*i = *(i + 1);
 			mEnd--;
@@ -194,6 +187,7 @@ template<class Type> class Vector
 		Type* mBegin;
 		Type* mEnd;
 		size_t mCapacity;
+		Allocator mAllocator;
 };
 
 }

@@ -1,13 +1,22 @@
+/**
+ * A singly linked list class.
+ *
+ * #include "SinglyLinkedList.hpp"
+ * -lcommonlib
+ *
+ * This is implementation of a singly linked list container.
+ */
+
 #ifndef COMMON_SINGLY_LINKED_LIST_HPP
 #define COMMON_SINGLY_LINKED_LIST_HPP
 
 #include "../Internal.hpp"
-#include "../Algorithms/Copy.hpp"
+#include "../Iterators/IteratorTags.hpp"
 
 namespace Common
 {
 
-template<class Type> class SinglyLinkedList
+template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLinkedList
 {
 	private:
 		struct Node
@@ -20,7 +29,7 @@ template<class Type> class SinglyLinkedList
 			Node* next;
 		};
 
-		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase
+		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase : public ForwardIteratorTag
 		{
 			friend class IteratorBase<NonConstType, NonConstType, ConstType>;
 			friend class IteratorBase<ConstType, NonConstType, ConstType>;
@@ -70,7 +79,7 @@ template<class Type> class SinglyLinkedList
 		};
 
 	public:
-		typedef SinglyLinkedList<Type> MyType;
+		typedef SinglyLinkedList<Type, Allocator> MyType;
 		typedef const Type& ConstReference;
 		typedef Type& Reference;
 		typedef const Type* ConstPointer;
@@ -102,14 +111,16 @@ template<class Type> class SinglyLinkedList
 			{
 				if (node != NULL)
 				{
-					node->next = new Node(*i);
+					node->next = mNodeAllocator.Allocate(1);
 					Assert(node->next != NULL, "Allocation failed");
+					mNodeAllocator.Construct(node->next, *i);
 					node = node->next;
 				}
 				else
 				{
-					mRoot = new Node(*i);
+					mRoot = mNodeAllocator.Allocate(1);
 					Assert(mRoot != NULL, "Allocation failed");
+					mNodeAllocator.Construct(mRoot, *i);
 					node = mRoot;
 				}
 			}
@@ -142,7 +153,8 @@ template<class Type> class SinglyLinkedList
 			{
 				Node* node = mRoot;
 				mRoot = mRoot->next;
-				delete node;
+				mNodeAllocator.Destroy(node);
+				mNodeAllocator.Deallocate(node);
 			}
 		}
 
@@ -161,13 +173,18 @@ template<class Type> class SinglyLinkedList
 		{
 			if (mRoot != NULL)
 			{
-				Node* new_root = new Node(data);
+				Node* new_root = mNodeAllocator.Allocate(1);
 				Assert(new_root != NULL, "Allocation failed");
+				mNodeAllocator.Construct(new_root, Node(data));
 				new_root->next = mRoot;
 				mRoot = new_root;
 			}
 			else
-				mRoot = new Node(data);
+			{
+				mRoot = mNodeAllocator.Allocate(1);
+				Assert(mRoot != NULL, "Allocation failed");
+				mNodeAllocator.Construct(mRoot, Node(data));
+			}
 		}
 
 		Type PopFront()
@@ -176,12 +193,14 @@ template<class Type> class SinglyLinkedList
 			Node* node = mRoot;
 			Type result = mRoot->data;
 			mRoot = mRoot->next;
-			delete node;
+			mNodeAllocator.Destroy(node);
+			mNodeAllocator.Deallocate(node);
 			return result;
 		}
 
 	private:
 		Node* mRoot;
+		typename Allocator::Rebind<Node>::Other mNodeAllocator;
 };
 
 }

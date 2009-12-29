@@ -8,25 +8,25 @@ namespace Common
 
 /* Run-time assert */
 #ifdef _DEBUG
-void COMMONDLLIMPORTEXPORT Assert(bool bExpression, const char* pReason);
-void COMMONDLLIMPORTEXPORT AssertAlwaysExecute(bool bExpression, const char* pReason);
+void COMMONDLLIMPORTEXPORT Assert(bool expression, const char* reason);
+void COMMONDLLIMPORTEXPORT AssertAlwaysExecute(bool expression, const char* reason);
 #else
-#define Assert(bExpression, pReason) ((void)0)
-#define AssertAlwaysExecute(bExpression, pReason) (bExpression)
+#define Assert(expression, reason) ((void)0)
+#define AssertAlwaysExecute(expression, reason) (expression)
 #endif /* _DEBUG */
 
 /* Compile-time assert */
 namespace StaticCheck
 {
 
-template<bool> struct SCheck
+template<bool> struct Check
 {
-	inline SCheck()
+	inline Check()
 	{
 	}
 };
 
-template<> struct SCheck<false>;
+template<> struct Check<false>;
 
 }
 
@@ -36,9 +36,9 @@ template<> struct SCheck<false>;
 #define STATIC_ASSERT_JOIN(x, y) STATIC_ASSERT_JOIN_AGAIN(x, y)
 #define STATIC_ASSERT_JOIN_AGAIN(x, y) x ## y
 
-#define StaticAssert(bExpression, Reason) \
-	StaticCheck::SCheck<(bExpression != 0)> \
-	STATIC_ASSERT_JOIN(STATIC_ASSERT_JOIN(ERROR__, __LINE__), STATIC_ASSERT_JOIN(__, Reason))
+#define StaticAssert(expression, reason) \
+	StaticCheck::SCheck<(expression != 0)> \
+	STATIC_ASSERT_JOIN(STATIC_ASSERT_JOIN(ERROR__, __LINE__), STATIC_ASSERT_JOIN(__, reason))
 
 }
 
