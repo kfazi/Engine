@@ -7,21 +7,26 @@ using namespace std;
 class Test
 {
 	public:
+		int mSomeData;
 		Test()
 		{
 			cout << "Constructor\n";
+			mSomeData = 10;
 		}
 		~Test()
 		{
 			cout << "Destructor\n";
+			mSomeData = 11;
 		}
 		Test(const Test&)
 		{
 			cout << "Copy constructor\n";
+			mSomeData = 12;
 		}
 		Test& operator= (const Test&)
 		{
 			cout << "Assignment operator\n";
+			mSomeData = 13;
 			return *this;
 		}
 };

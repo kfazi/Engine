@@ -12,9 +12,8 @@ template<class Type> class SinglyLinkedList
 	private:
 		struct Node
 		{
-			Node(const Type& data): data(data)
+			Node(const Type& data) : data(data), next(NULL)
 			{
-				next = NULL;
 			}
 
 			Type data;
@@ -101,15 +100,17 @@ template<class Type> class SinglyLinkedList
 			Node* node = NULL;
 			for (ConstIterator i = list.Begin(); i != list.End(); ++i)
 			{
-				if (node == NULL)
+				if (node != NULL)
 				{
-					mRoot = new Node(*i);
-					node = mRoot;
+					node->next = new Node(*i);
+					Assert(node->next != NULL, "Allocation failed");
+					node = node->next;
 				}
 				else
 				{
-					node->next = new Node(*i);
-					node = node->next;
+					mRoot = new Node(*i);
+					Assert(mRoot != NULL, "Allocation failed");
+					node = mRoot;
 				}
 			}
 			return *this;
@@ -158,14 +159,15 @@ template<class Type> class SinglyLinkedList
 
 		void PushFront(const Type& data)
 		{
-			if (mRoot == NULL)
-				mRoot = new Node(data);
-			else
+			if (mRoot != NULL)
 			{
 				Node* new_root = new Node(data);
+				Assert(new_root != NULL, "Allocation failed");
 				new_root->next = mRoot;
 				mRoot = new_root;
 			}
+			else
+				mRoot = new Node(data);
 		}
 
 		Type PopFront()

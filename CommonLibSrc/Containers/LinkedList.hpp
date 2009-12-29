@@ -12,10 +12,8 @@ template<class Type> class LinkedList
 	private:
 		struct Node
 		{
-			Node(const Type& data): data(data)
+			Node(const Type& data): data(data), previous(NULL), next(NULL)
 			{
-				next = NULL;
-				previous = NULL;
 			}
 
 			Type data;

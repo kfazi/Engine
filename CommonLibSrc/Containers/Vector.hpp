@@ -159,7 +159,7 @@ template<class Type> class Vector
 		{
 			if (mEnd >= mCapacity + mBegin)
 				Allocate(mEnd - mBegin + mCapacity / 2 + 1);
-			new(mEnd) Type(data);
+			AssertAlwaysExecute(new(mEnd) Type(data) != NULL, "Allocation failed");
 			mEnd++;
 		}
 
