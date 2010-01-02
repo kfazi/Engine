@@ -9,94 +9,121 @@ namespace Common
 template<class Iterator> class ReverseIterator
 {
 	public:
+		typedef ReverseIterator<Iterator> MyType;
+		typedef typename Iterator::ValueType ValueType;
+		typedef typename Iterator::Pointer Pointer;
+		typedef typename Iterator::Reference Reference;
+
 		ReverseIterator()
 		{
 		}
 
-		explicit ReverseIterator(iterator_type __x) : current(__x)
+		explicit ReverseIterator(Iterator iterator) : mBaseIterator(iterator)
 		{
 		}
 
-		ReverseIterator(const _Self& __x) : current(__x.current)
+		ReverseIterator(const MyType& iterator) : mBaseIterator(iterator.mBaseIterator)
 		{
 		}
 
-		_Self& operator= (const _Self& __x)
+		MyType& operator= (const MyType& iterator)
 		{
-			current = __x.base();
-			return *this;
-		}
-#  if defined (_STLP_MEMBER_TEMPLATES)
-		template <class _Iter>
-		reverse_iterator(const reverse_iterator<_Iter>& __x) : current(__x.base()) {}
-		template <class _Iter>
-		_Self& operator = (const reverse_iterator<_Iter>& __x) { current = __x.base(); return *this; }
-#  endif /* _STLP_MEMBER_TEMPLATES */
-
-		iterator_type base() const
-		{
-			return current;
-		}
-
-		reference operator* () const
-		{
-			_Iterator __tmp = current;
-			return *--__tmp;
-		}
-
-		_STLP_DEFINE_ARROW_OPERATOR
-			_Self& operator++ ()
-		{
-				--current;
-				return *this;
-		}
-
-		_Self operator++ (int)
-		{
-			_Self __tmp = *this;
-			--current;
-			return __tmp;
-		}
-
-		_Self& operator-- ()
-		{
-			++current;
+			mBaseIterator = iterator.Base();
 			return *this;
 		}
 
-		_Self operator--(int)
+		template <class ConstIterator> ReverseIterator(const ReverseIterator<ConstIterator>& iterator) : mBaseIterator(iterator.Base())
 		{
-			_Self __tmp = *this;
-			++current;
-			return __tmp;
 		}
 
-		_Self operator+ (difference_type __n) const
+		template <class ConstIterator> MyType& operator= (const ReverseIterator<ConstIterator>& iterator)
 		{
-			return _Self(current - __n);
-		}
-
-		_Self& operator+= (difference_type __n)
-		{
-			current -= __n;
+			mBaseIterator = iterator.Base();
 			return *this;
 		}
 
-		_Self operator- (difference_type __n) const
+		Iterator Base() const
 		{
-			return _Self(current + __n);
+			return mBaseIterator;
 		}
 
-		_Self& operator-= (difference_type __n)
+		template <class ConstIterator> bool operator== (const ReverseIterator<ConstIterator>& iterator) const
 		{
-			current += __n;
+			return mBaseIterator == iterator.Base();
+		}
+
+		template <class ConstIterator> bool operator!= (const ReverseIterator<ConstIterator>& iterator) const
+		{
+			return mBaseIterator != iterator.Base();
+		}
+
+		Reference operator* () const
+		{
+			Iterator iterator = mBaseIterator;
+			return *--iterator;
+		}
+
+		Pointer operator-> () const
+		{
+			return &(operator*());
+		}
+
+		MyType& operator++ ()
+		{
+			--mBaseIterator;
 			return *this;
 		}
 
-		reference operator[] (difference_type __n) const
+		MyType operator++ (int)
 		{
-			return *(*this + __n);
+			MyType iterator = *this;
+			--mBaseIterator;
+			return iterator;
 		}
+
+		MyType& operator-- ()
+		{
+			++mBaseIterator;
+			return *this;
+		}
+
+		MyType operator-- (int)
+		{
+			MyType iterator = *this;
+			++mBaseIterator;
+			return iterator;
+		}
+
+		MyType operator+ (ptrdiff_t amount) const
+		{
+			return MyType(mBaseIterator - amount);
+		}
+
+		MyType& operator+= (ptrdiff_t amount)
+		{
+			mBaseIterator -= amount;
+			return *this;
+		}
+
+		MyType operator- (ptrdiff_t amount) const
+		{
+			return MyType(mBaseIterator + amount);
+		}
+
+		MyType& operator-= (ptrdiff_t amount)
+		{
+			mBaseIterator += amount;
+			return *this;
+		}
+
+		Reference operator[] (ptrdiff_t index) const
+		{
+			return *(*this + index);
+		}
+
+	private:
+		Iterator mBaseIterator;
+		typedef ReverseIterator<Iterator> MyType;
 };
 
 }

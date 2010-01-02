@@ -6,8 +6,16 @@
 namespace Common
 {
 
-struct IteratorTag
+template<typename ValueType, typename Pointer, typename Reference> struct IteratorTag
 {
+	typedef ValueType ValueType;
+	typedef Pointer Pointer;
+	typedef Reference Reference;
+/*	typename iterator_traits<_Iterator>::iterator_category,
+	typename iterator_traits<_Iterator>::value_type,
+	typename iterator_traits<_Iterator>::difference_type,
+	typename iterator_traits<_Iterator>::pointer,
+	typename iterator_traits<_Iterator>::reference*/
 	/**
 	 * Any iterator.
 	 * - Can be copied and copy-constructed.
@@ -15,7 +23,7 @@ struct IteratorTag
 	 */
 };
 
-struct InputIteratorTag : IteratorTag
+template<typename ValueType, typename Pointer, typename Reference> struct InputIteratorTag : IteratorTag<ValueType, Pointer, Reference>
 {
 	/**
 	 * - Accepts equality/inequality comparisons.
@@ -23,28 +31,28 @@ struct InputIteratorTag : IteratorTag
 	 */
 };
 
-struct OutputIteratorTag : IteratorTag
+template<typename ValueType, typename Pointer, typename Reference> struct OutputIteratorTag : IteratorTag<ValueType, Pointer, Reference>
 {
 	/**
 	 * - Can be dereferenced to be the left side of an assignment operation.
 	 */
 };
 
-struct ForwardIteratorTag : InputIteratorTag, OutputIteratorTag
+template<typename ValueType, typename Pointer, typename Reference> struct ForwardIteratorTag : InputIteratorTag<ValueType, Pointer, Reference>
 {
 	/**
 	 * - Can be default-constructed.
 	 */
 };
 
-struct BidirectionalIteratorTag : ForwardIteratorTag
+template<typename ValueType, typename Pointer, typename Reference> struct BidirectionalIteratorTag : ForwardIteratorTag<ValueType, Pointer, Reference>
 {
 	/**
 	 * - Can be decremented.
 	 */
 };
 
-struct RandomAccessIteratorTag : BidirectionalIteratorTag
+template<typename ValueType, typename Pointer, typename Reference> struct RandomAccessIteratorTag : BidirectionalIteratorTag<ValueType, Pointer, Reference>
 {
 	/**
 	 * - Supports arithmetic operators + and -.

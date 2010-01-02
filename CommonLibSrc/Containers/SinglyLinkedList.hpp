@@ -18,6 +18,13 @@ namespace Common
 
 template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLinkedList
 {
+	public:
+		typedef SinglyLinkedList<Type, Allocator> MyType;
+		typedef const Type& ConstReference;
+		typedef Type& Reference;
+		typedef const Type* ConstPointer;
+		typedef Type* Pointer;
+
 	private:
 		struct Node
 		{
@@ -29,12 +36,14 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 			Node* next;
 		};
 
-		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase : public ForwardIteratorTag
+		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase : public ForwardIteratorTag<Type, Type*, Type&>
 		{
 			friend class IteratorBase<NonConstType, NonConstType, ConstType>;
 			friend class IteratorBase<ConstType, NonConstType, ConstType>;
 
 			public:
+				typedef Type& Reference;
+
 				explicit IteratorBase(Node* node) : mNode(node)
 				{
 				}
@@ -55,8 +64,9 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 
 				IteratorBase& operator++ (int)
 				{
+					IteratorBase<Type, NonConstType, ConstType> iterator = *this;
 					mNode = mNode->next;
-					return *this;
+					return iterator;
 				}
 
 				bool operator== (const IteratorBase<ConstType, NonConstType, ConstType>& iterator) const
@@ -69,9 +79,14 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 					return mNode != iterator.mNode;
 				}
 
-				Type& operator* () const
+				Reference operator* () const
 				{
 					return mNode->data;
+				}
+
+				Pointer operator-> () const
+				{
+					return &(operator*());
 				}
 
 			private:
@@ -79,11 +94,6 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 		};
 
 	public:
-		typedef SinglyLinkedList<Type, Allocator> MyType;
-		typedef const Type& ConstReference;
-		typedef Type& Reference;
-		typedef const Type* ConstPointer;
-		typedef Type* Pointer;
 		typedef IteratorBase<const Type, Type, const Type> ConstIterator;
 		typedef IteratorBase<Type, Type, const Type> Iterator;
 

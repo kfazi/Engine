@@ -31,11 +31,12 @@ class Test
 		}
 };
 
-void PrintVector(string name, const Vector<int>& vec)
+void PrintVector(string name, const Vector<Test>& vec)
 {
 	cout << name.c_str() << ": ";
-	for (Vector<int>::ConstIterator i = vec.Begin(); i != vec.End(); ++i)
-		cout << *i << " ";
+	for (Vector<Test>::ConstReverseIterator i = vec.ReverseBegin(); i != vec.ReverseEnd(); ++i)
+//	for (Vector<Test>::ConstIterator i = vec.Begin(); i != vec.End(); ++i)
+		cout << i->mSomeData << " ";
 	cout << "\n";
 }
 
@@ -52,18 +53,24 @@ void Do()
 	cout << "Sizeof(DefaultAllocator<Test>) = " << sizeof(DefaultAllocator<Test>) << "\n";
 	cout << "Creating vector\n";
 	Vector<Test> cVector1;
-	cout << "Creating list\n";
-	SinglyLinkedList<Test> list1;
+
+//	cout << "Creating list\n";
+//	SinglyLinkedList<Test> list1;
 
 	cout << "Vector PushBack\n";
 	cVector1.PushBack(Test());
 	cout << "Vector PushBack\n";
 	cVector1.PushBack(Test());
 
-	cout << "List PushFront\n";
-	list1.PushFront(Test());
-	cout << "List PushFront\n";
-	list1.PushFront(Test());
+	cVector1[0].mSomeData = 0;
+	cVector1[1].mSomeData = 1;
+
+	PrintVector("Vec1", cVector1);
+
+//	cout << "List PushFront\n";
+//	list1.PushFront(Test());
+//	cout << "List PushFront\n";
+//	list1.PushFront(Test());
 	cout << "Do finished\n";
 }
 
