@@ -16,7 +16,7 @@
 #include "../Internal.hpp"
 #include "../Algorithms/Copy.hpp"
 #include "../Iterators/IteratorTags.hpp"
-#include "../Iterators/ReverseIterator.hpp"
+#include "../Iterators/ReverseIteratorBase.hpp"
 
 namespace Common
 {
@@ -24,21 +24,12 @@ namespace Common
 template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 {
 	public:
-		/* Typedefs. */
-		typedef Vector<Type> MyType;
-		typedef const Type& ConstReference;
-		typedef Type& Reference;
-		typedef const Type* ConstPointer;
-		typedef Type* Pointer;
-
 		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase : public RandomAccessIteratorTag<Type, Type*, Type&>
 		{
 			friend class IteratorBase<NonConstType, NonConstType, ConstType>;
 			friend class IteratorBase<ConstType, NonConstType, ConstType>;
 
 			public:
-				typedef Type& Reference;
-
 				explicit IteratorBase(Type* address) : mAddress(address)
 				{
 				}
@@ -77,6 +68,33 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 					return iterator;
 				}
 
+				IteratorBase operator+ (ptrdiff_t amount) const
+				{
+					return IteratorBase(mAddress + amount);
+				}
+
+				IteratorBase& operator+= (ptrdiff_t amount)
+				{
+					mAddress += amount;
+					return *this;
+				}
+
+				IteratorBase operator- (ptrdiff_t amount) const
+				{
+					return IteratorBase(mAddress - amount);
+				}
+
+				IteratorBase& operator-= (ptrdiff_t amount)
+				{
+					mAddress -= amount;
+					return *this;
+				}
+
+				Reference operator[] (ptrdiff_t index) const
+				{
+					return *(mAddress + index);
+				}
+
 				bool operator== (const IteratorBase<ConstType, NonConstType, ConstType>& iterator) const
 				{
 					return mAddress == iterator.mAddress;
@@ -101,10 +119,16 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				Type* mAddress;
 		};
 
+		/* Typedefs. */
+		typedef Vector<Type> MyType;
+		typedef const Type& ConstReference;
+		typedef Type& Reference;
+		typedef const Type* ConstPointer;
+		typedef Type* Pointer;
 		typedef IteratorBase<const Type, Type, const Type> ConstIterator;
 		typedef IteratorBase<Type, Type, const Type> Iterator;
-		typedef Common::ReverseIterator<Iterator> ReverseIterator;
-		typedef Common::ReverseIterator<ConstIterator> ConstReverseIterator;
+		typedef ReverseIteratorBase<Iterator> ReverseIterator;
+		typedef ReverseIteratorBase<ConstIterator> ConstReverseIterator;
 
 		Vector(): mBegin(NULL), mEnd(NULL), mCapacity(0)
 		{
@@ -263,7 +287,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
 			mAllocator.Destroy(mBegin + index);
-			mBegin[index] = *(mEnd - 1);
+			*(mBegin + index) = *(mEnd - 1);
 			mEnd--;
 		}
 
@@ -271,7 +295,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
 			mAllocator.Destroy(mBegin + index);
-			for (Iterator i = mBegin + index; i != mEnd - 1; ++i)
+			for (Iterator i = Begin() + index; i != End() - 1; ++i)
 				*i = *(i + 1);
 			mEnd--;
 		}

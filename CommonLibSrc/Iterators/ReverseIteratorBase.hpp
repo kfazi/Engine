@@ -1,28 +1,28 @@
-#ifndef COMMON_REVERSE_ITERATOR_HPP
-#define COMMON_REVERSE_ITERATOR_HPP
+#ifndef COMMON_REVERSE_ITERATOR_BASE_HPP
+#define COMMON_REVERSE_ITERATOR_BASE_HPP
 
 #include "../Internal.hpp"
 
 namespace Common
 {
 
-template<class Iterator> class ReverseIterator
+template<class Iterator> class ReverseIteratorBase
 {
 	public:
-		typedef ReverseIterator<Iterator> MyType;
+		typedef ReverseIteratorBase<Iterator> MyType;
 		typedef typename Iterator::ValueType ValueType;
 		typedef typename Iterator::Pointer Pointer;
 		typedef typename Iterator::Reference Reference;
 
-		ReverseIterator()
+		ReverseIteratorBase()
 		{
 		}
 
-		explicit ReverseIterator(Iterator iterator) : mBaseIterator(iterator)
+		explicit ReverseIteratorBase(Iterator iterator) : mBaseIterator(iterator)
 		{
 		}
 
-		ReverseIterator(const MyType& iterator) : mBaseIterator(iterator.mBaseIterator)
+		ReverseIteratorBase(const MyType& iterator) : mBaseIterator(iterator.mBaseIterator)
 		{
 		}
 
@@ -32,11 +32,11 @@ template<class Iterator> class ReverseIterator
 			return *this;
 		}
 
-		template <class ConstIterator> ReverseIterator(const ReverseIterator<ConstIterator>& iterator) : mBaseIterator(iterator.Base())
+		template <class ConstIterator> ReverseIteratorBase(const ReverseIteratorBase<ConstIterator>& iterator) : mBaseIterator(iterator.Base())
 		{
 		}
 
-		template <class ConstIterator> MyType& operator= (const ReverseIterator<ConstIterator>& iterator)
+		template <class ConstIterator> MyType& operator= (const ReverseIteratorBase<ConstIterator>& iterator)
 		{
 			mBaseIterator = iterator.Base();
 			return *this;
@@ -47,12 +47,12 @@ template<class Iterator> class ReverseIterator
 			return mBaseIterator;
 		}
 
-		template <class ConstIterator> bool operator== (const ReverseIterator<ConstIterator>& iterator) const
+		template <class ConstIterator> bool operator== (const ReverseIteratorBase<ConstIterator>& iterator) const
 		{
 			return mBaseIterator == iterator.Base();
 		}
 
-		template <class ConstIterator> bool operator!= (const ReverseIterator<ConstIterator>& iterator) const
+		template <class ConstIterator> bool operator!= (const ReverseIteratorBase<ConstIterator>& iterator) const
 		{
 			return mBaseIterator != iterator.Base();
 		}
@@ -123,11 +123,11 @@ template<class Iterator> class ReverseIterator
 
 	private:
 		Iterator mBaseIterator;
-		typedef ReverseIterator<Iterator> MyType;
+		typedef ReverseIteratorBase<Iterator> MyType;
 };
 
 }
 
-#endif /* COMMON_REVERSE_ITERATOR_HPP */
+#endif /* COMMON_REVERSE_ITERATOR_BASE_HPP */
 
 /* EOF */

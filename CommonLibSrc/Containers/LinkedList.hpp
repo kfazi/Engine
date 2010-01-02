@@ -27,8 +27,6 @@ template<class Type> class LinkedList
 			friend class IteratorBase<ConstType, NonConstType, ConstType>;
 
 			public:
-				typedef Type& Reference;
-
 				explicit IteratorBase(Node* node) : mNode(node)
 				{
 				}

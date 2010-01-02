@@ -6,16 +6,13 @@
 namespace Common
 {
 
-template<typename ValueType, typename Pointer, typename Reference> struct IteratorTag
+template<typename ValueBaseType, typename PointerBaseType, typename ReferenceBaseType> struct IteratorTag
 {
-	typedef ValueType ValueType;
-	typedef Pointer Pointer;
-	typedef Reference Reference;
-/*	typename iterator_traits<_Iterator>::iterator_category,
-	typename iterator_traits<_Iterator>::value_type,
-	typename iterator_traits<_Iterator>::difference_type,
-	typename iterator_traits<_Iterator>::pointer,
-	typename iterator_traits<_Iterator>::reference*/
+	typedef ValueBaseType ValueType;
+	typedef PointerBaseType Pointer;
+	typedef const PointerBaseType ConstPointer;
+	typedef ReferenceBaseType Reference;
+	//typedef const ReferenceBaseType ConstReference;
 	/**
 	 * Any iterator.
 	 * - Can be copied and copy-constructed.
