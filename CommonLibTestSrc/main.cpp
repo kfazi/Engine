@@ -31,48 +31,38 @@ class Test
 		}
 };
 
-void PrintVector(string name, const Vector<Test>& vec)
+template<typename Container> void Print(string name, const Container& container)
 {
 	cout << name.c_str() << ": ";
-//	for (Vector<Test>::ConstReverseIterator i = vec.ReverseBegin(); i != vec.ReverseEnd(); ++i)
-	for (Vector<Test>::ConstIterator i = vec.Begin(); i != vec.End(); ++i)
-		cout << i->mSomeData << " ";
-	cout << "\n";
-}
-
-void PrintList(string name, const SinglyLinkedList<int>& list)
-{
-	cout << name.c_str() << ": ";
-	for (SinglyLinkedList<int>::ConstIterator i = list.Begin(); i != list.End(); ++i)
+	for (Container::ConstIterator i = container.Begin(); i != container.End(); ++i)
 		cout << *i << " ";
 	cout << "\n";
 }
 
+template<typename SomeRange> void UseRange(const SomeRange &range)
+{
+	cout << "IsEmpty() = " << range.IsEmpty() << "\n";
+	cout << "Front() = " << range.Front() << "\n";
+}
+
 void Do()
 {
-	cout << "Sizeof(DefaultAllocator<Test>) = " << sizeof(DefaultAllocator<Test>) << "\n";
 	cout << "Creating vector\n";
-	Vector<Test> cVector1;
+	Vector<int> vector1;
 
 //	cout << "Creating list\n";
 //	SinglyLinkedList<Test> list1;
 
-	cout << "Vector PushBack\n";
-	cVector1.PushBack(Test());
-	cout << "Vector PushBack\n";
-	cVector1.PushBack(Test());
-	cVector1.PushBack(Test());
-	cVector1.PushBack(Test());
-	cVector1.PushBack(Test());
+	vector1.PushBack(0);
+	//vector1.PushBack(1);
+	//vector1.PushBack(2);
+	//vector1.PushBack(3);
+	//vector1.PushBack(4);
 
-	cVector1[0].mSomeData = 0;
-	cVector1[1].mSomeData = 1;
-	cVector1[2].mSomeData = 2;
-	cVector1[3].mSomeData = 3;
-	cVector1[4].mSomeData = 4;
+//	vector1.ErasePreserveOrder(1);
+	Print("Vec1", vector1);
 
-	cVector1.Erase(1);
-	PrintVector("Vec1", cVector1);
+	UseRange(Range<Vector<int>::Iterator>(vector1.Begin(), vector1.End()));
 
 //	cout << "List PushFront\n";
 //	list1.PushFront(Test());

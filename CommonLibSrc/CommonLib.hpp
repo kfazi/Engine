@@ -19,6 +19,7 @@
 #include "Math/CVector2D.hpp"
 #include "Math/CVector3D.hpp"
 #include "Math/CVector4D.hpp"
+#include "Ranges/Range.hpp"
 #include "Strings/CString.hpp"
 
 #endif /* COMMONLIB_HPP */
