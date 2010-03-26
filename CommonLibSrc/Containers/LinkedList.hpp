@@ -3,11 +3,13 @@
 
 #include "../Internal.hpp"
 #include "../Algorithms/Copy.hpp"
+#include "../Iterators/IteratorTags.hpp"
+#include "../Iterators/ReverseIteratorBase.hpp"
 
 namespace Common
 {
 
-template<class Type> class LinkedList
+template<class Type, class Allocator = DefaultAllocator<Type> > class LinkedList
 {
 	private:
 		struct Node
@@ -21,54 +23,82 @@ template<class Type> class LinkedList
 			Node* next;
 		};
 
-		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase
+	public:
+		template<typename Type, typename NonConstType, typename ConstType> class IteratorBase :
+			public BidirectionalIteratorTag<Type, Type*, Type&>
 		{
 			friend class IteratorBase<NonConstType, NonConstType, ConstType>;
 			friend class IteratorBase<ConstType, NonConstType, ConstType>;
+			friend class LinkedList;
 
 			public:
-				explicit IteratorBase(Node* node) : mNode(node)
+				typedef IteratorBase<NonConstType, NonConstType, ConstType> NonConstIteratorType;
+				typedef IteratorBase<ConstType, NonConstType, ConstType> ConstIteratorType;
+				typedef IteratorBase<Type, NonConstType, ConstType> MyType;
+
+				explicit IteratorBase(Node* node, const LinkedList* list) : mNode(node), mList(list)
 				{
 				}
 
-				IteratorBase() : mNode(NULL)
+				IteratorBase() : mNode(NULL), mList(NULL)
 				{
 				}
 
-				IteratorBase(const IteratorBase<NonConstType, NonConstType, ConstType>& iterator) : mNode(iterator.mNode)
+				IteratorBase(const NonConstIteratorType& iterator) : mNode(iterator.mNode),
+					mList(iterator.mList)
 				{
 				}
 
-				IteratorBase& operator++ ()
+				MyType& operator++ ()
 				{
+					Assert(mNode != NULL, "Iterator out of range");
 					mNode = mNode->next;
 					return *this;
 				}
 
-				IteratorBase& operator++ (int)
+				MyType& operator++ (int)
 				{
+					Assert(mNode != NULL, "Iterator out of range");
 					mNode = mNode->next;
 					return *this;
 				}
 
-				IteratorBase& operator-- ()
+				MyType& operator-- ()
 				{
-					mNode = mNode->previous;
+					if (mNode != NULL)
+					{
+						Assert(mNode->previous != NULL, "Iterator out of range");
+						mNode = mNode->previous;
+					}
+					else
+					{
+						Assert(mList->mTail != NULL, "Iterator out of range");
+						mNode = mList->mTail;
+					}
 					return *this;
 				}
 
-				IteratorBase& operator-- (int)
+				MyType& operator-- (int)
 				{
-					mNode = mNode->previous;
+					if (mNode != NULL)
+					{
+						Assert(mNode->previous != NULL, "Iterator out of range");
+						mNode = mNode->previous;
+					}
+					else
+					{
+						Assert(mList->mTail != NULL, "Iterator out of range");
+						mNode = mList->mTail;
+					}
 					return *this;
 				}
 
-				bool operator== (const IteratorBase<ConstType, NonConstType, ConstType>& iterator) const
+				bool operator== (const ConstIteratorType& iterator) const
 				{
 					return mNode == iterator.mNode;
 				}
 
-				bool operator!= (const IteratorBase<ConstType, NonConstType, ConstType>& iterator) const
+				bool operator!= (const ConstIteratorType& iterator) const
 				{
 					return mNode != iterator.mNode;
 				}
@@ -78,27 +108,43 @@ template<class Type> class LinkedList
 					return mNode->data;
 				}
 
+				/*!
+				 * Returns pointer to current element.
+				 *
+				 * \return Pointer to current element.
+				 */
+				Pointer operator-> () const
+				{
+					return &(operator*());
+				}
+
 			private:
 				Node* mNode;
+				const LinkedList* mList;
 		};
 
-	public:
+		typedef typename Allocator::Rebind<Node>::Other NodeAllocator;
 		typedef LinkedList<Type> MyType;
 		typedef const Type& ConstReference;
 		typedef Type& Reference;
 		typedef const Type* ConstPointer;
 		typedef Type* Pointer;
-		typedef IteratorBase<const Type, Type, const Type> ConstIterator;
 		typedef IteratorBase<Type, Type, const Type> Iterator;
+		typedef IteratorBase<const Type, Type, const Type> ConstIterator;
+		typedef ReverseIteratorBase<Iterator> ReverseIterator; /*!< Reverse iterator. */
+		typedef ReverseIteratorBase<ConstIterator>
+			ConstReverseIterator; /*!< Constant reverse iterator. */
 
 		LinkedList()
 		{
-			mRoot = NULL;
+			mHead = NULL;
+			mTail = NULL;
 		}
 
 		LinkedList(const LinkedList& list)
 		{
-			mRoot = NULL;
+			mHead = NULL;
+			mTail = NULL;
 			*this = list;
 		}
 
@@ -113,38 +159,79 @@ template<class Type> class LinkedList
 			Node* node = NULL;
 			for (ConstIterator i = list.Begin(); i != list.End(); ++i)
 			{
-				if (node == NULL)
-				{
-					mRoot = new Node(*i);
-					node = mRoot;
-				}
-				else
+				if (node != NULL)
 				{
 					node->next = new Node(*i);
 					node = node->next;
 				}
+				else
+				{
+					mHead = new Node(*i);
+					node = mHead;
+				}
+				mTail = node;
 			}
 			return *this;
 		}
 
 		Iterator Begin()
 		{
-			return Iterator(mRoot);
+			return Iterator(mHead, this);
 		}
 
 		ConstIterator Begin() const
 		{
-			return ConstIterator(mRoot);
+			return ConstIterator(mHead, this);
 		}
 
 		Iterator End()
 		{
-			return Iterator();
+			return Iterator(NULL, this);
 		}
 
 		ConstIterator End() const
 		{
-			return ConstIterator();
+			return ConstIterator(NULL, this);
+		}
+
+		/*!
+		 * Returns iterator pointing to the last element.
+		 *
+		 * \return Iterator pointing to the last element.
+		 */
+		ReverseIterator ReverseBegin()
+		{
+			return ReverseIterator(End());
+		}
+
+		/*!
+		 * Returns iterator pointing to the last element.
+		 *
+		 * \return Iterator pointing to the last element.
+		 */
+		ConstReverseIterator ReverseBegin() const
+		{
+			return ConstReverseIterator(End());
+		}
+
+		/*!
+		 * Returns iterator pointing to one before first element.
+		 *
+		 * \return Iterator pointing to one before first element.
+		 */
+		ReverseIterator ReverseEnd()
+		{
+			return ReverseIterator(Begin());
+		}
+
+		/*!
+		 * Returns iterator pointing to one before first element.
+		 *
+		 * \return Iterator pointing to one before first element.
+		 */
+		ConstReverseIterator ReverseEnd() const
+		{
+			return ConstReverseIterator(Begin());
 		}
 
 		void Clear()
@@ -155,39 +242,103 @@ template<class Type> class LinkedList
 
 		bool IsEmpty() const
 		{
-			return mRoot == NULL;
+			return mHead == NULL;
 		}
 
 		Type& Front()
 		{
 			Assert(!IsEmpty(), "Empty list");
-			return mRoot->data;
+			return mHead->data;
 		}
 
-		void PushFront(const Type& data)
+		Type& Back()
 		{
-			if (mRoot == NULL)
-				mRoot = new Node(data);
-			else
+			Assert(!IsEmpty(), "Empty list");
+			return mTail->data;
+		}
+
+		Iterator PushFront(const Type& data)
+		{
+			if (mHead != NULL)
 			{
 				Node* new_root = new Node(data);
-				new_root->next = mRoot;
-				mRoot = new_root;
+				new_root->next = mHead;
+				mHead->previous = new_root;
+				mHead = new_root;
 			}
+			else
+			{
+				mHead = new Node(data);
+				mTail = mHead;
+			}
+			return Iterator(mHead, this);
+		}
+
+		Iterator PushBack(const Type& data)
+		{
+			if (mTail != NULL)
+			{
+				Node* new_tail = new Node(data);
+				new_tail->previous = mTail;
+				mTail->next = new_tail;
+				mTail = new_tail;
+			}
+			else
+			{
+				mTail = new Node(data);
+				mHead = mTail;
+			}
+			return Iterator(mTail, this);
 		}
 
 		Type PopFront()
 		{
 			Assert(!IsEmpty(), "Empty list");
-			Node* node = mRoot;
-			Type result = mRoot->data;
-			mRoot = mRoot->next;
+			Node* node = mHead;
+			Type result = mHead->data;
+			mHead = mHead->next;
+			if (mHead)
+				mHead->previous = NULL;
+			else
+				mTail = NULL;
 			delete node;
 			return result;
 		}
 
+		Type PopBack()
+		{
+			Assert(!IsEmpty(), "Empty list");
+			Node* node = mTail;
+			Type result = mTail->data;
+			mTail = mTail->previous;
+			if (mTail)
+				mTail->next = NULL;
+			else
+				mHead = NULL;
+			delete node;
+			return result;
+		}
+
+		Iterator Erase(Iterator iterator)
+		{
+			Node* node = iterator.mNode;
+			Node* previous_node = node->previous;
+			Node* next_node = node->next;
+			if (previous_node)
+				previous_node->next = next_node;
+			if (next_node)
+				next_node->previous = previous_node;
+			if (node == mHead)
+				mHead = node->next;
+			if (node == mTail)
+				mTail = node->previous;
+			delete node;
+			return Iterator(next_node, this);
+		}
+
 	private:
-		Node* mRoot;
+		Node* mHead;
+		Node* mTail;
 };
 
 }

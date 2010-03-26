@@ -8,9 +8,10 @@ class Test
 {
 	public:
 		int mSomeData;
-		Test()
+		Test(int i)
 		{
 			cout << "Constructor\n";
+			mSomeData = i;
 			//mSomeData = 10;
 		}
 		~Test()
@@ -31,6 +32,22 @@ class Test
 		}
 };
 
+template<> struct Hash<const char*>
+{
+	size_t operator() (const char* data)
+	{
+		return data[0];
+	}
+};
+
+template<> struct Hash<int>
+{
+	size_t operator() (int data)
+	{
+		return data;
+	}
+};
+
 template<typename Container> void Print(string name, const Container& container)
 {
 	cout << name.c_str() << ": ";
@@ -45,7 +62,7 @@ template<typename SomeRange> void UseRange(const SomeRange &range)
 	cout << "Front() = " << range.Front() << "\n";
 }
 
-void Do()
+void DoVector()
 {
 	cout << "Creating vector\n";
 	Vector<int> vector1;
@@ -71,9 +88,37 @@ void Do()
 	cout << "Do finished\n";
 }
 
+void DoList()
+{
+	LinkedList<int> list1;
+
+	list1.PushFront(5);
+	list1.PushBack(10);
+	list1.PushBack(15);
+
+	Print("List1", list1);
+}
+
+void DoHash()
+{
+	HashMap<const char*, int> hash1;
+
+	hash1.Insert(MakePair("dupa", 5));
+	hash1.Insert(MakePair("hehehehe", 50));
+	hash1.Insert(MakePair("wow", 500));
+
+	cout << "Hash: ";
+	HashMap<const char*, int>::ConstReverseIterator end = hash1.ReverseEnd();
+	for (HashMap<const char*, int>::ConstReverseIterator i = hash1.ReverseBegin(); i != end; ++i)
+		cout << "(" << (*i).first << " = " << (*i).second << ") ";
+	cout << "\n";
+}
+
 int main(int argc, char **argv)
 {
-	Do();
+	DoVector();
+	DoList();
+	DoHash();
 
 	int dummy;
 	cin >> dummy;

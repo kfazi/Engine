@@ -122,29 +122,29 @@ class COMMONDLLIMPORTEXPORT CMatrix4x4
 		/**
 		 * Sets the rotation part about x axis of the matrix.
 		 *
-		 * @param[in] theta The angle in radians.
+		 * \param[in] theta The angle in radians.
 		 */
 		void RotateX(const double fTheta);
 
 		/**
 		 * Sets the rotation part about y axis of the matrix.
 		 *
-		 * @param[in] theta The angle in radians.
+		 * \param[in] theta The angle in radians.
 		 */
 		void RotateY(const double fTheta);
 
 		/**
 		 * Sets the rotation part about z axis of the matrix.
 		 *
-		 * @param[in] theta The angle in radians.
+		 * \param[in] theta The angle in radians.
 		 */
 		void RotateZ(const double fTheta);
 
 		/**
 		 * Sets the rotation part of the matrix.
 		 *
-		 * @param[in] v The axis of rotation vector.
-		 * @param[in] theta The angle in radians.
+		 * \param[in] v The axis of rotation vector.
+		 * \param[in] theta The angle in radians.
 		 */
 		void Rotate(const CVector3D& cVector, const double fTheta);
 

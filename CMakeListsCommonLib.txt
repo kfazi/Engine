@@ -34,8 +34,9 @@ SOURCE_GROUP("CommonLibSrc\\Algorithms" FILES ${COMMONLIB_ALGORITHMS_SOURCES})
 
 SET(COMMONLIB_CONTAINERS_SOURCES
 	${COMMONLIB_SRC_DIR}/Containers/CBinaryMap.hpp
-	${COMMONLIB_SRC_DIR}/Containers/CHashMap.hpp
+	${COMMONLIB_SRC_DIR}/Containers/HashMap.hpp
 	${COMMONLIB_SRC_DIR}/Containers/LinkedList.hpp
+	${COMMONLIB_SRC_DIR}/Containers/Pair.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CQueue.hpp
 	${COMMONLIB_SRC_DIR}/Containers/CSet.hpp
 	${COMMONLIB_SRC_DIR}/Containers/SinglyLinkedList.hpp
@@ -55,6 +56,7 @@ LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_ERRORS_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\Errors" FILES ${COMMONLIB_ERRORS_SOURCES})
 
 SET(COMMONLIB_ITERATORS_SOURCES
+	${COMMONLIB_SRC_DIR}/Iterators/Advance.hpp
 	${COMMONLIB_SRC_DIR}/Iterators/IteratorTags.hpp
 	${COMMONLIB_SRC_DIR}/Iterators/ReverseIteratorBase.hpp
 )

@@ -96,6 +96,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 	public:
 		typedef IteratorBase<const Type, Type, const Type> ConstIterator;
 		typedef IteratorBase<Type, Type, const Type> Iterator;
+		typedef typename Allocator::Rebind<Node>::Other NodeAllocator;
 
 		SinglyLinkedList()
 		{
@@ -121,16 +122,16 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 			{
 				if (node != NULL)
 				{
-					node->next = mNodeAllocator.Allocate(1);
+					node->next = NodeAllocator::Allocate(1);
 					Assert(node->next != NULL, "Allocation failed");
-					mNodeAllocator.Construct(node->next, *i);
+					NodeAllocator::Construct(node->next, *i);
 					node = node->next;
 				}
 				else
 				{
-					mRoot = mNodeAllocator.Allocate(1);
+					mRoot = NodeAllocator::Allocate(1);
 					Assert(mRoot != NULL, "Allocation failed");
-					mNodeAllocator.Construct(mRoot, *i);
+					NodeAllocator::Construct(mRoot, *i);
 					node = mRoot;
 				}
 			}
@@ -163,8 +164,8 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 			{
 				Node* node = mRoot;
 				mRoot = mRoot->next;
-				mNodeAllocator.Destroy(node);
-				mNodeAllocator.Deallocate(node);
+				NodeAllocator::Destroy(node);
+				NodeAllocator::Deallocate(node);
 			}
 		}
 
@@ -183,17 +184,17 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 		{
 			if (mRoot != NULL)
 			{
-				Node* new_root = mNodeAllocator.Allocate(1);
+				Node* new_root = NodeAllocator::Allocate(1);
 				Assert(new_root != NULL, "Allocation failed");
-				mNodeAllocator.Construct(new_root, Node(data));
+				NodeAllocator::Construct(new_root, Node(data));
 				new_root->next = mRoot;
 				mRoot = new_root;
 			}
 			else
 			{
-				mRoot = mNodeAllocator.Allocate(1);
+				mRoot = NodeAllocator::Allocate(1);
 				Assert(mRoot != NULL, "Allocation failed");
-				mNodeAllocator.Construct(mRoot, Node(data));
+				NodeAllocator::Construct(mRoot, Node(data));
 			}
 		}
 
@@ -203,14 +204,13 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class SinglyLink
 			Node* node = mRoot;
 			Type result = mRoot->data;
 			mRoot = mRoot->next;
-			mNodeAllocator.Destroy(node);
-			mNodeAllocator.Deallocate(node);
+			NodeAllocator::Destroy(node);
+			NodeAllocator::Deallocate(node);
 			return result;
 		}
 
 	private:
 		Node* mRoot;
-		typename Allocator::Rebind<Node>::Other mNodeAllocator;
 };
 
 }

@@ -15,9 +15,9 @@ class COMMONDLLIMPORTEXPORT CMathOperations
 		/**
 		 * Returns minimum of its two arguments.
 		 * This function is here only because of Microsoft's fuckups.
-		 * @param[in] x First value.
-		 * @param[in] y Second value.
-		 * @return Minimum value.
+		 * \param[in] x First value.
+		 * \param[in] y Second value.
+		 * \return Minimum value.
 		 */
 		template<class CType> inline static const CType& Min(const CType& x, const CType& y)
 		{
@@ -27,9 +27,9 @@ class COMMONDLLIMPORTEXPORT CMathOperations
 		/**
 		 * Returns maximum of its two arguments.
 		 * This function is here only because of Microsoft's fuckups.
-		 * @param[in] x First value.
-		 * @param[in] y Second value.
-		 * @return Maximum value.
+		 * \param[in] x First value.
+		 * \param[in] y Second value.
+		 * \return Maximum value.
 		 */
 		template<class CType> inline static const CType& Max(const CType& x, const CType& y)
 		{
@@ -38,8 +38,8 @@ class COMMONDLLIMPORTEXPORT CMathOperations
 
 		/**
 		 * Converts degrees to radians.
-		 * @param[in] fDegrees Value in degrees.
-		 * @return Value in radians.
+		 * \param[in] fDegrees Value in degrees.
+		 * \return Value in radians.
 		 */
 		inline static double DegToRad(const double fDegrees)
 		{
@@ -48,8 +48,8 @@ class COMMONDLLIMPORTEXPORT CMathOperations
 
 		/**
 		 * Converts radians to degrees.
-		 * @param[in] fRadians Value in radians.
-		 * @return Value in degrees.
+		 * \param[in] fRadians Value in radians.
+		 * \return Value in degrees.
 		 */
 		inline static double RadToDeg(const double fRadians)
 		{
