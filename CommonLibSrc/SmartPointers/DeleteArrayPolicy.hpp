@@ -6,12 +6,12 @@
 namespace Common
 {
 
-class CDeleteArrayPolicy
+class DeleteArrayPolicy
 {
 	public:
-		template<typename tType> static void Delete(tType *pData)
+		template<typename Type> static void Delete(Type *data)
 		{
-			delete [] pData;
+			delete [] data;
 		}
 };
 

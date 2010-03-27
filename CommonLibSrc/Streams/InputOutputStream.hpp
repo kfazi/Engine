@@ -8,7 +8,7 @@
 namespace Common
 {
 
-class CInputOutputStream: public CInputStream, public COutputStream
+class InputOutputStream: public InputStream, public OutputStream
 {
 };
 

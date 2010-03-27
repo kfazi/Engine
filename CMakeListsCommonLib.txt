@@ -95,20 +95,20 @@ LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_RANGES_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\Ranges" FILES ${COMMONLIB_RANGES_SOURCES})
 
 SET(COMMONLIB_SMARTPOINTERS_SOURCES
-	${COMMONLIB_SRC_DIR}/SmartPointers/CDeleteArrayPolicy.hpp
-	${COMMONLIB_SRC_DIR}/SmartPointers/CDeletePolicy.hpp
-	${COMMONLIB_SRC_DIR}/SmartPointers/CSharedPtr.hpp
+	${COMMONLIB_SRC_DIR}/SmartPointers/DeleteArrayPolicy.hpp
+	${COMMONLIB_SRC_DIR}/SmartPointers/DeletePolicy.hpp
+	${COMMONLIB_SRC_DIR}/SmartPointers/SharedPtr.hpp
 )
 LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_SMARTPOINTERS_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\SmartPointers" FILES ${COMMONLIB_SMARTPOINTERS_SOURCES})
 
 SET(COMMONLIB_STREAMS_SOURCES
-	${COMMONLIB_SRC_DIR}/Streams/CInputOutputStream.hpp
-	${COMMONLIB_SRC_DIR}/Streams/CInputStream.hpp
-	${COMMONLIB_SRC_DIR}/Streams/COutputStream.cpp
-	${COMMONLIB_SRC_DIR}/Streams/COutputStream.hpp
-	${COMMONLIB_SRC_DIR}/Streams/CStreamBase.cpp
-	${COMMONLIB_SRC_DIR}/Streams/CStreamBase.hpp
+	${COMMONLIB_SRC_DIR}/Streams/InputOutputStream.hpp
+	${COMMONLIB_SRC_DIR}/Streams/InputStream.hpp
+	${COMMONLIB_SRC_DIR}/Streams/OutputStream.cpp
+	${COMMONLIB_SRC_DIR}/Streams/OutputStream.hpp
+	${COMMONLIB_SRC_DIR}/Streams/StreamBase.cpp
+	${COMMONLIB_SRC_DIR}/Streams/StreamBase.hpp
 )
 LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_STREAMS_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\Streams" FILES ${COMMONLIB_STREAMS_SOURCES})
@@ -122,8 +122,6 @@ SET(COMMONLIB_STRINGS_SOURCES
 	${COMMONLIB_SRC_DIR}/Strings/StringBase.hpp
 	${COMMONLIB_SRC_DIR}/Strings/StringBuffer.cpp
 	${COMMONLIB_SRC_DIR}/Strings/StringBuffer.hpp
-	${COMMONLIB_SRC_DIR}/Strings/StringIterator.cpp
-	${COMMONLIB_SRC_DIR}/Strings/StringIterator.hpp
 	${COMMONLIB_SRC_DIR}/Strings/StringStatic.cpp
 	${COMMONLIB_SRC_DIR}/Strings/StringStatic.hpp
 	${COMMONLIB_SRC_DIR}/Strings/StringUTF8.cpp
