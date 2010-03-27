@@ -13,7 +13,7 @@ class COutputStream: public CStreamBase
 		void IntegerToString(unsigned long long iValue);
 
 	protected:
-		virtual CString& GetWriteBuffer() = 0;
+		virtual String& GetWriteBuffer() = 0;
 
 	public:
 		virtual void SetWritePosition(unsigned int iPosition) = 0;

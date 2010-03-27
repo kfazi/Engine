@@ -1,22 +1,22 @@
-#include "CStringBuffer.hpp"
+#include "StringBuffer.hpp"
 #include "../Algorithms/Swap.hpp"
 #include <cstdio>
 
 namespace Common
 {
 
-CStringBuffer::CStringBuffer(): m_cString()
+StringBuffer::StringBuffer(): m_cString()
 {
 	m_iReadIndex = 0;
 	m_iWriteIndex = 0;
 	ResetFlags();
 }
 
-CStringBuffer::~CStringBuffer()
+StringBuffer::~StringBuffer()
 {
 }
 
-void CStringBuffer::ResetFlags()
+void StringBuffer::ResetFlags()
 {
 	SetBase(DECIMAL);
 	SetNotation(NONE);
@@ -29,101 +29,101 @@ void CStringBuffer::ResetFlags()
 	SetShowPositiveSign(false);
 }
 
-void CStringBuffer::SetBase(CStringBuffer::EBase eBase)
+void StringBuffer::SetBase(StringBuffer::EBase eBase)
 {
 	m_eBase = eBase;
 }
 
-CStringBuffer::EBase CStringBuffer::GetBase() const
+StringBuffer::EBase StringBuffer::GetBase() const
 {
 	return m_eBase;
 }
 
-void CStringBuffer::SetNotation(CStringBuffer::ENotation eNotation)
+void StringBuffer::SetNotation(StringBuffer::ENotation eNotation)
 {
 	m_eNotation = eNotation;
 }
 
-CStringBuffer::ENotation CStringBuffer::GetNotation() const
+StringBuffer::ENotation StringBuffer::GetNotation() const
 {
 	return m_eNotation;
 }
 
-void CStringBuffer::SetBoolAlpha(bool bBoolAlpha)
+void StringBuffer::SetBoolAlpha(bool bBoolAlpha)
 {
 	m_bBoolAlpha = bBoolAlpha;
 }
 
-bool CStringBuffer::GetBoolAlpha() const
+bool StringBuffer::GetBoolAlpha() const
 {
 	return m_bBoolAlpha;
 }
 
-void CStringBuffer::SetSkipWhitespace(bool bSkipWhitespace)
+void StringBuffer::SetSkipWhitespace(bool bSkipWhitespace)
 {
 	m_bSkipWhitespace = bSkipWhitespace;
 }
 
-bool CStringBuffer::GetSkipWhitespace() const
+bool StringBuffer::GetSkipWhitespace() const
 {
 	return m_bSkipWhitespace;
 }
 
-void CStringBuffer::SetAddBase(bool bAddBase)
+void StringBuffer::SetAddBase(bool bAddBase)
 {
 	m_bAddBase = bAddBase;
 }
 
-bool CStringBuffer::GetAddBase() const
+bool StringBuffer::GetAddBase() const
 {
 	return m_bAddBase;
 }
 
-void CStringBuffer::SetBaseUpperCase(bool bUpperCase)
+void StringBuffer::SetBaseUpperCase(bool bUpperCase)
 {
 	m_bBaseUpperCase = bUpperCase;
 }
 
-bool CStringBuffer::GetBaseUpperCase() const
+bool StringBuffer::GetBaseUpperCase() const
 {
 	return m_bBaseUpperCase;
 }
 
-void CStringBuffer::SetNumberUpperCase(bool bUpperCase)
+void StringBuffer::SetNumberUpperCase(bool bUpperCase)
 {
 	m_bNumberUpperCase = bUpperCase;
 }
 
-bool CStringBuffer::GetNumberUpperCase() const
+bool StringBuffer::GetNumberUpperCase() const
 {
 	return m_bNumberUpperCase;
 }
 
-void CStringBuffer::SetShowDecimalPoint(bool bShowDecimalPoint)
+void StringBuffer::SetShowDecimalPoint(bool bShowDecimalPoint)
 {
 	m_bShowDecimalPoint = bShowDecimalPoint;
 }
 
-bool CStringBuffer::GetShowDecimalPoint() const
+bool StringBuffer::GetShowDecimalPoint() const
 {
 	return m_bShowDecimalPoint;
 }
 
-void CStringBuffer::SetShowPositiveSign(bool bShowPositiveSign)
+void StringBuffer::SetShowPositiveSign(bool bShowPositiveSign)
 {
 	m_bShowPositiveSign = bShowPositiveSign;
 }
 
-bool CStringBuffer::GetShowPositiveSign() const
+bool StringBuffer::GetShowPositiveSign() const
 {
 	return m_bShowPositiveSign;
 }
 
-CString CStringBuffer::ToString(bool bValue) const
+String StringBuffer::ToString(bool bValue) const
 {
 	if (m_bBoolAlpha)
 	{
-		CString cResult;
+		String cResult;
 		cResult = (bValue) ? "true" : "false";
 		if (m_bNumberUpperCase)
 			cResult.ToUpper();
@@ -137,9 +137,9 @@ const char aDigitsUpperCase[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '
 const char aDigitsLowerCase[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 /*
-CString CStringConvert::NumberToString(unsigned long long iValue) const
+String StringConvert::NumberToString(unsigned long long iValue) const
 {
-	CString cResult;
+	String cResult;
 	int iBase = m_eBase;
 	const char* pDigits;
 	if (m_bNumberUpperCase)
@@ -179,18 +179,18 @@ CString CStringConvert::NumberToString(unsigned long long iValue) const
 	return cResult;
 }
 
-CString CStringConvert::UnsignedNumberToString(unsigned long long iValue) const
+String StringConvert::UnsignedNumberToString(unsigned long long iValue) const
 {
-	CString cResult;
+	String cResult;
 	if (m_bShowPositiveSign)
 		cResult = "+";
 	cResult += NumberToString(iValue);
 	return cResult;
 }
 
-CString CStringConvert::SignedNumberToString(signed long long iValue) const
+String StringConvert::SignedNumberToString(signed long long iValue) const
 {
-	CString cResult;
+	String cResult;
 	if (iValue < 0)
 	{
 		cResult = "-";
@@ -202,26 +202,26 @@ CString CStringConvert::SignedNumberToString(signed long long iValue) const
 	return cResult;
 }
 */
-CString CStringBuffer::ToString(short iValue) const
+String StringBuffer::ToString(short iValue) const
 {
-	CString bla;
+	String bla;
 	SwapRange(&bla[0], &bla[0] + bla.GetLength());
 	return bla;
 	//return SignedNumberToString(iValue);
 }
 
 /*
-CString CStringConvert::ToString(unsigned short iValue) const;
-CString CStringConvert::ToString(int iValue) const;
-CString CStringConvert::ToString(unsigned int iValue) const;
-CString CStringConvert::ToString(long iValue) const;
-CString CStringConvert::ToString(unsigned long iValue) const;
-CString CStringConvert::ToString(float fValue) const;
-CString CStringConvert::ToString(double fValue) const;
-CString CStringConvert::ToString(long double fValue) const;
+String StringConvert::ToString(unsigned short iValue) const;
+String StringConvert::ToString(int iValue) const;
+String StringConvert::ToString(unsigned int iValue) const;
+String StringConvert::ToString(long iValue) const;
+String StringConvert::ToString(unsigned long iValue) const;
+String StringConvert::ToString(float fValue) const;
+String StringConvert::ToString(double fValue) const;
+String StringConvert::ToString(long double fValue) const;
 */
 
-CString CStringBuffer::ToString(const void* pValue) const
+String StringBuffer::ToString(const void* pValue) const
 {
 	char aBuffer[sizeof(void *) * 2 + 2];
 	::_snprintf(aBuffer, sizeof(void *) * 2 + 2, "%p", pValue);

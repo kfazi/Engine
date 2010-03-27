@@ -9,7 +9,7 @@ void COutputStream::IntegerToString(unsigned long long iValue)
 	static const char aDigitsUpperCase[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 	static const char aDigitsLowerCase[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-	CString& cResult = GetWriteBuffer();
+	String& cResult = GetWriteBuffer();
 	int iStartIndex = cResult.GetLength();
 	int iBase = GetBase();
 	const char* pDigits;
@@ -51,10 +51,10 @@ void COutputStream::IntegerToString(unsigned long long iValue)
 
 COutputStream& COutputStream::operator<< (bool bValue)
 {
-	CString& cResult = GetWriteBuffer();
+	String& cResult = GetWriteBuffer();
 	if (GetBoolAlpha())
 	{
-		CString cTemp = (bValue) ? "true" : "false";
+		String cTemp = (bValue) ? "true" : "false";
 		if (GetNumberUpperCase())
 			cTemp.ToUpper();
 		cResult += cTemp;

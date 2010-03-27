@@ -6,13 +6,13 @@
 namespace Common
 {
 
-template<class CInput, class COutput> void Copy(CInput cFirst, CInput cLast, COutput cOutput)
+template<class Input, class Output> void Copy(Input first, Input last, Output output)
 {
-	while (cFirst != cLast)
+	while (first != last)
 	{
-		*cOutput = *cFirst;
-		cFirst++;
-		cOutput++;
+		*output = *first;
+		first++;
+		output++;
 	}
 }
 

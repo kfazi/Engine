@@ -114,26 +114,26 @@ LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_STREAMS_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\Streams" FILES ${COMMONLIB_STREAMS_SOURCES})
 
 SET(COMMONLIB_STRINGS_SOURCES
-	${COMMONLIB_SRC_DIR}/Strings/CFormat.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CFormat.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CString.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CString.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringBase.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringBuffer.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringBuffer.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringIterator.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringIterator.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringStatic.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringStatic.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringUTF8.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringUTF8.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringUTF16.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringUTF16.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringUTF32.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CStringUTF32.hpp
-	${COMMONLIB_SRC_DIR}/Strings/CUTFConvert.cpp
-	${COMMONLIB_SRC_DIR}/Strings/CUTFConvert.hpp
-	${COMMONLIB_SRC_DIR}/Strings/TCharTypes.hpp
+	${COMMONLIB_SRC_DIR}/Strings/CharTypes.hpp
+	${COMMONLIB_SRC_DIR}/Strings/Format.cpp
+	${COMMONLIB_SRC_DIR}/Strings/Format.hpp
+	${COMMONLIB_SRC_DIR}/Strings/String.cpp
+	${COMMONLIB_SRC_DIR}/Strings/String.hpp
+	${COMMONLIB_SRC_DIR}/Strings/StringBase.hpp
+	${COMMONLIB_SRC_DIR}/Strings/StringBuffer.cpp
+	${COMMONLIB_SRC_DIR}/Strings/StringBuffer.hpp
+	${COMMONLIB_SRC_DIR}/Strings/StringIterator.cpp
+	${COMMONLIB_SRC_DIR}/Strings/StringIterator.hpp
+	${COMMONLIB_SRC_DIR}/Strings/StringStatic.cpp
+	${COMMONLIB_SRC_DIR}/Strings/StringStatic.hpp
+	${COMMONLIB_SRC_DIR}/Strings/StringUTF8.cpp
+	${COMMONLIB_SRC_DIR}/Strings/StringUTF8.hpp
+	${COMMONLIB_SRC_DIR}/Strings/StringUTF16.cpp
+	${COMMONLIB_SRC_DIR}/Strings/StringUTF16.hpp
+	${COMMONLIB_SRC_DIR}/Strings/StringUTF32.cpp
+	${COMMONLIB_SRC_DIR}/Strings/StringUTF32.hpp
+	${COMMONLIB_SRC_DIR}/Strings/UTFConvert.cpp
+	${COMMONLIB_SRC_DIR}/Strings/UTFConvert.hpp
 )
 LIST(APPEND COMMONLIB_SOURCES ${COMMONLIB_STRINGS_SOURCES})
 SOURCE_GROUP("CommonLibSrc\\Strings" FILES ${COMMONLIB_STRINGS_SOURCES})

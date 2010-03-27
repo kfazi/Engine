@@ -2,7 +2,7 @@
 #define COMMON_STREAM_BASE_HPP
 
 #include "../Internal.hpp"
-#include "../Strings/CString.hpp"
+#include "../Strings/String.hpp"
 
 namespace Common
 {
@@ -59,7 +59,7 @@ class CStreamBase
 		void SetShowPositiveSign(bool bShowPositiveSign);
 		bool GetShowPositiveSign() const;
 
-		virtual const CString& GetString() = 0;
+		virtual const String& GetString() = 0;
 };
 
 }

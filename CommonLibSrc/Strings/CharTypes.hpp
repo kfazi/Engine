@@ -6,9 +6,9 @@
 namespace Common
 {
 
-typedef char TCharUTF8;
-typedef unsigned short TCharUTF16;
-typedef unsigned int TCharUTF32;
+typedef char CharUTF8;
+typedef unsigned short CharUTF16;
+typedef unsigned int CharUTF32;
 
 }
 

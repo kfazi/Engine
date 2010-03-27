@@ -21,11 +21,26 @@
 namespace Common
 {
 
-template<class Type> struct Hash
+template<class Type> struct DefaultHash
 {
 	typename Type KeyType;
-	size_t operator() (const Type data)
+	size_t operator() (const Type data) const
 	{
+		size_t result = 0;
+		for (int i = 0; i < sizeof(Type); ++i)
+			result += reinterpret_cast<char *>(data)[i];
+		return result;
+	}
+};
+
+template<> struct DefaultHash<const char*>
+{
+	size_t operator() (const char* data) const
+	{
+		size_t result = 0;
+		for (int i = 0; i < sizeof(const char*); ++i)
+			result += data[i];
+		return result;
 	}
 };
 
@@ -41,7 +56,7 @@ template<class Type> struct Hash
  * \author kfazi
  * \date March 2010
  */
-template<class KeyType, class ValueType, template<typename> class HashClassType = Hash,
+template<class KeyType, class ValueType, template<typename> class HashClassType = DefaultHash,
 	class Allocator = DefaultAllocator<Pair<KeyType, ValueType> > > class HashMap
 {
 	public:
@@ -154,7 +169,7 @@ template<class KeyType, class ValueType, template<typename> class HashClassType 
 				 *
 				 * \return Current iterator.
 				 */
-				MyType& operator++ (int)
+				MyType operator++ (int)
 				{
 					MyType iterator = *this;
 					++(*this);
@@ -187,7 +202,7 @@ template<class KeyType, class ValueType, template<typename> class HashClassType 
 				 *
 				 * \return Current iterator.
 				 */
-				MyType& operator-- (int)
+				MyType operator-- (int)
 				{
 					MyType iterator = *this;
 					--(*this);
@@ -272,21 +287,19 @@ template<class KeyType, class ValueType, template<typename> class HashClassType 
 		typedef ReverseIteratorBase<ConstIterator>
 			ConstReverseIterator; /*!< Constant reverse iterator. */
 
-		HashMap() : mBucket(251), mCapacity(251)
+		HashMap() : mBucket(251), mCapacity(251), mLoad(0)
 		{
 			mBucket.Resize(251, ChainType());
 		}
 
-		HashMap(size_t capacity) : mBucket(capacity), mCapacity(capacity)
+		HashMap(size_t capacity) : mBucket(capacity), mCapacity(capacity), mLoad(0)
 		{
 			mBucket.Resize(capacity, ChainType());
 		}
 
-		HashMap(const MyType& hashMap)
+		HashMap(const MyType& hashMap) : mBucket(hashMap.mBucket), mCapacity(hashMap.mCapacity),
+			mLoad(hashMap.mLoad)
 		{
-			mBucket = hashMap.mBucket;
-			mLoad = hashMap.mLoad;
-			mCapacity = hashMap.mCapacity;
 		}
 
 		~HashMap()
@@ -327,8 +340,7 @@ template<class KeyType, class ValueType, template<typename> class HashClassType 
 		Iterator End()
 		{
 			BucketIteratorType iterator = mBucket.Begin();
-			//Advance(iterator, mCapacity);
-			iterator += mCapacity - 1;
+			Advance(iterator, mCapacity - 1);
 			return Iterator(&mBucket, iterator, (*iterator).End());
 		}
 
@@ -340,8 +352,7 @@ template<class KeyType, class ValueType, template<typename> class HashClassType 
 		ConstIterator End() const
 		{
 			BucketConstIteratorType iterator = mBucket.Begin();
-			//Advance(iterator, mCapacity);
-			iterator += mCapacity - 1;
+			Advance(iterator, mCapacity - 1);
 			return ConstIterator(&mBucket, iterator, (*iterator).End());
 		}
 
@@ -415,8 +426,7 @@ template<class KeyType, class ValueType, template<typename> class HashClassType 
 				if ((*iterator).first == key)
 					return (*iterator).second;
 			}
-			mLoad++;
-			return (*Insert(MakePair(key, ValueType())));
+			return (*Insert(MakePair(key, ValueType()))).second;
 		}
 
 		ValueConstReference operator[] (const KeyType& key) const

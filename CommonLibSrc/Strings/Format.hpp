@@ -3,7 +3,7 @@
 
 #include "../Internal.hpp"
 #include "../Containers/Vector.hpp"
-#include "CString.hpp"
+#include "String.hpp"
 
 namespace Common
 {
@@ -14,25 +14,25 @@ class CFormat
 		struct SData
 		{
 			unsigned int iIndex;
-			CString* pString;
+			String* pString;
 		};
-		const CString& m_cUnformattedBuffer;
-		CString* m_pBuffer;
+		const String& m_cUnformattedBuffer;
+		String* m_pBuffer;
 		Vector<SData>* m_pFormatData;
 		unsigned int m_iCurrentIndex;
 		unsigned int m_iMaxIndex;
 
 	public:
-		CFormat(const CString& cString);
-		const CString& Get() const;
-		const TChar* GetRaw() const;
+		CFormat(const String& cString);
+		const String& Get() const;
+		const Char* GetRaw() const;
 		CFormat& operator% (const int& iValue)
 		{
 			delete m_pBuffer;
 			m_pBuffer = 0;
 			SData sData;
 			sData.iIndex = m_iCurrentIndex;
-			sData.pString = new CString(1);
+			sData.pString = new String(1);
 //			m_pFormatData->PushBack(sData);
 			m_iCurrentIndex++;
 		}

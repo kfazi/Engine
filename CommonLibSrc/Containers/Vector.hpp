@@ -61,14 +61,16 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				 *
 				 * \param[in] address Address of current element.
 				 */
-				explicit IteratorBase(Type* address) : mAddress(address)
+				explicit IteratorBase(Type* address, const Type* begin, const Type* end) :
+					mAddress(address), mBegin(begin), mEnd(end)
 				{
+					Assert(mAddress >= mBegin && mAddress <= mEnd, "Iterator out of range");
 				}
 
 				/*!
 				 * Constructor.
 				 */
-				IteratorBase() : mAddress(NULL)
+				IteratorBase() : mAddress(NULL), mBegin(NULL), mEnd(NULL)
 				{
 				}
 
@@ -77,7 +79,8 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				 *
 				 * \param[in] iterator An iterator to copy from.
 				 */
-				IteratorBase(const IteratorBase<NonConstType, NonConstType, ConstType>& iterator) : mAddress(iterator.mAddress)
+				IteratorBase(const IteratorBase<NonConstType, NonConstType, ConstType>& iterator) :
+					mAddress(iterator.mAddress), mBegin(iterator.mBegin), mEnd(iterator.mEnd)
 				{
 				}
 
@@ -89,6 +92,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				IteratorBase& operator++ ()
 				{
 					mAddress++;
+					Assert(mAddress <= mEnd, "Iterator out of range");
 					return *this;
 				}
 
@@ -97,10 +101,11 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				 *
 				 * \return Current iterator.
 				 */
-				IteratorBase& operator++ (int)
+				IteratorBase operator++ (int)
 				{
 					IteratorBase<Type, NonConstType, ConstType> iterator = *this;
 					mAddress++;
+					Assert(mAddress <= mEnd, "Iterator out of range");
 					return iterator;
 				}
 
@@ -112,6 +117,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				IteratorBase& operator-- ()
 				{
 					mAddress--;
+					Assert(mAddress >= mBegin, "Iterator out of range");
 					return *this;
 				}
 
@@ -120,10 +126,11 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				 *
 				 * \return Current iterator.
 				 */
-				IteratorBase& operator-- (int)
+				IteratorBase operator-- (int)
 				{
 					IteratorBase<Type, NonConstType, ConstType> iterator = *this;
 					mAddress--;
+					Assert(mAddress >= mBegin, "Iterator out of range");
 					return iterator;
 				}
 
@@ -136,7 +143,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				 */
 				IteratorBase operator+ (ptrdiff_t amount) const
 				{
-					return IteratorBase(mAddress + amount);
+					return IteratorBase(mAddress + amount, mBegin, mEnd);
 				}
 
 				/*!
@@ -232,6 +239,8 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 				}
 
 			private:
+				const Type* mBegin; /*!< Pointer to first element. */
+				const Type* mEnd; /*!< Pointer to one after last element. */
 				Type* mAddress; /*!< Pointer to current element. */
 		};
 
@@ -354,7 +363,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		Iterator Begin()
 		{
-			return Iterator(mBegin);
+			return Iterator(mBegin, mBegin, mEnd);
 		}
 
 		/*!
@@ -364,7 +373,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		ConstIterator Begin() const
 		{
-			return ConstIterator(mBegin);
+			return ConstIterator(mBegin, mBegin, mEnd);
 		}
 
 		/*!
@@ -374,7 +383,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		Iterator End()
 		{
-			return Iterator(mEnd);
+			return Iterator(mEnd, mBegin, mEnd);
 		}
 
 		/*!
@@ -384,7 +393,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		ConstIterator End() const
 		{
-			return ConstIterator(mEnd);
+			return ConstIterator(mEnd, mBegin, mEnd);
 		}
 
 		/*!
@@ -394,7 +403,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		ReverseIterator ReverseBegin()
 		{
-			return ReverseIterator(Iterator(mEnd));
+			return ReverseIterator(Iterator(mEnd, mBegin, mEnd));
 		}
 
 		/*!
@@ -404,7 +413,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		ConstReverseIterator ReverseBegin() const
 		{
-			return ConstReverseIterator(ConstIterator(mEnd));
+			return ConstReverseIterator(ConstIterator(mEnd, mBegin, mEnd));
 		}
 
 		/*!
@@ -414,7 +423,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		ReverseIterator ReverseEnd()
 		{
-			return ReverseIterator(Iterator(mBegin));
+			return ReverseIterator(Iterator(mBegin, mBegin, mEnd));
 		}
 
 		/*!
@@ -424,7 +433,7 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 		 */
 		ConstReverseIterator ReverseEnd() const
 		{
-			return ConstReverseIterator(ConstIterator(mBegin));
+			return ConstReverseIterator(ConstIterator(mBegin, mBegin, mEnd));
 		}
 
 		/*!
@@ -503,12 +512,13 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 			return *(mEnd - 1);
 		}
 
-		void PushBack(ConstReference data)
+		Iterator PushBack(ConstReference data)
 		{
 			if (mEnd >= mCapacity + mBegin)
 				Allocate(mEnd - mBegin + mCapacity / 2 + 1);
 			Allocator::Construct(mEnd, data);
 			mEnd++;
+			return Iterator(mEnd - 1, mBegin, mEnd);
 		}
 
 		Type PopBack()
@@ -520,21 +530,35 @@ template<class Type, class Allocator = DefaultAllocator<Type> > class Vector
 			return result;
 		}
 
-		void Erase(size_t index)
+		Iterator Erase(size_t index)
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
 			Allocator::Destroy(mBegin + index);
 			*(mBegin + index) = *(mEnd - 1);
 			mEnd--;
+			return Iterator(mBegin + index, mBegin, mEnd);
 		}
 
-		void ErasePreserveOrder(size_t index)
+		Iterator Erase(Iterator element)
+		{
+			size_t index = *element - mBegin;
+			return Erase(index);
+		}
+
+		Iterator ErasePreserveOrder(size_t index)
 		{
 			Assert(mEnd > index + mBegin, "Index out of bounds");
 			Allocator::Destroy(mBegin + index);
 			for (Iterator i = Begin() + index; i != End() - 1; ++i)
 				*i = *(i + 1);
 			mEnd--;
+			return Iterator(mBegin + index, mBegin, mEnd);
+		}
+
+		Iterator ErasePreserveOrder(Iterator element)
+		{
+			size_t index = *element - mBegin;
+			return ErasePreserveOrder(index);
 		}
 
 	private:

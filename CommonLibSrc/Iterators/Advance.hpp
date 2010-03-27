@@ -16,15 +16,17 @@
 namespace Common
 {
 
-template<typename ValueType, typename Pointer, typename Reference>
-void Advance(InputIteratorTag<ValueType, Pointer, Reference>& iterator, size_t distance)
+template<class IteratorType, typename ValueType, typename Pointer, typename Reference>
+void Advance(IteratorType& iterator, size_t distance, InputIteratorTag<ValueType, Pointer,
+	Reference>&)
 {
 	while (distance--)
 		++iterator;
 }
 
-template<typename ValueType, typename Pointer, typename Reference>
-void Advance(BidirectionalIteratorTag<ValueType, Pointer, Reference>& iterator, size_t distance)
+template<class IteratorType, typename ValueType, typename Pointer, typename Reference>
+void Advance(IteratorType& iterator, size_t distance, BidirectionalIteratorTag<ValueType, Pointer,
+	Reference>&)
 {
 	if (distance > 0)
 	{
@@ -38,10 +40,17 @@ void Advance(BidirectionalIteratorTag<ValueType, Pointer, Reference>& iterator, 
 	}
 }
 
-template<typename ValueType, typename Pointer, typename Reference>
-void Advance(RandomAccessIteratorTag<ValueType, Pointer, Reference>& iterator, size_t distance)
+template<class IteratorType, typename ValueType, typename Pointer, typename Reference>
+void Advance(IteratorType& iterator, size_t distance, RandomAccessIteratorTag<ValueType, Pointer,
+	Reference>&)
 {
 	iterator += distance;
+}
+
+template<class IteratorType>
+void Advance(IteratorType& iterator, size_t distance)
+{
+	Advance(iterator, distance, iterator);
 }
 
 }

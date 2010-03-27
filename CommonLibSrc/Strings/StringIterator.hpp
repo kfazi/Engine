@@ -6,15 +6,15 @@
 namespace Common
 {
 
-template<typename TCharType>
-class CStringIterator
+template<typename CharType>
+class StringIterator
 {
 	private:
-		CStringBase<TCharType> *m_pOwner;
+		StringBase<CharType> *m_pOwner;
 		unsigned int m_iIndex;
 
 	public:
-		CStringIterator()
+		StringIterator()
 };
 
 }

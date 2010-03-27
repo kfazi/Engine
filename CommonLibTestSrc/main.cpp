@@ -32,22 +32,6 @@ class Test
 		}
 };
 
-template<> struct Hash<const char*>
-{
-	size_t operator() (const char* data)
-	{
-		return data[0];
-	}
-};
-
-template<> struct Hash<int>
-{
-	size_t operator() (int data)
-	{
-		return data;
-	}
-};
-
 template<typename Container> void Print(string name, const Container& container)
 {
 	cout << name.c_str() << ": ";
@@ -112,14 +96,29 @@ void DoHash()
 	for (HashMap<const char*, int>::ConstReverseIterator i = hash1.ReverseBegin(); i != end; ++i)
 		cout << "(" << (*i).first << " = " << (*i).second << ") ";
 	cout << "\n";
+	cout << hash1["hehehehe"] << "\n";
+	cout << "Load: " << hash1.GetLoad() << "\n";
+}
+
+void DoString()
+{
+	String string;
+	string = "dupska";
+	string = string.ToUpper();
+	cout << *(string.GetRaw() + 1) << "\n";
 }
 
 int main(int argc, char **argv)
 {
-	DoVector();
-	DoList();
-	DoHash();
+//	DoVector();
+//	DoList();
+//	DoHash();
 
+	StringStatic::Initialize();
+
+	DoString();
+
+	cout << "\nTHE END\n";
 	int dummy;
 	cin >> dummy;
 

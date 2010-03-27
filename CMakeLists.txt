@@ -50,7 +50,8 @@ IF(WIN32)
         # Turn off various warnings
 		# 4530 - C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
 		#        C++ exception handling was used but /EHsc was not selected.
-		FOREACH(WARNING 4530 4251)
+		# 4503 - Decorated name length exceeded, name was truncated
+		FOREACH(WARNING 4530 4251 4503)
 			SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd${WARNING}")
 		ENDFOREACH(WARNING)
 
