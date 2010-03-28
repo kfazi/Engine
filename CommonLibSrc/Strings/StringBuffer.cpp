@@ -123,11 +123,11 @@ String StringBuffer::ToString(bool bValue) const
 {
 	if (m_bBoolAlpha)
 	{
-		String cResult;
-		cResult = (bValue) ? "true" : "false";
+		String result;
+		result = (bValue) ? "true" : "false";
 		if (m_bNumberUpperCase)
-			cResult.ToUpper();
-		return cResult;
+			result.ToUpper();
+		return result;
 	}
 	else
 		return (bValue) ? "1" : "0";
@@ -139,7 +139,7 @@ const char aDigitsLowerCase[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '
 /*
 String StringConvert::NumberToString(unsigned long long iValue) const
 {
-	String cResult;
+	String result;
 	int iBase = m_eBase;
 	const char* pDigits;
 	if (m_bNumberUpperCase)
@@ -148,7 +148,7 @@ String StringConvert::NumberToString(unsigned long long iValue) const
 		pDigits = aDigitsLowerCase;
 	do 
 	{
-		cResult += pDigits[iValue % iBase];
+		result += pDigits[iValue % iBase];
 		iValue /= iBase;
 	}
 	while (iValue > 0);
@@ -158,48 +158,48 @@ String StringConvert::NumberToString(unsigned long long iValue) const
 		{
 		case BINARY:
 			if (m_bBaseUpperCase)
-				cResult += "B0";
+				result += "B0";
 			else
-				cResult += "b0";
+				result += "b0";
 			break;
 		case OCTAL:
-			cResult += "0";
+			result += "0";
 			break;
 		case DECIMAL:
 			break;
 		case HEXADECIMAL:
 			if (m_bBaseUpperCase)
-				cResult += "X0";
+				result += "X0";
 			else
-				cResult += "x0";
+				result += "x0";
 			break;
 		}
 	}
-	cResult.Swap();
-	return cResult;
+	result.Swap();
+	return result;
 }
 
 String StringConvert::UnsignedNumberToString(unsigned long long iValue) const
 {
-	String cResult;
+	String result;
 	if (m_bShowPositiveSign)
-		cResult = "+";
-	cResult += NumberToString(iValue);
-	return cResult;
+		result = "+";
+	result += NumberToString(iValue);
+	return result;
 }
 
 String StringConvert::SignedNumberToString(signed long long iValue) const
 {
-	String cResult;
+	String result;
 	if (iValue < 0)
 	{
-		cResult = "-";
+		result = "-";
 		iValue = -iValue;
 	}
 	else if (m_bShowPositiveSign)
-		cResult = "+";
-	cResult += NumberToString(iValue);
-	return cResult;
+		result = "+";
+	result += NumberToString(iValue);
+	return result;
 }
 */
 String StringBuffer::ToString(short iValue) const

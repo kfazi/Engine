@@ -2,8 +2,8 @@
 #define COMMON_INPUT_OUTPUT_STREAM_HPP
 
 #include "../Internal.hpp"
-#include "CInputStream.hpp"
-#include "COutputStream.hpp"
+#include "InputStream.hpp"
+#include "OutputStream.hpp"
 
 namespace Common
 {

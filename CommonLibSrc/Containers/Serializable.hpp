@@ -6,7 +6,7 @@
 namespace Common
 {
 
-class ISerializable
+class Serializable
 {
 	public:
 		virtual void Serialize() = 0;

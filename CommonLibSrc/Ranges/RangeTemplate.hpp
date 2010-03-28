@@ -1,6 +1,6 @@
 #error Don't include this file!
 
-template<typename TType>
+template<typename Type>
 class RangeTemplate
 {
 	public:
@@ -13,19 +13,19 @@ class RangeTemplate
 		size_t GetLength() const;
 
 		/* Input/forward ranges: */
-		TType& Front();
-		TType& PopFront();
+		Type& Front();
+		Type& PopFront();
 
 		/* Bidirectional ranges: */
-		TType& Back();
-		TType& PopBack();
+		Type& Back();
+		Type& PopBack();
 
 		/* Output ranges: */
-		void Put(const TType& tValue);
+		void Put(const Type& value);
 
 		/* Random access ranges: */
-		TType& At(size_t iIndex);
-		TType& operator[] (size_t iIndex);
+		Type& At(size_t index);
+		Type& operator[] (size_t index);
 };
 
 /* EOF */

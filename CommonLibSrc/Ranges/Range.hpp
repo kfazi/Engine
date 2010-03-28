@@ -39,31 +39,31 @@ template<class IteratorType> class Range
 			Assert(!IsEmpty(), "Range is empty");
 			return *mBegin;
 		}
-/*		CType& PopFront()
+/*		Type& PopFront()
 		{
 			Assert(!IsEmpty(), "Range is empty");
-			return *m_pBegin++;
+			return *mBegin++;
 		}
 
-		CType& Back()
+		Type& Back()
 		{
 			Assert(!IsEmpty(), "Range is empty");
-			return *m_pEnd;
+			return *mEnd;
 		}
 
-		CType& PopBack()
+		Type& PopBack()
 		{
 			Assert(!IsEmpty(), "Range is empty");
-			return *m_pEnd--;
+			return *mEnd--;
 		}
 
-		CType& At(unsigned int iIndex)
+		Type& At(unsigned int iIndex)
 		{
-			Assert(m_pBegin + iIndex <= m_pEnd, "Index out of range");
-			return *(m_pBegin + iIndex);
+			Assert(mBegin + iIndex <= mEnd, "Index out of range");
+			return *(mBegin + iIndex);
 		}
 
-		CType& operator[] (unsigned int iIndex)
+		Type& operator[] (unsigned int iIndex)
 		{
 			return At(iIndex);
 		}*/

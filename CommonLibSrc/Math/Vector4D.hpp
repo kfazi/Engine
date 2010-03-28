@@ -16,7 +16,7 @@ namespace Common
 /**
  * Class encapsulating a standard 4-element vector.
  */
-class COMMONDLLIMPORTEXPORT CVector4D
+class COMMONDLLIMPORTEXPORT Vector4D
 {
 	public:
 		double X; /**< An X component of the vector. */
@@ -24,24 +24,24 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		double Z; /**< A Z component of the vector. */
 		double W; /**< A W component of the vector. */
 
-		static const CVector4D ZERO; /**< A zero 4 dimensional vector. */
+		static const Vector4D ZERO; /**< A zero 4 dimensional vector. */
 
-		static const CVector4D ONE; /**< An one 4 dimensional vector. */
+		static const Vector4D ONE; /**< An one 4 dimensional vector. */
 
 		/**
 		 * Default constructor.
 		 */
-		CVector4D();
+		Vector4D();
 
 		/**
 		 * Creates new vector filled with data given in parameters.
 		 */
-		CVector4D(const double fX, const double fY, const double fZ, const double fW);
+		Vector4D(double x, double y, double z, double w);
 
 		/**
 		 * Creates a copy of a vector.
 		 */
-		CVector4D(const CVector4D& cVector);
+		Vector4D(const Vector4D& vector);
 
 		/**
 		 * Normalizes a vector.
@@ -56,37 +56,37 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Tests two vectors for equality.
 		 */
-		bool operator== (const CVector4D& cVector) const;
+		bool operator== (const Vector4D& vector) const;
 
 		/**
 		 * Tests two vectors for inequality.
 		 */
-		bool operator!= (const CVector4D& cVector) const;
+		bool operator!= (const Vector4D& vector) const;
 
 		/**
 		 * Assignment operator.
 		 */
-		CVector4D& operator= (const CVector4D& cVector);
+		Vector4D& operator= (const Vector4D& vector);
 
 		/**
 		 * Vector negation.
 		 */
-		CVector4D operator- ();
+		Vector4D operator- ();
 
 		/**
 		 * Vector addition with assignment.
 		 */
-		CVector4D& operator+= (const CVector4D& cVector);
+		Vector4D& operator+= (const Vector4D& vector);
 
 		/**
 		 * Vector subtraction with assignment.
 		 */
-		CVector4D& operator-= (const CVector4D& cVector);
+		Vector4D& operator-= (const Vector4D& vector);
 
 		/**
 		 * Vector multiplication with assignment.
 		 */
-		CVector4D& operator*= (const CVector4D& cVector);
+		Vector4D& operator*= (const Vector4D& vector);
 
 		/**
 		 * Tests if vector is zero vector.
@@ -96,73 +96,73 @@ class COMMONDLLIMPORTEXPORT CVector4D
 		/**
 		 * Vector multiplication by a scalar with assignment.
 		 */
-		template<typename TType> CVector4D& operator*= (TType tScalar)
+		template<typename Type> Vector4D& operator*= (Type scalar)
 		{
-			X *= tScalar;
-			Y *= tScalar;
-			Z *= tScalar;
-			W *= tScalar;
+			X *= scalar;
+			Y *= scalar;
+			Z *= scalar;
+			W *= scalar;
 			return *this;
 		}
 
 		/**
 		 * Vector division by a scalar with assignment.
 		 */
-		template<typename TType> CVector4D& operator/= (TType tScalar)
+		template<typename Type> Vector4D& operator/= (Type scalar)
 		{
-			X /= tScalar;
-			Y /= tScalar;
-			Z /= tScalar;
-			W /= tScalar;
+			X /= scalar;
+			Y /= scalar;
+			Z /= scalar;
+			W /= scalar;
 			return *this;
 		}
 
 		/**
 		 * Vector multiplication by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator* (TType tScalar, const CVector4D& cVector)
+		template<typename Type> friend Vector4D operator* (Type scalar, const Vector4D& vector)
 		{
-			return CVector4D(cVector) * tScalar;
+			return Vector4D(vector) * scalar;
 		}
 
 		/**
 		 * Vector multiplication by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator* (const CVector4D& cVector, TType tScalar)
+		template<typename Type> friend Vector4D operator* (const Vector4D& vector, Type scalar)
 		{
-			return CVector4D(cVector) * tScalar;
+			return Vector4D(vector) * scalar;
 		}
 
 		/**
 		 * Vector division by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator/ (TType tScalar, const CVector4D& cVector)
+		template<typename Type> friend Vector4D operator/ (Type scalar, const Vector4D& vector)
 		{
-			return CVector4D(cVector) / tScalar;
+			return Vector4D(vector) / scalar;
 		}
 
 		/**
 		 * Vector division by a scalar.
 		 */
-		template<typename TType> friend CVector4D operator/ (const CVector4D& cVector, TType tScalar)
+		template<typename Type> friend Vector4D operator/ (const Vector4D& vector, Type scalar)
 		{
-			return CVector4D(cVector) / tScalar;
+			return Vector4D(vector) / scalar;
 		}
 
 		/**
 		 * A sum of two vectors.
 		 */
-		friend const CVector4D operator+ (const CVector4D& cVector1, const CVector4D& cVector2);
+		friend const Vector4D operator+ (const Vector4D& vector1, const Vector4D& vector2);
 
 		/**
 		 * A subtraction of two vectors.
 		 */
-		friend const CVector4D operator- (const CVector4D& cVector1, const CVector4D& cVector2);
+		friend const Vector4D operator- (const Vector4D& vector1, const Vector4D& vector2);
 
 		/**
 		 * A multiplication of two vectors.
 		 */
-		friend const CVector4D operator* (const CVector4D& cVector1, const CVector4D& cVector2);
+		friend const Vector4D operator* (const Vector4D& vector1, const Vector4D& vector2);
 };
 
 }

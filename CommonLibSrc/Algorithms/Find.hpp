@@ -6,7 +6,7 @@
 namespace Common
 {
 
-template<class CRange, typename TType> bool Find(CRange cRange, const TType& tValue, size_t& iIndex)
+template<class CRange, typename Type> bool Find(CRange cRange, const Type& tValue, size_t& iIndex)
 {
 	iIndex = 0;
 	while (!cRange.IsEmpty())

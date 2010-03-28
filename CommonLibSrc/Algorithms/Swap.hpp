@@ -6,14 +6,14 @@
 namespace Common
 {
 
-template<class CType> void Swap(CType& cFirst, CType& cSecond)
+template<class Type> void Swap(Type& cFirst, Type& cSecond)
 {
-	CType cTemp = cFirst;
+	Type cTemp = cFirst;
 	cFirst = cSecond;
 	cSecond = cTemp;
 }
 
-template<class CType> void SwapRange(CType cFirst, CType cLast)
+template<class Type> void SwapRange(Type cFirst, Type cLast)
 {
 	if (cFirst < cLast)
 		Swap(cFirst, cLast);

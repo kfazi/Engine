@@ -1,5 +1,5 @@
-#include "OutputStream.hpp"
 #include "../Algorithms/Swap.hpp"
+#include "OutputStream.hpp"
 
 namespace Common
 {
@@ -29,23 +29,23 @@ void OutputStream::IntegerToString(unsigned long long value)
 	{
 		switch (GetBase())
 		{
-		case BINARY:
-			if (GetBaseUpperCase())
-				result += "B0";
-			else
-				result += "b0";
-			break;
-		case OCTAL:
-			result += "0";
-			break;
-		case DECIMAL:
-			break;
-		case HEXADECIMAL:
-			if (GetBaseUpperCase())
-				result += "X0";
-			else
-				result += "x0";
-			break;
+			case BINARY:
+				if (GetBaseUpperCase())
+					result += "B0";
+				else
+					result += "b0";
+				break;
+			case OCTAL:
+				result += "0";
+				break;
+			case DECIMAL:
+				break;
+			case HEXADECIMAL:
+				if (GetBaseUpperCase())
+					result += "X0";
+				else
+					result += "x0";
+				break;
 		}
 	}
 	SwapRange(&result[0] + start_index, &result[0] + result.GetLength());

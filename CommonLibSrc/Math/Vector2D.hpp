@@ -16,11 +16,11 @@ namespace Common
 /**
  * Class encapsulating a standard 2-element vector.
  */
-class COMMONDLLIMPORTEXPORT CVector2D
+class COMMONDLLIMPORTEXPORT Vector2D
 {
 	public:
-		static const CVector2D ZERO; /**< A zero 2 dimensional vector. */
-		static const CVector2D ONE; /**< An one 2 dimensional vector. */
+		static const Vector2D ZERO; /**< A zero 2 dimensional vector. */
+		static const Vector2D ONE; /**< An one 2 dimensional vector. */
 
 		double X; /**< An X component of the vector. */
 		double Y; /**< A Y component of the vector. */
@@ -28,17 +28,17 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Default constructor.
 		 */
-		CVector2D();
+		Vector2D();
 
 		/**
 		 * Creates new vector filled with data given in parameters.
 		 */
-		CVector2D(const double fX, const double fY);
+		Vector2D(double x, double y);
 
 		/**
 		 * Creates a copy of a vector.
 		 */
-		CVector2D(const CVector2D& cVector);
+		Vector2D(const Vector2D& vector);
 
 		/**
 		 * Normalizes a vector.
@@ -53,37 +53,37 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Tests two vectors for equality.
 		 */
-		bool operator== (const CVector2D& cVector) const;
+		bool operator== (const Vector2D& vector) const;
 
 		/**
 		 * Tests two vectors for inequality.
 		 */
-		bool operator!= (const CVector2D& cVector) const;
+		bool operator!= (const Vector2D& vector) const;
 
 		/**
 		 * Assignment operator.
 		 */
-		CVector2D& operator= (const CVector2D& cVector);
+		Vector2D& operator= (const Vector2D& vector);
 
 		/**
 		 * Vector negation.
 		 */
-		CVector2D& operator- ();
+		Vector2D& operator- ();
 
 		/**
 		 * Vector addition with assignment.
 		 */
-		CVector2D& operator+= (const CVector2D& cVector);
+		Vector2D& operator+= (const Vector2D& vector);
 
 		/**
 		 * Vector subtraction with assignment.
 		 */
-		CVector2D& operator-= (const CVector2D& cVector);
+		Vector2D& operator-= (const Vector2D& vector);
 
 		/**
 		 * Vector multiplication with assignment.
 		 */
-		CVector2D& operator*= (const CVector2D& cVector);
+		Vector2D& operator*= (const Vector2D& vector);
 
 		/**
 		 * Tests if vector is zero vector.
@@ -93,73 +93,73 @@ class COMMONDLLIMPORTEXPORT CVector2D
 		/**
 		 * Vector multiplication by a number with assignment.
 		 */
-		template<typename TType> CVector2D& operator*= (TType tValue)
+		template<typename Type> Vector2D& operator*= (Type value)
 		{
-			X *= tValue;
-			Y *= tValue;
+			X *= value;
+			Y *= value;
 			return *this;
 		}
 
 		/**
 		 * Vector division by a number with assignment.
 		 */
-		template<typename TType> CVector2D& operator/= (TType tValue)
+		template<typename Type> Vector2D& operator/= (Type value)
 		{
-			X /= tValue;
-			Y /= tValue;
+			X /= value;
+			Y /= value;
 			return *this;
 		}
 
 		/**
 		 * Vector multiplication by a number.
 		 */
-		template<typename TType> friend CVector2D operator* (TType tValue, const CVector2D& cVector)
+		template<typename Type> friend Vector2D operator* (Type value, const Vector2D& vector)
 		{
-			return operator* (cVector, tValue);
+			return operator* (vector, value);
 		}
 
 		/**
 		 * Vector multiplication by a number.
 		 */
-		template<typename TType> friend CVector2D operator* (const CVector2D& cVector, TType tValue)
+		template<typename Type> friend Vector2D operator* (const Vector2D& vector, Type value)
 		{
-			CVector2D cResult(cVector);
-			cResult *= tValue;
-			return cResult;
+			Vector2D result(vector);
+			result *= value;
+			return result;
 		}
 
 		/**
 		 * Vector division by a number.
 		 */
-		template<typename TType> friend CVector2D operator/ (TType tValue, const CVector2D& cVector)
+		template<typename Type> friend Vector2D operator/ (Type value, const Vector2D& vector)
 		{
-			return operator/ (cVector, tValue);
+			return operator/ (vector, value);
 		}
 
 		/**
 		 * Vector division by a number.
 		 */
-		template<typename TType> friend CVector2D operator/ (const CVector2D& cVector, TType tValue)
+		template<typename Type> friend Vector2D operator/ (const Vector2D& vector, Type value)
 		{
-			CVector2D cResult(cVector);
-			cResult /= tValue;
-			return cResult;
+			Vector2D result(vector);
+			result /= value;
+			return result;
 		}
 
 		/**
 		 * A sum of two vectors.
 		 */
-		friend const CVector2D operator+ (const CVector2D& cVector1, const CVector2D& cVector2);
+		friend const Vector2D operator+ (const Vector2D& vector1, const Vector2D& vector2);
 
 		/**
 		 * A subtraction of two vectors.
 		 */
-		friend const CVector2D operator- (const CVector2D& cVector1, const CVector2D& cVector2);
+		friend const Vector2D operator- (const Vector2D& vector1, const Vector2D& vector2);
 
 		/**
 		 * A multiplication of two vectors.
 		 */
-		friend const CVector2D operator* (const CVector2D& cVector1, const CVector2D& cVector2);
+		friend const Vector2D operator* (const Vector2D& vector1, const Vector2D& vector2);
 };
 
 }

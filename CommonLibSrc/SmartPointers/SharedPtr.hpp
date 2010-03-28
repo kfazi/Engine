@@ -1,10 +1,10 @@
-#ifndef COMMON_CSharedPtr_HPP
-#define COMMON_CSharedPtr_HPP
+#ifndef COMMON_SHARED_PTR_HPP
+#define COMMON_SHARED_PTR_HPP
 
 #include "../Internal.hpp"
 #include "../Algorithms/Swap.hpp"
-#include "CDeletePolicy.hpp"
-#include "CDeleteArrayPolicy.hpp"
+#include "DeletePolicy.hpp"
+#include "DeleteArrayPolicy.hpp"
 
 namespace Common
 {
@@ -150,6 +150,6 @@ class SharedPtr
 
 }
 
-#endif /* COMMON_CSharedPtr_HPP */
+#endif /* COMMON_SHARED_PTR_HPP */
 
 /* EOF */

@@ -2,7 +2,7 @@
 #define COMMON_INPUT_STREAM_HPP
 
 #include "../Internal.hpp"
-#include "CStreamBase.hpp"
+#include "StreamBase.hpp"
 
 namespace Common
 {
